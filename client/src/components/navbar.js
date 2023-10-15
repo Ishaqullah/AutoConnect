@@ -3,33 +3,17 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
-  navbar: {
-    backgroundColor: 'white',
-  },
-  link: {
-    color: '#9D1515',
-  },
-  button: {
-    color: '#9D1515',
-    '&:hover': {
-      backgroundColor: 'transparent', // Prevent the button from changing color on hover
-    },
-  },
-}));
+import Image from 'mui-image'
 
-const style = {
 
-  backgroundColor : 'white'
-};
 const Navbar = () => {
-  const classes = useStyles();
+ 
 
   return (
     <AppBar position="static" sx={{ bgcolor: 'common.white' }}>
       <Toolbar>
+      <Image src={require('../../src/Images/steering-wheel.png')} width={25} height={25} alt="Steering Wheel"/>
       <Typography variant="h5" sx={{ color: 'common.black' }} ><b>Auto</b></Typography>
       <Typography variant="h5" sx={{ color: 'secondary.main' }} ><b>Connect</b></Typography>
         <div style={{ flexGrow: 1 }}></div>
