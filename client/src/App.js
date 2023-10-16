@@ -1,9 +1,9 @@
 import React from 'react';
-
 import './App.css';
 import Navbar from './components/navbar';
 import { createTheme,colors,ThemeProvider } from '@mui/material'
 import Grid from '@mui/material/Grid';
+import ListedVehicles from './components/listedVehicles';
 const theme=createTheme({
   palette: {
       secondary: {
@@ -33,9 +33,11 @@ function App() {
 
       <Grid item xs={10}>
       <ThemeProvider theme={theme}>
-      <div className="App">
-        <Navbar />
-      </div>
+      
+      <Navbar />
+        
+      
+      <ListedVehicles/>
       </ThemeProvider>
       </Grid>
 
