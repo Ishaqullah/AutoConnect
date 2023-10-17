@@ -32,15 +32,15 @@ function App() {
       </Grid>
 
       <Grid item xs={10}>
-        <ThemeProvider theme={theme}>
+        
+        <ThemeProvider theme={theme}> 
           <Navbar />
+          <Header />
           <ListedVehicles />
           <Comparision />
         </ThemeProvider>
       </Grid>
-      <Grid item xs={6}>
-        <Header />
-      </Grid>
+      
 
       <Grid item xs={1}>
         <item></item>
