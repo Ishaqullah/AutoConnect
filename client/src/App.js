@@ -5,7 +5,7 @@ import { createTheme, colors, ThemeProvider } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Comparision from "./components/comparision";
 import ListedVehicles from "./components/listedVehicles";
-
+import Header from "./components/header";
 const theme = createTheme({
   palette: {
     secondary: {
@@ -37,6 +37,9 @@ function App() {
           <ListedVehicles />
           <Comparision />
         </ThemeProvider>
+      </Grid>
+      <Grid item xs={6}>
+        <Header />
       </Grid>
 
       <Grid item xs={1}>
