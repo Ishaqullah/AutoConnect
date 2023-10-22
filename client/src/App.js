@@ -6,6 +6,9 @@ import Grid from "@mui/material/Grid";
 import Comparision from "./components/comparision";
 import ListedVehicles from "./components/listedVehicles";
 import Header from "./components/header";
+import AboutUs from "./components/aboutUsDivision";
+import Browse from "./components/browseCars";
+import Footer from "./components/footer";
 const theme = createTheme({
   palette: {
     secondary: {
@@ -26,26 +29,38 @@ const theme = createTheme({
 });
 function App() {
   return (
-    <Grid container>
-      <Grid item xs={1}>
-        <item></item>
-      </Grid>
-
-      <Grid item xs={10}>
+    <ThemeProvider theme={theme}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         
-        <ThemeProvider theme={theme}> 
-          <Navbar />
-          <Header />
-          <ListedVehicles />
-          <Comparision />
-        </ThemeProvider>
-      </Grid>
-      
+          
+        
+        <main style={{ flex: 1 }}>
+          <Grid container>
+            <Grid item xs={1}>
+              {/* Left empty for spacing */}
+            </Grid>
 
-      <Grid item xs={1}>
-        <item></item>
-      </Grid>
-    </Grid>
+            <Grid item xs={10}>
+              <Navbar />
+              <Header />
+              <AboutUs />
+              <ListedVehicles />
+              <Comparision />
+              <Browse />
+            </Grid>
+
+            <Grid item xs={1}>
+              {/* Right empty for spacing */}
+            </Grid>
+          </Grid>
+        </main>
+
+        <footer>
+          <Footer />
+        </footer>
+      </div>
+    </ThemeProvider>
+    
   );
 }
 

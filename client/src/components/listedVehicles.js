@@ -53,7 +53,7 @@ const chunkedAdData = chunkArray(adData, 3);
 
 const ListedVehicles = () => {
   return (
-    <Box sx={{ marginTop: "50px" }}>
+    <Box sx={{ marginTop: "100px" }}>
       <Typography variant="h4" sx={{ color: "secondary.main" }}>
         <b>Featured Listed Vehicles</b>
       </Typography>
