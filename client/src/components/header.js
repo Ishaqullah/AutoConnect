@@ -7,7 +7,7 @@ import CarouselItem from 'react-material-ui-carousel';
 import { Paper } from '@mui/material';
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import { makeStyles } from '@mui/styles';
-
+import {Link} from "react-router-dom";
 const images = [
   require('../../src/Images/image01.jpg'),
   require('../../src/Images/image2.jpg'),
@@ -67,9 +67,9 @@ const useStyles = makeStyles((theme) => ({
               Driving your dreams, <br/>One click at a time
             </span>
             <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-              <Button color="secondary" to="#" variant="contained">
+              <Link to="/sellCar"><Button color="secondary" variant="contained">
                 <b>Sell Your Car</b>
-              </Button>
+              </Button></Link>
               <Button color="secondary" to="#" variant="contained">
                 <b>Buy Your Car</b>
               </Button>

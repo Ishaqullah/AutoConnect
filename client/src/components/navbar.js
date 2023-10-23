@@ -3,7 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
+import {Link} from "react-router-dom";
 import Image from "mui-image";
 
 const Navbar = () => {
@@ -24,18 +24,18 @@ const Navbar = () => {
         </Typography>
         <div style={{ flexGrow: 1 }}></div>
         <div>
-          <Button color="secondary" to="/home">
+          <Link to="/"><Button color="secondary">
             <b>Home</b>
-          </Button>
-          <Button color="secondary" to="/about-us">
+          </Button></Link>
+          <Link to="/"><Button color="secondary">
             <b>About Us</b>
-          </Button>
-          <Button color="secondary" to="/used-cars">
+          </Button></Link>
+          <Link to="/"><Button color="secondary">
             <b>Used Cars</b>
-          </Button>
-          <Button color="secondary" to="/contact">
+          </Button></Link>
+          <Link to="/"><Button color="secondary">
             <b>Contact</b>
-          </Button>
+          </Button></Link>
           <Button
             color="secondary"
             sx={{

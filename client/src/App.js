@@ -3,37 +3,19 @@ import "./App.css";
 import Navbar from "./components/navbar";
 import { createTheme, colors, ThemeProvider } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Comparision from "./components/comparision";
-import ListedVehicles from "./components/listedVehicles";
-import Header from "./components/header";
-import AboutUs from "./components/aboutUsDivision";
-import Browse from "./components/browseCars";
+import Home from "./components/home";
 import Footer from "./components/footer";
-const theme = createTheme({
-  palette: {
-    secondary: {
-      main: "#9D1515",
-    },
-    primary: {
-      main: "#7B7272",
-      light: "#969595",
-      dark: "#2E2D31",
-    },
-    success: {
-      main: "#42A432",
-    },
-  },
-  typography: {
-    fontFamily: '"Maven Pro", sans-serif', // Use "Maven Pro" as the default font
-  },
-});
+import Theme from "./components/customizedTheme";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import SellCar from "./components/sellCar";
+const theme = Theme;
 function App() {
   return (
+    <Router>
     <ThemeProvider theme={theme}>
-      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        
-          
-        
+      <div
+        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
         <main style={{ flex: 1 }}>
           <Grid container>
             <Grid item xs={1}>
@@ -42,11 +24,11 @@ function App() {
 
             <Grid item xs={10}>
               <Navbar />
-              <Header />
-              <AboutUs />
-              <ListedVehicles />
-              <Comparision />
-              <Browse />
+              
+              <Routes>
+                <Route exact path="/" element={<Home />}></Route>
+                <Route exact path="/sellCar" element={<SellCar />}/>
+              </Routes>
             </Grid>
 
             <Grid item xs={1}>
@@ -60,7 +42,7 @@ function App() {
         </footer>
       </div>
     </ThemeProvider>
-    
+    </Router>
   );
 }
 
