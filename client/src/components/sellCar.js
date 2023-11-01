@@ -167,7 +167,7 @@ const sellCar = () => {
 
               <Card sx={{ marginTop: '20px' }}>
                 <CardContent>
-                  <Typography variant="h6">Price for Negotiation</Typography>
+                  <Typography variant="h6">Price for Negotiation <Typography variant = "caption">(Note: The maximum & minimum prices you enter will be confidential and hidden from potential customers.)</Typography></Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <TextField fullWidth label="Max Price (PKR)" />
