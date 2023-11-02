@@ -50,6 +50,7 @@ const PhotoUpload = () => {
   return (
     <Card>
       <CardContent>
+        <Typography variant="h6">Upload Photos</Typography>
         <input
           type="file"
           accept="image/*"
