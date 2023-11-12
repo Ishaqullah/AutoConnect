@@ -3,49 +3,46 @@ import "./App.css";
 import Navbar from "./components/navbar";
 import { createTheme, colors, ThemeProvider } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Comparision from "./components/comparision";
-import ListedVehicles from "./components/listedVehicles";
-import Header from "./components/header";
-const theme = createTheme({
-  palette: {
-    secondary: {
-      main: "#9D1515",
-    },
-    primary: {
-      main: "#7B7272",
-      light: "#969595",
-      dark: "#2E2D31",
-    },
-    success: {
-      main: "#42A432",
-    },
-  },
-  typography: {
-    fontFamily: '"Maven Pro", sans-serif', // Use "Maven Pro" as the default font
-  },
-});
+import Home from "./components/home";
+import Footer from "./components/footer";
+import Theme from "./components/customizedTheme";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import SellCar from "./components/sellCar";
+const theme = Theme;
 function App() {
   return (
-    <Grid container>
-      <Grid item xs={1}>
-        <item></item>
-      </Grid>
+    <Router>
+    <ThemeProvider theme={theme}>
+      <div
+        style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
+        <main style={{ flex: 1 }}>
+          <Grid container>
+            <Grid item xs={1}>
+              {/* Left empty for spacing */}
+            </Grid>
 
-      <Grid item xs={10}>
-        <ThemeProvider theme={theme}>
-          <Navbar />
-          <ListedVehicles />
-          <Comparision />
-        </ThemeProvider>
-      </Grid>
-      <Grid item xs={6}>
-        <Header />
-      </Grid>
+            <Grid item xs={10}>
+              <Navbar />
+              
+              <Routes>
+                <Route exact path="/" element={<Home />}></Route>
+                <Route exact path="/sellCar" element={<SellCar />}/>
+              </Routes>
+            </Grid>
 
-      <Grid item xs={1}>
-        <item></item>
-      </Grid>
-    </Grid>
+            <Grid item xs={1}>
+              {/* Right empty for spacing */}
+            </Grid>
+          </Grid>
+        </main>
+
+        <footer>
+          <Footer />
+        </footer>
+      </div>
+    </ThemeProvider>
+    </Router>
   );
 }
 
