@@ -18,7 +18,7 @@ import {
   TextareaAutosize,
 } from "@mui/material";
 import PhotoUpload from "./photoUpload";
-
+import CustomModal from "./modal";
 const sellCar = () => {
   return (
     
@@ -39,7 +39,7 @@ const sellCar = () => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={6}>
-                      {/* Add Car Info modal here */}
+                      <CustomModal />
                     </Grid>
                     <Grid item xs={6}>
                       <FormControl fullWidth>
