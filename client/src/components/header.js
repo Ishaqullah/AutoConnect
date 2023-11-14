@@ -70,9 +70,9 @@ const useStyles = makeStyles((theme) => ({
               <Link to="/sellCar"><Button color="secondary" variant="contained">
                 <b>Sell Your Car</b>
               </Button></Link>
-              <Button color="secondary" to="#" variant="contained">
+              <Link to="/BuyCar"><Button color="secondary" variant="contained">
                 <b>Buy Your Car</b>
-              </Button>
+              </Button></Link>
             </div>
           </CardContent>
         </Card>

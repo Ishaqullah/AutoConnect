@@ -62,7 +62,7 @@ const ListedVehicles = () => {
           <u>View all listed Vehicles</u>
         </Typography>
       </a>
-      <Carousel>
+      <Carousel interval={2000}>
         {chunkedAdData.map((chunk, index) => (
           <div
             key={index}

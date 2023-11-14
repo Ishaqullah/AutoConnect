@@ -8,6 +8,7 @@ import Footer from "./components/footer";
 import Theme from "./components/customizedTheme";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SellCar from "./components/sellCar";
+import BuyCar from "./components/BuyCar";
 const theme = Theme;
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Routes>
                 <Route exact path="/" element={<Home />}></Route>
                 <Route exact path="/sellCar" element={<SellCar />}/>
+                <Route exact path="/BuyCar" element={<BuyCar />}/>
               </Routes>
             </Grid>
 
