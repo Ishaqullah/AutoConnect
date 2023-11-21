@@ -9,9 +9,9 @@ import { Card, CardContent, Typography, Box } from "@mui/material";
 import { makeStyles } from '@mui/styles';
 import {Link} from "react-router-dom";
 const images = [
-  require('../../src/Images/image01.jpg'),
-  require('../../src/Images/image2.jpg'),
-  require('../../src/Images/image3.jpg'),
+ 'Images/image01.jpg',
+  'Images/image2.jpg',
+  'Images/image3.jpg',
 ];
 
 const useStyles = makeStyles((theme) => ({

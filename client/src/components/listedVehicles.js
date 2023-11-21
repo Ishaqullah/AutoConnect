@@ -7,37 +7,37 @@ const adData = [
     title: "Toyota Fortuner",
     price: "PKR 13,500,000",
     location: "Karachi",
-    image: require("../../src/Images/toyota-fortuner.webp"),
+    image: "Images/toyota-fortuner.webp",
   },
   {
     title: "Honda HR-V 2023",
     price: "PKR 75,000,000",
     location: "Lahore",
-    image: require("../../src/Images/honda-hr-v.webp"),
+    image: "Images/honda-hr-v.webp",
   },
   {
     title: "Honda BR-V 2017",
     price: "PKR 4,250,000",
     location: "Karachi",
-    image: require("../../src/Images/honda-br-v.webp"),
+    image: "Images/honda-br-v.webp",
   },
   {
     title: "Toyota Fortuner",
     price: "PKR 13,500,000",
     location: "Karachi",
-    image: require("../../src/Images/toyota-fortuner.webp"),
+    image: "Images/toyota-fortuner.webp",
   },
   {
     title: "Honda HR-V 2023",
     price: "PKR 75,000,000",
     location: "Lahore",
-    image: require("../../src/Images/honda-hr-v.webp"),
+    image: "Images/honda-hr-v.webp",
   },
   {
     title: "Honda BR-V 2017",
     price: "PKR 4,250,000",
     location: "Karachi",
-    image: require("../../src/Images/honda-br-v.webp"),
+    image: "Images/honda-br-v.webp",
   },
 ];
 

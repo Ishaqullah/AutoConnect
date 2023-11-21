@@ -8,7 +8,7 @@ const aboutUsDivision = () => {
     <Grid container>
       <Grid item xs={6}>
         <img
-          src={require("../../src/Images/mercedes-benz-cla-coupe-2024-35-amg-premium-quarter-iridium-silver.png")}
+          src={"Images/mercedes-benz-cla-coupe-2024-35-amg-premium-quarter-iridium-silver.png"}
           width={700}
           height={450}
         ></img>

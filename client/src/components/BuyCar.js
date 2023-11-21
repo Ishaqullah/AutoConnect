@@ -6,9 +6,9 @@ import axios from 'axios';
 
   
 // const carAdsData = [
-  // Sample car ads data
+ 
 //   {
-//     image: require("../../src/Images/toyota-fortuner.webp"),
+//     image: "Images/toyota-fortuner.webp",
 //     name: "Toyota Fortuner",
 //     location: "Karachi",
 //     year: 2021,
@@ -19,7 +19,7 @@ import axios from 'axios';
 //     price: 25000,
 //   },
 //   {
-//     image: require("../../src/Images/honda-br-v.webp"),
+//     image:"/Images/honda-br-v.webp",
 //     name: "Honda BRV",
 //     location: "Karachi",
 //     year: 2021,

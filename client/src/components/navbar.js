@@ -11,7 +11,7 @@ const Navbar = () => {
     <AppBar position="static" sx={{ bgcolor: "common.white" }}>
       <Toolbar>
         <Image
-          src={require("../../src/Images/steering-wheel.png")}
+          src={"Images/steering-wheel.png"}
           width={25}
           height={25}
           alt="Steering Wheel"
