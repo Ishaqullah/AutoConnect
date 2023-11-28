@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CarAdsGrid from "./CarAdsGrid";
 import { Container, Typography } from "@mui/material";
-import axios from 'axios';
+import axios from "axios";
 
-
-  
 // const carAdsData = [
- 
+
 //   {
 //     image: "Images/toyota-fortuner.webp",
 //     name: "Toyota Fortuner",
@@ -47,16 +45,20 @@ const BuyCar = () => {
   const [vehicles, setVehicles] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:5278/vehicles')
-      .then(response => setVehicles(response.data))
-      .catch(error => console.error('Error fetching vehicles:', error));
+    axios
+      .get("http://localhost:5278/vehicles")
+      .then((response) => setVehicles(response.data))
+      .catch((error) => console.error("Error fetching vehicles:", error));
   }, []);
   return (
-    <Container  sx={{marginTop:'50px',marginBottom:'500px'}}>
-      <Typography variant="h4" color={"#9D1515"}><b>Used cars for sale in Pakistan</b></Typography>
-      <Container maxWidth="md" sx={{marginTop:'50px'}}>
-      <CarAdsGrid carAds={vehicles} />
+    <Container sx={{ marginTop: "50px", marginBottom: "500px" }}>
+      <Typography variant="h4" color={"#9D1515"}>
+        <b>Used cars for sale in Pakistan</b>
+      </Typography>
+      <Container maxWidth="md" sx={{ marginTop: "50px" }}>
+        <CarAdsGrid carAds={vehicles} />
       </Container>
+      
     </Container>
   );
 };
