@@ -65,12 +65,12 @@ const Navbar = () => {
             onClose={handleMenuClose}
             onClick={handleMenuClose}
           >
-            <MenuItem>
+            <Link style={{textDecoration:'none',color:'inherit'}} to="/UpdateProfileForm"><MenuItem>
               <IconButton>
                 <PersonIcon />
               </IconButton>
               My Profile
-            </MenuItem>
+            </MenuItem></Link>
             <MenuItem>
               <IconButton>
                 <RiAdvertisementFill />

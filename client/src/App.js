@@ -9,6 +9,7 @@ import Theme from "./components/customizedTheme";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import SellCar from "./components/sellCar";
 import BuyCar from "./components/BuyCar";
+import UpdateProfileForm from "./components/UpdateProfileForm";
 const theme = Theme;
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                 <Route exact path="/" element={<Home />}></Route>
                 <Route exact path="/sellCar" element={<SellCar />}/>
                 <Route exact path="/BuyCar" element={<BuyCar />}/>
+                <Route exact path="/UpdateProfileForm" element={<UpdateProfileForm />}/>
               </Routes>
             </Grid>
 
