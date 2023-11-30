@@ -41,7 +41,7 @@ const sellCar = () => {
             </Grid>
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel>Registered In</InputLabel>
+                <InputLabel>Registered In (Year)</InputLabel>
                 <Select>
                   <MenuItem value="registered1">Registered 1</MenuItem>
                   <MenuItem value="registered2">Registered 2</MenuItem>
@@ -49,6 +49,18 @@ const sellCar = () => {
                 </Select>
               </FormControl>
             </Grid>
+
+            <Grid item xs={6}>
+              <FormControl fullWidth>
+                <InputLabel>Registered In (City)</InputLabel>
+                <Select>
+                  <MenuItem value="city1">Color 1</MenuItem>
+                  <MenuItem value="city2">Color 2</MenuItem>
+                  {/* Add more cities */}
+                </Select>
+              </FormControl>
+            </Grid>
+
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <InputLabel>Exterior Color</InputLabel>
@@ -91,7 +103,7 @@ const sellCar = () => {
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel>Engine Type</InputLabel>
+                <InputLabel>Body Type</InputLabel>
                 <Select>
                   <MenuItem value="engine1">Engine 1</MenuItem>
                   <MenuItem value="engine2">Engine 2</MenuItem>
