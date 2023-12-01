@@ -24,4 +24,8 @@ public class Seller{
     [Column("seller_address")]
     public required string SellerAddress {get; set;}
 
+    public List<Transaction> Transactions { get; set; }
+    public List<Advertise> Advertises { get; set; }
+    public List<Feedback> Feedbacks { get; set; }
+
 }

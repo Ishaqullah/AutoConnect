@@ -1670,26 +1670,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\HP\\.nuget\\packages\\": {}
+    "/Users/faheem/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj",
+      "projectUniqueName": "/Users/faheem/Desktop/AutoConnect/server/server.csproj",
       "projectName": "server",
-      "projectPath": "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj",
-      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\NUCES\\FYP\\AutoConnect\\server\\obj\\",
+      "projectPath": "/Users/faheem/Desktop/AutoConnect/server/server.csproj",
+      "packagesPath": "/Users/faheem/.nuget/packages/",
+      "outputPath": "/Users/faheem/Desktop/AutoConnect/server/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/faheem/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1752,7 +1750,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
       }
     }
   }

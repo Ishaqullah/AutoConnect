@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 [Table("buyer")]
-public class Buyer{
+public class Buyer
+{
     
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,5 +24,9 @@ public class Buyer{
     
     [Column("buyer_address")]
     public required string BuyerAddress {get; set;}
+
+    public List<Transaction> Transactions { get; set; }
+    public List<Inspection> Inspections { get; set; }
+    public List<Feedback> Feedbacks { get; set; }
 
 }

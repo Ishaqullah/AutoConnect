@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 [Table("mechanic")]
-public class Mechanic{
-    
+public class Mechanic
+{   
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("mechanic_id")]
@@ -27,6 +27,7 @@ public class Mechanic{
     [Column("average_rating")]
     public required float AverageRating {get; set;}
 
+    public List<MechanicRating> MechanicRatings { get; set; }
 
-
+    public List<Inspection> Inspections { get; set; }
 }

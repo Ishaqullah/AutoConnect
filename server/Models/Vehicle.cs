@@ -12,10 +12,10 @@ public class Vehicle{
     public required string VehicleCity {get; set;}
     
     [Column("vehicle_registration_year")]
-    public required Date VehicleRegistrationYear {get; set;}
+    public required DateOnly VehicleRegistrationYear {get; set;}
     
     [Column("vehicle_registration_city")]
-    public required Date VehicleRegistrationCity {get; set;}
+    public required string VehicleRegistrationCity {get; set;}
     
     [Column("mileage")]
     public required int Mileage {get; set;}
@@ -55,5 +55,9 @@ public class Vehicle{
     
     [Column("description")]
     public string Description {get; set;}
+
+    public Transaction Transaction { get; set; }
+    public Advertise Advertise { get; set; }
+    public List<Inspection> Inspections { get; set; }
     
 }
