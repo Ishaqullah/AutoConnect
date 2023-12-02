@@ -8,12 +8,34 @@ import {
   Toolbar,
 } from "@mui/material";
 import React from "react";
-import { Avatar } from "@mui/material";
-
+import { Avatar, IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import MessageIcon from "@mui/icons-material/Message";
+import PaymentIcon from "@mui/icons-material/Payment";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import Divider from "@mui/material/Divider";
+import axios from "axios";
+import UserAdGrid from "./UserAdGrid";
+const carAdsData = [
+  {
+    image: "Images/toyota-fortuner.webp",
+    name: "Toyota Fortuner",
+    location: "Karachi",
+    year: 2021,
+    mileage: "44,000 km",
+    fuelType: "Petrol",
+    engine: 1600,
+    transmission: "Automatic",
+    price: 25000,
+  },
+];
 const MyAds = () => {
   return (
-    <Container sx={{ marginTop: "50px" }}>
-      <Grid container spacing={2}>
+    <Container sx={{ marginTop: "50px", marginBottom: "500px" }}>
+      <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card>
             <CardContent>
@@ -34,126 +56,87 @@ const MyAds = () => {
                 {/* Typography */}
                 <Grid item>
                   <Typography variant="h5" component="div">
-                    Card 3
+                    Jhon Doe
                   </Typography>
                   <Typography color="text.secondary">
-                    This is the content of Card 3 below the first two cards.
+                    <u>Edit Profile</u> | <u>Change Password</u>
                   </Typography>
                 </Grid>
               </Grid>
             </CardContent>
           </Card>
         </Grid>
-        {/* Custom Navigation Bar
         <Grid item xs={12}>
-          <div
-            style={{
-              
-              padding: "10px",
-              textAlign: "center",
-            }}
+          <AppBar
+            position="static"
+            sx={{ color: "primary.main" }}
+            color="default"
           >
-            <span style={{ marginRight: "0px", cursor: "pointer", borderRight: '1px solid #ccc', borderLeft: '1px solid #ccc', borderBottom: '1px solid #ccc', borderTop: '1px solid #ccc',  padding: '25px' }}>
-              My Ads
-            </span>
-            <span style={{ marginRight: "0px", cursor: "pointer", borderRight: '1px solid #ccc', borderLeft: '1px solid #ccc' , borderBottom: '1px solid #ccc', borderTop: '1px solid #ccc',  padding: '25px' }}>
-              My Saved Ads
-            </span>
-            <span style={{ marginRight: "0px", cursor: "pointer", borderRight: '1px solid #ccc', borderLeft: '1px solid #ccc' , borderBottom: '1px solid #ccc', borderTop: '1px solid #ccc',  padding: '25px' }}>
-              My Rides
-            </span>
-            <span style={{ marginRight: "0px", cursor: "pointer", borderRight: '1px solid #ccc', borderLeft: '1px solid #ccc' , borderBottom: '1px solid #ccc', borderTop: '1px solid #ccc',  padding: '25px' }}>
-              My Alerts
-            </span>
-            <span style={{ marginRight: "0px", cursor: "pointer", borderRight: '1px solid #ccc', borderLeft: '1px solid #ccc' , borderBottom: '1px solid #ccc', borderTop: '1px solid #ccc',  padding: '25px' }}>
-              My Messages
-            </span>
-            <span style={{ marginRight: "0px", cursor: "pointer", borderRight: '1px solid #ccc', borderLeft: '1px solid #ccc' , borderBottom: '1px solid #ccc', borderTop: '1px solid #ccc',  padding: '25px' }}>
-              My Orders
-            </span>
-            <span style={{ cursor: "pointer", borderRight: '1px solid #ccc', borderLeft: '1px solid #ccc' , borderBottom: '1px solid #ccc', borderTop: '1px solid #ccc',  padding: '25px' }}>Payment</span>
-          </div>
-        </Grid> */}
-
-        {/* Navigation Bar with Borders */}
-        <Grid item xs={12}>
-          <AppBar position="static" color="default">
-            <Toolbar style={{ display: 'flex', justifyContent: 'center' }}>
+            <Toolbar style={{ display: "flex", justifyContent: "center" }}>
+              <LocalOfferIcon />
               <Typography
                 variant="h6"
                 style={{
-                  marginRight: "0px",
                   cursor: "pointer",
                   borderRight: "1px solid #ccc",
                   padding: "5px",
                   paddingRight: "10px",
                 }}
               >
-                My Ads
+                <b> My Ads</b>
               </Typography>
+              <FavoriteIcon />
               <Typography
                 variant="h6"
                 style={{
-                  marginLeft: "5px",
                   cursor: "pointer",
                   borderRight: "1px solid #ccc",
                   padding: "5px",
-                  paddingRight: "10px"
+                  paddingRight: "10px",
                 }}
               >
                 My Saved Ads
               </Typography>
+              <DirectionsCarIcon />
               <Typography
                 variant="h6"
                 style={{
-                  marginLeft: "5px",
                   cursor: "pointer",
                   borderRight: "1px solid #ccc",
                   padding: "5px",
-                  paddingRight: "10px"
+                  paddingRight: "10px",
                 }}
               >
                 My Rides
               </Typography>
+              <NotificationsIcon />
               <Typography
                 variant="h6"
                 style={{
-                  marginLeft: "5px",
                   cursor: "pointer",
                   borderRight: "1px solid #ccc",
                   padding: "5px",
-                  paddingRight: "10px"
+                  paddingRight: "10px",
                 }}
               >
                 My Alerts
               </Typography>
+              <MessageIcon />
               <Typography
                 variant="h6"
                 style={{
-                  marginLeft: "5px",
                   cursor: "pointer",
                   borderRight: "1px solid #ccc",
                   padding: "5px",
-                  paddingRight: "10px"
+                  paddingRight: "10px",
                 }}
               >
                 My Messages
               </Typography>
+              <PaymentIcon />
               <Typography
                 variant="h6"
-                style={{
-                  marginLeftt: "5px",
-                  cursor: "pointer",
-                  borderRight: "1px solid #ccc",
-                  padding: "5px",
-                  paddingRight: "10px"
-                }}
-              >
-                My Orders
-              </Typography>
-              <Typography
-                variant="h6"
-                style={{ marginLeft: "5px", cursor: "pointer", padding: "5px" }}
+                style={{ cursor: "pointer", padding: "5px" }}
               >
                 Payment
               </Typography>
@@ -162,29 +145,29 @@ const MyAds = () => {
         </Grid>
 
         {/* First Card */}
-        <Grid item xs={12}>
-          <Card>
+        <Grid item xs={2}>
+          <Card sx={{ textAlign: "center" }}>
             <CardContent>
-              <Typography variant="h5" component="Container">
-                Card 1
+              <Typography component="div">
+                <Typography component="div">Active Ads</Typography>
+                <Divider sx={{ margin: "10px 0" }} />
               </Typography>
-              <Typography color="text.secondary">
-                This is the content of Card 1.
+              <Typography component="div">
+                <Typography component="div">Removed Ads</Typography>
               </Typography>
             </CardContent>
           </Card>
         </Grid>
 
         {/* Second Card */}
-        <Grid item xs={6}>
+        <Grid item xs={10}>
           <Card>
             <CardContent>
-              <Typography variant="h5" component="Container">
-                Card 2
-              </Typography>
-              <Typography color="text.secondary">
-                This is the content of Card 2.
-              </Typography>
+              
+                <Container maxWidth="md" sx={{ marginTop: "50px" }}>
+                  <UserAdGrid carAds={carAdsData}/>
+                </Container>
+              
             </CardContent>
           </Card>
         </Grid>
