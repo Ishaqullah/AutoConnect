@@ -71,12 +71,12 @@ const Navbar = () => {
               </IconButton>
               My Profile
             </MenuItem></Link>
-            <MenuItem>
+            <Link style={{textDecoration:'none',color:'inherit'}} to="/MyAds"><MenuItem>
               <IconButton>
                 <RiAdvertisementFill />
               </IconButton>
               My Ads
-            </MenuItem>
+            </MenuItem></Link>
             <Link style={{textDecoration:'none',color:'inherit'}}  to="/sellCar"><MenuItem>
               <IconButton>
                 <PostAddIcon />
