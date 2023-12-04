@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bSwI3cxVf7czVywhnuLiDHa5XSMa53fSIGrfDqjPeiq/fOora315R/dGJHE/bXmSudVKbnLTpMkNr0BunBtkyA==",
+  "dgSpecHash": "cLh0fnC9dU1+DPFkSJ38J3tUTUk5+kQQjgXzgbqod20Y0GDSwN4l3TVVaEqSfLtjHReIcCK4hiNpDIfJb5SxhQ==",
   "success": true,
   "projectFilePath": "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj",
   "expectedPackageFiles": [
@@ -30,6 +30,7 @@
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\npgsql\\7.0.6\\npgsql.7.0.6.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.11\\npgsql.entityframeworkcore.postgresql.7.0.11.nupkg.sha512",
     "C:\\Users\\HP\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
