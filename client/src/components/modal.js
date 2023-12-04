@@ -24,7 +24,7 @@ const CustomModal = () => {
   return (
     <Grid item xs={6}>
       <FormControl fullWidth>
-        <InputLabel></InputLabel>
+        
           <FullScreenDialog />
       </FormControl>
     </Grid>
