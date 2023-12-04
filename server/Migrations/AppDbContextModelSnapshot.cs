@@ -64,31 +64,6 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BuyerID"));
 
-                    b.Property<string>("BuyerAddress")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("buyer_address");
-
-                    b.Property<string>("BuyerEmail")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("buyer_email");
-
-                    b.Property<string>("BuyerName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("buyer_name");
-
-                    b.Property<string>("BuyerPassword")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("buyer_password");
-
-                    b.Property<string>("BuyerPhone")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("buyer_phone");
-
                     b.HasKey("BuyerID");
 
                     b.ToTable("buyer");
@@ -240,31 +215,6 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SellerID"));
 
-                    b.Property<string>("SellerAddress")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("seller_address");
-
-                    b.Property<string>("SellerEmail")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("seller_email");
-
-                    b.Property<string>("SellerName")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("seller_name");
-
-                    b.Property<string>("SellerPassword")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("seller_password");
-
-                    b.Property<string>("SellerPhone")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("seller_phone");
-
                     b.HasKey("SellerID");
 
                     b.ToTable("seller");
@@ -318,6 +268,51 @@ namespace server.Migrations
                     b.ToTable("transaction");
                 });
 
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserID"));
+
+                    b.Property<int?>("BuyerID")
+                        .IsRequired()
+                        .HasColumnType("integer")
+                        .HasColumnName("buyer_id");
+
+                    b.Property<int?>("SellerID")
+                        .IsRequired()
+                        .HasColumnType("integer")
+                        .HasColumnName("seller_id");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("user_email");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("user_name");
+
+                    b.Property<string>("UserPassword")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("user_password");
+
+                    b.HasKey("UserID");
+
+                    b.HasIndex("BuyerID")
+                        .IsUnique();
+
+                    b.HasIndex("SellerID")
+                        .IsUnique();
+
+                    b.ToTable("user_main");
+                });
+
             modelBuilder.Entity("Vehicle", b =>
                 {
                     b.Property<int>("VehicleID")
@@ -343,7 +338,6 @@ namespace server.Migrations
                         .HasColumnName("colour");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("description");
 
@@ -352,9 +346,15 @@ namespace server.Migrations
                         .HasColumnType("text")
                         .HasColumnName("engine_capacity");
 
-                    b.Property<int>("EngineTransmission")
-                        .HasColumnType("integer")
+                    b.Property<string>("EngineTransmission")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("engine_transmission");
+
+                    b.Property<string>("Features")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("features");
 
                     b.Property<string>("Make")
                         .IsRequired()
@@ -391,6 +391,15 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("vehicle_city");
+
+                    b.Property<string>("VehicleImages")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("vehicle_images");
+
+                    b.Property<DateOnly>("VehicleModelYear")
+                        .HasColumnType("date")
+                        .HasColumnName("vehicle_model_year");
 
                     b.Property<string>("VehicleRegistrationCity")
                         .IsRequired()
@@ -517,6 +526,25 @@ namespace server.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("User", b =>
+                {
+                    b.HasOne("Buyer", "Buyer")
+                        .WithOne("User")
+                        .HasForeignKey("User", "BuyerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Seller", "Seller")
+                        .WithOne("User")
+                        .HasForeignKey("User", "SellerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("Seller");
+                });
+
             modelBuilder.Entity("Advertise", b =>
                 {
                     b.Navigation("Transaction")
@@ -530,6 +558,9 @@ namespace server.Migrations
                     b.Navigation("Inspections");
 
                     b.Navigation("Transactions");
+
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Mechanic", b =>
@@ -546,6 +577,9 @@ namespace server.Migrations
                     b.Navigation("Feedbacks");
 
                     b.Navigation("Transactions");
+
+                    b.Navigation("User")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Vehicle", b =>

@@ -9,7 +9,7 @@ public class Feedback{
     public required int FeedbackID { get; set; }
 
     [Column("feedback")]
-    public string feedback {get; set;}
+    public required string feedback {get; set;}
 
     [Column("buyer_id")]
     public int? BuyerID {get; set;}

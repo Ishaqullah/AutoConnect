@@ -8,11 +8,17 @@ public class Vehicle{
     [Column("vehicle_id")]
     public required int VehicleID {get; set;}
     
+    [Column("vehicle_images")]
+    public required string VehicleImages {get; set;}
+    
     [Column("vehicle_city")]
     public required string VehicleCity {get; set;}
     
     [Column("vehicle_registration_year")]
     public required DateOnly VehicleRegistrationYear {get; set;}
+    
+    [Column("vehicle_model_year")]
+    public required DateOnly VehicleModelYear {get; set;}
     
     [Column("vehicle_registration_city")]
     public required string VehicleRegistrationCity {get; set;}
@@ -39,7 +45,10 @@ public class Vehicle{
     public required string EngineCapacity {get; set;}
     
     [Column("engine_transmission")]
-    public required int EngineTransmission {get; set;}
+    public required string EngineTransmission {get; set;}
+    
+    [Column("features",TypeName ="text")]
+    public required string Features {get; set;}
     
     [Column("assembly")]
     public required string Assembly {get; set;}
@@ -54,7 +63,7 @@ public class Vehicle{
     public required float Price {get; set;}
     
     [Column("description")]
-    public string Description {get; set;}
+    public string? Description {get; set;}
 
     public Transaction Transaction { get; set; }
     public Advertise Advertise { get; set; }

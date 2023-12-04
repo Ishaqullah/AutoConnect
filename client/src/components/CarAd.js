@@ -39,15 +39,15 @@ const CarAd = ({ car }) => {
         />
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            {car.name}
+            {car.make + " " + car.model + " " + car.variant}
           </Typography>
           <Typography variant="body2" component="p">
-            {car.location}
+            {car.vehicleCity}
           </Typography>
           <br />
           <Typography variant="body2" component="p">
-            {car.year} | {car.mileage} | {car.fuelType} | {car.engine}cc |{" "}
-            {car.transmission}
+            {car.vehicleRegistrationYear.substr(0,4)} | {car.mileage} | {car.bodyType} | {car.engineCapacity}cc |{" "}
+            {car.engineTransmission}
           </Typography>
           <Typography
             variant="h5"

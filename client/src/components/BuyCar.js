@@ -7,7 +7,7 @@ import axios from "axios";
 
 //   {
 //     image: "Images/toyota-fortuner.webp",
-//     name: "Toyota Fortuner",
+//     name: "Toyota Fortuner 2.8 Sigma 4",
 //     location: "Karachi",
 //     year: 2021,
 //     mileage: "44,000 km",
@@ -18,7 +18,7 @@ import axios from "axios";
 //   },
 //   {
 //     image:"/Images/honda-br-v.webp",
-//     name: "Honda BRV",
+//     name: "Honda BRV iVTEC ",
 //     location: "Karachi",
 //     year: 2021,
 //     mileage: "44,000 km",
@@ -29,7 +29,7 @@ import axios from "axios";
 //   },
 //   {
 //     image: require("../../src/Images/honda-hr-v.webp"),
-//     name: "Honda HRV",
+//     name: "Honda HRV VTI",
 //     location: "Karachi",
 //     year: 2021,
 //     mileage: "44,000 km",

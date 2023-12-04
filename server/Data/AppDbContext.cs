@@ -12,6 +12,7 @@ public class AppDbContext : DbContext
     public DbSet<Mechanic> Mechanics  { get; set; }
     public DbSet<MechanicRating> MechanicRatings  { get; set; }
     public DbSet<Feedback> Feedbacks  { get; set; }
+    public DbSet<Feedback> Users  { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -39,6 +40,16 @@ public class AppDbContext : DbContext
             .HasOne(a => a.Vehicle)
             .WithOne(v => v.Advertise)
             .HasForeignKey<Advertise>(a => a.VehicleID);
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Seller)
+            .WithOne(s => s.User)
+            .HasForeignKey<User>(u => u.SellerID);
+
+        modelBuilder.Entity<User>()
+            .HasOne(b => b.Buyer)
+            .WithOne(b => b.User)
+            .HasForeignKey<User>(u => u.BuyerID);
         
         modelBuilder.Entity<Advertise>()
             .HasOne(a => a.Seller)
