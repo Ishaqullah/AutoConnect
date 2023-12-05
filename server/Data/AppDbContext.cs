@@ -12,7 +12,7 @@ public class AppDbContext : DbContext
     public DbSet<Mechanic> Mechanics  { get; set; }
     public DbSet<MechanicRating> MechanicRatings  { get; set; }
     public DbSet<Feedback> Feedbacks  { get; set; }
-    public DbSet<Feedback> Users  { get; set; }
+    public DbSet<User> Users  { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -6,7 +6,7 @@ public class Feedback{
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("feedback_id")]
-    public required int FeedbackID { get; set; }
+    public int FeedbackID { get; set; }
 
     [Column("feedback")]
     public required string feedback {get; set;}

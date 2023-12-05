@@ -8,7 +8,7 @@ public class Buyer
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("buyer_id")]
-    public required int BuyerID {get; set;}
+    public int BuyerID {get; set;}
 
     public List<Transaction> Transactions { get; set; }
     public List<Inspection> Inspections { get; set; }

@@ -6,7 +6,7 @@ public class Inspection{
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("inspection_id")]
-    public required int InspectionID { get; set; }
+    public int InspectionID { get; set; }
 
     [Column("description")]
     public string Description {get; set;}

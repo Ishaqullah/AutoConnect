@@ -6,7 +6,7 @@ public class Vehicle{
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("vehicle_id")]
-    public required int VehicleID {get; set;}
+    public int VehicleID {get; set;}
     
     [Column("vehicle_images")]
     public required string VehicleImages {get; set;}

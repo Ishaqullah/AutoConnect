@@ -12,13 +12,22 @@ import {
 import { Close } from '@mui/icons-material'; // Import the Close icon
 
 const LoginModal = ({ open, handleClose }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData,setFormData]= useState({
+    email:'',
+    password:'',
+  })
 
-  const handleLogin = () => {
-    // Logic for handling login (e.g., API call, authentication, etc.)
-    // For demonstration, you can add your own logic here.
-    console.log('Login clicked with:', { email, password });
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:5278/users/loginUsers",
+        formData
+      );
+      console.log("Server response:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error.message);
+    }
     handleClose(); // Close the modal after login (You may handle this differently)
     window.localStorage.setItem("isLoggedIn",true);
   };

@@ -7,7 +7,7 @@ public class Seller{
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("seller_id")]
-    public required int SellerID {get; set;}
+    public int SellerID {get; set;}
 
     public List<Transaction> Transactions { get; set; }
     public List<Advertise> Advertises { get; set; }

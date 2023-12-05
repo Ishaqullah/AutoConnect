@@ -10,69 +10,84 @@ import {
   Typography,
 } from '@mui/material';
 import { Close } from '@mui/icons-material'; // Import the Close icon
-
+import axios from 'axios';
 const SignUpModal = ({ open, handleClose }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [formData, setFormData]=useState({
+    email:'',
+    password:'',
+  })
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const handleSignUp = () => {
-    // Logic for handling signup (e.g., API call, validation, etc.)
-    // For demonstration, you can add your own logic here.
-    console.log('Sign Up clicked with:', { email, password, confirmPassword });
-    handleClose(); // Close the modal after signup (You may handle this differently)
+    try {
+      const response = await axios.post(
+        "http://localhost:5278/users/signupUsers",
+        formData
+      );
+      console.log("Server response:", response.data);
+    } catch (error) {
+      console.error("Error submitting form:", error.message);
+    }
+    handleClose(); 
     window.localStorage.setItem("isLoggedIn",true);
   };
+  const handleChange =(event)=>{
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  }
 
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-      <DialogTitle>
-        <IconButton aria-label="close" onClick={handleClose} sx={{ position: 'absolute', right: 0, top: 0 }}>
-          <Close />
-        </IconButton>
-      </DialogTitle>
-      <DialogContent dividers>
-        <Typography variant="h6" align="center" gutterBottom>
-          Let's Get You Started
-        </Typography>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Email Address"
-          type="email"
-          fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="Password"
-          type="password"
-          fullWidth
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="Confirm Password"
-          type="password"
-          fullWidth
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleSignUp} variant="contained" color="primary" fullWidth>
-          Sign Up
-        </Button>
-      </DialogActions>
-      <DialogContent>
-        <Typography variant="body2" align="center">
-          Already have an account? <br />
-          <Button color="primary">Sign In</Button>
-        </Typography>
-      </DialogContent>
-    </Dialog>
+    <form onSubmit={handleSubmit}>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+        <DialogTitle>
+          <IconButton aria-label="close" onClick={handleClose} sx={{ position: 'absolute', right: 0, top: 0 }}>
+            <Close />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          <Typography variant="h6" align="center" gutterBottom>
+            Let's Get You Started
+          </Typography>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Email Address"
+            type="email"
+            fullWidth
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            label="Password"
+            type="password"
+            fullWidth
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            label="Confirm Password"
+            type="password"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button type="submit" variant="contained" color="primary" fullWidth>
+            Sign Up
+          </Button>
+        </DialogActions>
+        <DialogContent>
+          <Typography variant="body2" align="center">
+            Already have an account? <br />
+            <Button color="primary">Sign In</Button>
+          </Typography>
+        </DialogContent>
+      </Dialog>
+    </form>
   );
 };
 
