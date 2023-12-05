@@ -41,15 +41,15 @@ public class AppDbContext : DbContext
             .WithOne(v => v.Advertise)
             .HasForeignKey<Advertise>(a => a.VehicleID);
 
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Seller)
-            .WithOne(s => s.User)
-            .HasForeignKey<User>(u => u.SellerID);
+        modelBuilder.Entity<Seller>()
+            .HasOne(s => s.User)
+            .WithOne(u => u.Seller)
+            .HasForeignKey<Seller>(s => s.UserID);
 
-        modelBuilder.Entity<User>()
-            .HasOne(b => b.Buyer)
-            .WithOne(b => b.User)
-            .HasForeignKey<User>(u => u.BuyerID);
+        modelBuilder.Entity<Buyer>()
+            .HasOne(b => b.User)
+            .WithOne(u => u.Buyer)
+            .HasForeignKey<Buyer>(b => b.UserID);
         
         modelBuilder.Entity<Advertise>()
             .HasOne(a => a.Seller)

@@ -20,12 +20,6 @@ public class User{
     [Column("user_address")]
     public string? UserAddress { get; set; }
 
-    [Column("seller_id")]
-    public int? SellerID {get; set;}
-    
-    [Column("buyer_id")]
-    public int? BuyerID {get; set;}
-
     public Seller Seller { get; set; }
     public Buyer Buyer { get; set; }
 

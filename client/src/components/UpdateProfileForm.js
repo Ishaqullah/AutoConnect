@@ -14,7 +14,7 @@ import {
   CardContent,
   Container
 } from '@mui/material';
-
+import {Link} from 'react-router-dom';
 const UpdateProfileForm = () => {
   const [formData, setFormData] = useState({
     fullName: '',
@@ -130,13 +130,13 @@ const UpdateProfileForm = () => {
           <Grid item xs={12}>
             <Divider />
             <Box my={2} />
-            <Button
+            <Link to="/" style={{textDecoration:'none',color:'inherit'}}><Button
               variant="contained"
               color="primary"
               onClick={handleSaveChanges}
             >
               Save Changes
-            </Button>
+            </Button></Link>
           </Grid>
         </Grid>
       </CardContent>

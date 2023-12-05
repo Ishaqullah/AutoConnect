@@ -10,6 +10,9 @@ public class Buyer
     [Column("buyer_id")]
     public int BuyerID {get; set;}
 
+    [Column("user_id")]
+    public int? UserID {get; set;}
+
     public List<Transaction> Transactions { get; set; }
     public List<Inspection> Inspections { get; set; }
     public List<Feedback> Feedbacks { get; set; }

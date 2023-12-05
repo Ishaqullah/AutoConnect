@@ -28,9 +28,17 @@ const LoginModal = ({ open, handleClose }) => {
     } catch (error) {
       console.error("Error submitting form:", error.message);
     }
-    handleClose(); // Close the modal after login (You may handle this differently)
+    handleClose();
     window.localStorage.setItem("isLoggedIn",true);
   };
+
+  const handleChange =(event)=>{
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  }
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
@@ -46,16 +54,18 @@ const LoginModal = ({ open, handleClose }) => {
           label="Email Address"
           type="email"
           fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
         />
         <TextField
           margin="dense"
           label="Password"
           type="password"
           fullWidth
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
         />
       </DialogContent>
       <DialogActions>

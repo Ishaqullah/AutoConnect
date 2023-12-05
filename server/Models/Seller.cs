@@ -8,6 +8,10 @@ public class Seller{
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("seller_id")]
     public int SellerID {get; set;}
+    
+    [Column("user_id")]
+    public int? UserID {get; set;}
+
 
     public List<Transaction> Transactions { get; set; }
     public List<Advertise> Advertises { get; set; }

@@ -2,7 +2,6 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using BCrypt.Net;
 
 [EnableCors("AllowAll")]
 [Route("[controller]")]
@@ -31,16 +30,14 @@ public class UsersController : ControllerBase
         try
         {
             var newUser = new User{
-                UserEmail= formData.GetProperty("email"), 
+                UserEmail= formData.GetProperty("email").GetString(), 
                 UserPassword= hash,
             };
-
-            newUser.Seller = new Seller();
 
             _context.Users.Add(newUser);
             _context.SaveChanges();
 
-            return Ok("User submitted successfully");
+            return Ok(new { UserId = newUser.UserID, Message = "User signed up successfully" });
         }
         catch (Exception ex)
         {
@@ -60,7 +57,7 @@ public class UsersController : ControllerBase
         try
         {
             string email=formData.GetProperty("email").GetString();
-            var userWithEmail = _context.Users.Where(u => u.UserEmail == email).ToList();
+            var userWithEmail = _context.Users.Where(u => u.UserEmail == email).ToListAsync();
             
             if(userWithEmail == null){
                 return NotFound("User Does not exist");
@@ -77,10 +74,6 @@ public class UsersController : ControllerBase
             }
 
             return Ok("Login Successful");
-
-
-
-
 
         }
         catch (Exception ex)

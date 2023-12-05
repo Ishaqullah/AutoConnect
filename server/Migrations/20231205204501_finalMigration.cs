@@ -7,23 +7,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace server.Migrations
 {
     /// <inheritdoc />
-    public partial class relationsUpdate : Migration
+    public partial class finalMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "buyer",
-                columns: table => new
-                {
-                    buyerid = table.Column<int>(name: "buyer_id", type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_buyer", x => x.buyerid);
-                });
-
             migrationBuilder.CreateTable(
                 name: "mechanic",
                 columns: table => new
@@ -43,15 +31,20 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "seller",
+                name: "user_main",
                 columns: table => new
                 {
-                    sellerid = table.Column<int>(name: "seller_id", type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
+                    userid = table.Column<int>(name: "user_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    username = table.Column<string>(name: "user_name", type: "text", nullable: true),
+                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: false),
+                    userpassword = table.Column<string>(name: "user_password", type: "text", nullable: false),
+                    userphone = table.Column<string>(name: "user_phone", type: "text", nullable: true),
+                    useraddress = table.Column<string>(name: "user_address", type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_seller", x => x.sellerid);
+                    table.PrimaryKey("PK_user_main", x => x.userid);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,85 +98,40 @@ namespace server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "feedback",
+                name: "buyer",
                 columns: table => new
                 {
-                    feedbackid = table.Column<int>(name: "feedback_id", type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    feedback = table.Column<string>(type: "text", nullable: false),
-                    buyerid = table.Column<int>(name: "buyer_id", type: "integer", nullable: false),
-                    sellerid = table.Column<int>(name: "seller_id", type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_feedback", x => x.feedbackid);
-                    table.ForeignKey(
-                        name: "FK_feedback_buyer_buyer_id",
-                        column: x => x.buyerid,
-                        principalTable: "buyer",
-                        principalColumn: "buyer_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_feedback_seller_seller_id",
-                        column: x => x.sellerid,
-                        principalTable: "seller",
-                        principalColumn: "seller_id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "user_main",
-                columns: table => new
-                {
-                    userid = table.Column<int>(name: "user_id", type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    username = table.Column<string>(name: "user_name", type: "text", nullable: false),
-                    useremail = table.Column<string>(name: "user_email", type: "text", nullable: false),
-                    userpassword = table.Column<string>(name: "user_password", type: "text", nullable: false),
-                    sellerid = table.Column<int>(name: "seller_id", type: "integer", nullable: false),
                     buyerid = table.Column<int>(name: "buyer_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    userid = table.Column<int>(name: "user_id", type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user_main", x => x.userid);
+                    table.PrimaryKey("PK_buyer", x => x.buyerid);
                     table.ForeignKey(
-                        name: "FK_user_main_buyer_buyer_id",
-                        column: x => x.buyerid,
-                        principalTable: "buyer",
-                        principalColumn: "buyer_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_user_main_seller_seller_id",
-                        column: x => x.sellerid,
-                        principalTable: "seller",
-                        principalColumn: "seller_id",
+                        name: "FK_buyer_user_main_user_id",
+                        column: x => x.userid,
+                        principalTable: "user_main",
+                        principalColumn: "user_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "advertise",
+                name: "seller",
                 columns: table => new
                 {
-                    advertiseid = table.Column<int>(name: "advertise_id", type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    advertisename = table.Column<string>(name: "advertise_name", type: "text", nullable: false),
-                    vehicleid = table.Column<int>(name: "vehicle_id", type: "integer", nullable: false),
                     sellerid = table.Column<int>(name: "seller_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    userid = table.Column<int>(name: "user_id", type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_advertise", x => x.advertiseid);
+                    table.PrimaryKey("PK_seller", x => x.sellerid);
                     table.ForeignKey(
-                        name: "FK_advertise_seller_seller_id",
-                        column: x => x.sellerid,
-                        principalTable: "seller",
-                        principalColumn: "seller_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_advertise_vehicle_vehicle_id",
-                        column: x => x.vehicleid,
-                        principalTable: "vehicle",
-                        principalColumn: "vehicle_id",
+                        name: "FK_seller_user_main_user_id",
+                        column: x => x.userid,
+                        principalTable: "user_main",
+                        principalColumn: "user_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -218,6 +166,60 @@ namespace server.Migrations
                         column: x => x.vehicleid,
                         principalTable: "vehicle",
                         principalColumn: "vehicle_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "advertise",
+                columns: table => new
+                {
+                    advertiseid = table.Column<int>(name: "advertise_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    advertisename = table.Column<string>(name: "advertise_name", type: "text", nullable: false),
+                    vehicleid = table.Column<int>(name: "vehicle_id", type: "integer", nullable: false),
+                    sellerid = table.Column<int>(name: "seller_id", type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_advertise", x => x.advertiseid);
+                    table.ForeignKey(
+                        name: "FK_advertise_seller_seller_id",
+                        column: x => x.sellerid,
+                        principalTable: "seller",
+                        principalColumn: "seller_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_advertise_vehicle_vehicle_id",
+                        column: x => x.vehicleid,
+                        principalTable: "vehicle",
+                        principalColumn: "vehicle_id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "feedback",
+                columns: table => new
+                {
+                    feedbackid = table.Column<int>(name: "feedback_id", type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    feedback = table.Column<string>(type: "text", nullable: false),
+                    buyerid = table.Column<int>(name: "buyer_id", type: "integer", nullable: false),
+                    sellerid = table.Column<int>(name: "seller_id", type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_feedback", x => x.feedbackid);
+                    table.ForeignKey(
+                        name: "FK_feedback_buyer_buyer_id",
+                        column: x => x.buyerid,
+                        principalTable: "buyer",
+                        principalColumn: "buyer_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_feedback_seller_seller_id",
+                        column: x => x.sellerid,
+                        principalTable: "seller",
+                        principalColumn: "seller_id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -274,6 +276,12 @@ namespace server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_buyer_user_id",
+                table: "buyer",
+                column: "user_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_feedback_buyer_id",
                 table: "feedback",
                 column: "buyer_id");
@@ -304,6 +312,12 @@ namespace server.Migrations
                 column: "mechanic_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_seller_user_id",
+                table: "seller",
+                column: "user_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_transaction_advertise_id",
                 table: "transaction",
                 column: "advertise_id",
@@ -324,18 +338,6 @@ namespace server.Migrations
                 table: "transaction",
                 column: "vehicle_id",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_main_buyer_id",
-                table: "user_main",
-                column: "buyer_id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_main_seller_id",
-                table: "user_main",
-                column: "seller_id",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -354,9 +356,6 @@ namespace server.Migrations
                 name: "transaction");
 
             migrationBuilder.DropTable(
-                name: "user_main");
-
-            migrationBuilder.DropTable(
                 name: "mechanic");
 
             migrationBuilder.DropTable(
@@ -370,6 +369,9 @@ namespace server.Migrations
 
             migrationBuilder.DropTable(
                 name: "vehicle");
+
+            migrationBuilder.DropTable(
+                name: "user_main");
         }
     }
 }
