@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231204200439_relationsUpdate")]
-    partial class relationsUpdate
+    [Migration("20231205204501_finalMigration")]
+    partial class finalMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,7 +67,15 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BuyerID"));
 
+                    b.Property<int?>("UserID")
+                        .IsRequired()
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
                     b.HasKey("BuyerID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("buyer");
                 });
@@ -218,7 +226,15 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SellerID"));
 
+                    b.Property<int?>("UserID")
+                        .IsRequired()
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
                     b.HasKey("SellerID");
+
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("seller");
                 });
@@ -280,15 +296,9 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserID"));
 
-                    b.Property<int?>("BuyerID")
-                        .IsRequired()
-                        .HasColumnType("integer")
-                        .HasColumnName("buyer_id");
-
-                    b.Property<int?>("SellerID")
-                        .IsRequired()
-                        .HasColumnType("integer")
-                        .HasColumnName("seller_id");
+                    b.Property<string>("UserAddress")
+                        .HasColumnType("text")
+                        .HasColumnName("user_address");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
@@ -296,7 +306,6 @@ namespace server.Migrations
                         .HasColumnName("user_email");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("user_name");
 
@@ -305,13 +314,11 @@ namespace server.Migrations
                         .HasColumnType("text")
                         .HasColumnName("user_password");
 
+                    b.Property<string>("UserPhone")
+                        .HasColumnType("text")
+                        .HasColumnName("user_phone");
+
                     b.HasKey("UserID");
-
-                    b.HasIndex("BuyerID")
-                        .IsUnique();
-
-                    b.HasIndex("SellerID")
-                        .IsUnique();
 
                     b.ToTable("user_main");
                 });
@@ -437,6 +444,17 @@ namespace server.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("Buyer", b =>
+                {
+                    b.HasOne("User", "User")
+                        .WithOne("Buyer")
+                        .HasForeignKey("Buyer", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Feedback", b =>
                 {
                     b.HasOne("Buyer", "Buyer")
@@ -494,6 +512,17 @@ namespace server.Migrations
                     b.Navigation("Mechanic");
                 });
 
+            modelBuilder.Entity("Seller", b =>
+                {
+                    b.HasOne("User", "User")
+                        .WithOne("Seller")
+                        .HasForeignKey("Seller", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Transaction", b =>
                 {
                     b.HasOne("Advertise", "Advertise")
@@ -529,25 +558,6 @@ namespace server.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("User", b =>
-                {
-                    b.HasOne("Buyer", "Buyer")
-                        .WithOne("User")
-                        .HasForeignKey("User", "BuyerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Seller", "Seller")
-                        .WithOne("User")
-                        .HasForeignKey("User", "SellerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Buyer");
-
-                    b.Navigation("Seller");
-                });
-
             modelBuilder.Entity("Advertise", b =>
                 {
                     b.Navigation("Transaction")
@@ -561,9 +571,6 @@ namespace server.Migrations
                     b.Navigation("Inspections");
 
                     b.Navigation("Transactions");
-
-                    b.Navigation("User")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Mechanic", b =>
@@ -580,8 +587,14 @@ namespace server.Migrations
                     b.Navigation("Feedbacks");
 
                     b.Navigation("Transactions");
+                });
 
-                    b.Navigation("User")
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Navigation("Buyer")
+                        .IsRequired();
+
+                    b.Navigation("Seller")
                         .IsRequired();
                 });
 

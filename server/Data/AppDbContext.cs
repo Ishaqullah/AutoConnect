@@ -6,13 +6,13 @@ public class AppDbContext : DbContext
     public DbSet<Vehicle> Vehicles { get; set; }
     public DbSet<Buyer> Buyers { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
-    public DbSet<Transaction> Sellers { get; set; }
+    public DbSet<Seller> Sellers { get; set; }
     public DbSet<Advertise> Advertises { get; set; }
     public DbSet<Inspection> Inspections  { get; set; }
     public DbSet<Mechanic> Mechanics  { get; set; }
     public DbSet<MechanicRating> MechanicRatings  { get; set; }
     public DbSet<Feedback> Feedbacks  { get; set; }
-    public DbSet<Feedback> Users  { get; set; }
+    public DbSet<User> Users  { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -39,17 +39,18 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Advertise>()
             .HasOne(a => a.Vehicle)
             .WithOne(v => v.Advertise)
-            .HasForeignKey<Advertise>(a => a.VehicleID);
+            .HasForeignKey<Advertise>(a => a.VehicleID)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Seller)
-            .WithOne(s => s.User)
-            .HasForeignKey<User>(u => u.SellerID);
+        modelBuilder.Entity<Seller>()
+            .HasOne(s => s.User)
+            .WithOne(u => u.Seller)
+            .HasForeignKey<Seller>(s => s.UserID);
 
-        modelBuilder.Entity<User>()
-            .HasOne(b => b.Buyer)
-            .WithOne(b => b.User)
-            .HasForeignKey<User>(u => u.BuyerID);
+        modelBuilder.Entity<Buyer>()
+            .HasOne(b => b.User)
+            .WithOne(u => u.Buyer)
+            .HasForeignKey<Buyer>(b => b.UserID);
         
         modelBuilder.Entity<Advertise>()
             .HasOne(a => a.Seller)

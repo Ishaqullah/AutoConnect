@@ -3,25 +3,22 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link,useNavigate, useParams } from "react-router-dom";
 import Image from "mui-image";
 import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
 import LoginModal from "./LoginModal";
 import SignUpModal from "./SignUpModal";
 import { RiAdvertisementFill } from "react-icons/ri";
 import PersonIcon from "@mui/icons-material/Person";
-
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import LockIcon from "@mui/icons-material/Lock";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-
-const Navbar = () => {
+const Navbar = ({id}) => {
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
+  // const navigate=useNavigate();
   const isLoggedIn = window.localStorage.getItem("isLoggedIn");
-
   const handleLoginOpen = () => {
     setOpenLogin(true);
   };
@@ -47,7 +44,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    // Handle logout functionality and clearing isLoggedIn in localStorage
+    
     window.localStorage.removeItem("isLoggedIn");
     // Perform additional logout operations as needed
   };
@@ -65,42 +62,30 @@ const Navbar = () => {
             onClose={handleMenuClose}
             onClick={handleMenuClose}
           >
-            <Link style={{textDecoration:'none',color:'inherit'}} to="/UpdateProfileForm"><MenuItem>
+            <Link style={{textDecoration:'none',color:'inherit'}} to={`/UpdateProfileForm/User/${id}`}><MenuItem>
               <IconButton>
                 <PersonIcon />
               </IconButton>
               My Profile
             </MenuItem></Link>
-            <Link style={{textDecoration:'none',color:'inherit'}} to="/MyAds"><MenuItem>
+            <Link style={{textDecoration:'none',color:'inherit'}} to={`/MyAds/User/${id}`}><MenuItem>
               <IconButton>
                 <RiAdvertisementFill />
               </IconButton>
               My Ads
             </MenuItem></Link>
-            <Link style={{textDecoration:'none',color:'inherit'}}  to="/sellCar"><MenuItem>
+            <Link style={{textDecoration:'none',color:'inherit'}}  to={`/sellCar/User/${id}`}><MenuItem>
               <IconButton>
                 <PostAddIcon />
               </IconButton>
               Post An Ad
             </MenuItem></Link>
-            <MenuItem>
-              <IconButton>
-              <RiAdvertisementFill />
-              </IconButton>
-              My Saved Ads
-            </MenuItem>
-            <MenuItem>
-              <IconButton>
-                <LockIcon />
-              </IconButton>
-              Change Password
-            </MenuItem>
-            <MenuItem onClick={handleLogout}>
+            <Link to="/" style={{textDecoration:'none',color:'inherit'}}  > <MenuItem onClick={handleLogout}>
               <IconButton>
                 <ExitToAppIcon />
               </IconButton>
               Sign Out
-            </MenuItem>
+            </MenuItem></Link>
           </Menu>
         </div>
       );

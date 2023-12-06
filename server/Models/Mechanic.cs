@@ -7,7 +7,7 @@ public class Mechanic
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("mechanic_id")]
-    public required int MechanicID {get; set;}
+    public int MechanicID {get; set;}
 
     [Column("mechanic_name")]
     public required string MechanicName {get; set;}
