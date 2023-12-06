@@ -45,6 +45,40 @@ public class UsersController : ControllerBase
         }
     }
 
+    [HttpGet("getUser/{id}")]
+    public IActionResult GetUserById(int id)
+    {
+        var user = _context.Users.Find(id);
+
+        if (user == null)
+        {
+            return NotFound(); 
+        }
+
+        return Ok(user);
+    }
+
+    [HttpPut("updateUser/{id}")]
+    public IActionResult UpdateUser(int id, [FromBody] dynamic formData)
+    {
+        var existingUser = _context.Users.Find(id);
+
+        if (existingUser == null)
+        {
+            return NotFound(); 
+        }
+
+        existingUser.UserName = formData.GetProperty("userName").GetString();
+        existingUser.UserEmail = formData.GetProperty("userEmail").GetString();
+        existingUser.UserPassword = formData.GetProperty("userPassword").GetString();
+        existingUser.UserPhone = formData.GetProperty("userPhone").GetString();
+        existingUser.UserAddress = formData.GetProperty("userAddress").GetString();
+
+        _context.SaveChanges();
+
+        return Ok(existingUser);
+    }
+
     [HttpPost("loginUsers")]
     public IActionResult LoginUsers([FromBody] dynamic formData)
     {
