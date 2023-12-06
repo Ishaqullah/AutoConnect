@@ -54,7 +54,7 @@ const Navbar = ({id}) => {
       return (
         <div>
           <IconButton onClick={handleMenuOpen}>
-            <Avatar src="Images/1.png" alt="User" />
+            <Avatar src="/Images/1.png" alt="User" />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
@@ -127,7 +127,7 @@ const Navbar = ({id}) => {
     <AppBar position="static" sx={{ bgcolor: "common.white" }}>
       <Toolbar>
         <Image
-          src={"Images/steering-wheel.png"}
+          src={"/Images/steering-wheel.png"}
           width={25}
           height={25}
           alt="Steering Wheel"
@@ -145,17 +145,17 @@ const Navbar = ({id}) => {
               <b>Home</b>
             </Button>
           </Link>
-          <Link to="/">
+          <Link to="/About">
             <Button color="secondary">
               <b>About Us</b>
             </Button>
           </Link>
-          <Link to="/">
+          <Link to="/BuyCar">
             <Button color="secondary">
               <b>Used Cars</b>
             </Button>
           </Link>
-          <Link to="/">
+          <Link to="/Contact">
             <Button color="secondary">
               <b>Contact</b>
             </Button>

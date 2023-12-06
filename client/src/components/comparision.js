@@ -49,7 +49,7 @@ const comparision = () => {
               }}
             >
               <img
-                src={"Images/Audi.jpg"}
+                src={"/Images/Audi.jpg"}
                 alt="Car 1"
                 style={{ width: "261px", height: "196px" }}
               />
@@ -96,7 +96,7 @@ const comparision = () => {
               }}
             >
               <img
-                src={"Images/BMW.jpg"}
+                src={"/Images/BMW.jpg"}
                 alt="Car 2"
                 style={{ width: "261px", height: "196px" }}
               />

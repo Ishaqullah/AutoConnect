@@ -91,7 +91,7 @@ const MyAds = () => {
                 <Grid item>
                   <Avatar
                     alt="Profile Picture"
-                    src="Images/1.png"
+                    src="/Images/1.png"
                     style={{
                       width: "100px",
                       height: "100px",

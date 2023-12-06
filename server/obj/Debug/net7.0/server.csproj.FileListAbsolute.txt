@@ -174,3 +174,5 @@ C:\Users\smuhi\OneDrive\Desktop\FYP\AutoConnect\server\obj\Debug\net7.0\server.p
 C:\Users\smuhi\OneDrive\Desktop\FYP\AutoConnect\server\obj\Debug\net7.0\server.genruntimeconfig.cache
 C:\Users\smuhi\OneDrive\Desktop\FYP\AutoConnect\server\obj\Debug\net7.0\ref\server.dll
 >>>>>>> main
+D:\NUCES\FYP\AutoConnect\server\bin\Debug\net7.0\BCrypt.Net.dll
+D:\NUCES\FYP\AutoConnect\server\bin\Debug\net7.0\Newtonsoft.Json.dll

@@ -12,6 +12,8 @@ import BuyCar from "./components/BuyCar";
 import UpdateProfileForm from "./components/UpdateProfileForm";
 import MyAds from "./components/MyAds";
 import AdDetailPage from "./components/AdDetails";
+import AboutUsPage from "./components/AboutUsPage";
+import ContactForm from "./components/ContactForm";
 import { useState } from "react";
 const theme = Theme;
 function App() {
@@ -47,6 +49,8 @@ function App() {
                 <Route exact path="/MyAds" element={<MyAds/>}/>
                 <Route exact path="/MyAds/User/:id" element={<MyAds/>}/>
                 <Route exact path="/AdDetails" element={<AdDetailPage/>}/>
+                <Route exact path="/About" element={<AboutUsPage/>}/>
+                <Route exact path="/Contact" element={<ContactForm/>}/>
               </Routes>
             </Grid>
 
