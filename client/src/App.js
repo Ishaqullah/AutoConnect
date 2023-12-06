@@ -13,13 +13,18 @@ import UpdateProfileForm from "./components/UpdateProfileForm";
 import MyAds from "./components/MyAds";
 import AdDetailPage from "./components/AdDetails";
 import { useState } from "react";
+import LoginPage from "./components/admin/LoginPage";
+import Dashboard from "./components/admin/Dashboard";
+import Ads from "./components/admin/Ads";
 const theme = Theme;
 function App() {
-  const [id,setId]=useState('')
-  const handleChildValueChange = (value) => {
-    setId(value)
-  };
+
+  // const [id,setId]=useState('')
+  // const handleChildValueChange = (value) => {
+  //   setId(value)
+  // };
   return (
+    <>
     <Router>
     <ThemeProvider theme={theme}>
       <div
@@ -32,19 +37,15 @@ function App() {
             </Grid>
 
             <Grid item xs={10}>
-              <Navbar id={id}/>
+              {/* <Navbar id={id}/> */}
               
               <Routes>
-                <Route exact path="/" element={<Home onValueChange={handleChildValueChange}/>}/>
-                <Route path='/User/:id' element={<Home onValueChange={handleChildValueChange}/>}/>
-                <Route exact path="/sellCar" element={<SellCar />}/>
-                <Route exact path="/sellCar/User/:id" element={<SellCar />}/>
-                <Route exact path="/BuyCar" element={<BuyCar />}/>
-                <Route exact path="/BuyCar/User/:id" element={<BuyCar />}/>
-                <Route exact path="/UpdateProfileForm" element={<UpdateProfileForm />}/>
-                <Route exact path="/UpdateProfileForm/User/:id" element={<UpdateProfileForm />}/>
-                <Route exact path="/MyAds" element={<MyAds/>}/>
-                <Route exact path="/AdDetails" element={<AdDetailPage/>}/>
+
+                <Route exact path="/Admin" element={<LoginPage/>}/>
+                <Route exact path="/Admin/Usertable" element={<Dashboard/>}/>
+                <Route exact path="/Admin/Ads" element={<Ads/>}/>
+                <Route exact path="/*" element={<RenderRoutesWithNavbar/>}/>
+
               </Routes>
             </Grid>
 
@@ -58,8 +59,38 @@ function App() {
           <Footer />
         </footer>
       </div>
+
+     
     </ThemeProvider>
     </Router>
+   
+    </>
+  );
+}
+
+function RenderRoutesWithNavbar() {
+  const [id,setId]=useState('')
+  const handleChildValueChange = (value) => {
+    setId(value)
+  };
+  return (
+    <React.Fragment>
+  
+              <Navbar id={id}/>
+              
+              <Routes>
+                <Route exact path="/" element={<Home onValueChange={handleChildValueChange}/>}/>
+                <Route path='/User/:id' element={<Home onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/sellCar" element={<SellCar />}/>
+                <Route exact path="/sellCar/User/:id" element={<SellCar />}/>
+                <Route exact path="/BuyCar" element={<BuyCar />}/>
+                <Route exact path="/BuyCar/User/:id" element={<BuyCar />}/>
+                <Route exact path="/UpdateProfileForm" element={<UpdateProfileForm />}/>
+                <Route exact path="/UpdateProfileForm/User/:id" element={<UpdateProfileForm />}/>
+                <Route exact path="/MyAds" element={<MyAds/>}/>
+                <Route exact path="/AdDetails" element={<AdDetailPage/>}/>
+      </Routes>
+    </React.Fragment>
   );
 }
 
