@@ -15,10 +15,10 @@ public class Vehicle{
     public required string VehicleCity {get; set;}
     
     [Column("vehicle_registration_year")]
-    public required DateOnly VehicleRegistrationYear {get; set;}
+    public required string VehicleRegistrationYear {get; set;}
     
     [Column("vehicle_model_year")]
-    public required DateOnly VehicleModelYear {get; set;}
+    public required string VehicleModelYear {get; set;}
     
     [Column("vehicle_registration_city")]
     public required string VehicleRegistrationCity {get; set;}

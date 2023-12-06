@@ -7,7 +7,6 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 
 const CarAd = ({ car }) => {
   const [showCarAd, setShowCarAd] = useState(false);
@@ -33,7 +32,7 @@ const CarAd = ({ car }) => {
     <Grid item xs={12} sm={6} md={4}>
       <Card>
         <img
-          src={car.image}
+          src={car.vehicleImages.split(', ')[0]}
           alt="Car"
           style={{ width: "100%", height: "200px", objectFit: "cover" }}
         />

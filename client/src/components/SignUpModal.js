@@ -25,6 +25,7 @@ const SignUpModal = ({ open, handleClose }) => {
     if (formData.password!=confirmPass)
     {
       console.error("Passwords donot match!")
+      alert("Passwords donot match!")
       return
     }
     try {
@@ -34,11 +35,12 @@ const SignUpModal = ({ open, handleClose }) => {
       );
       console.log("Server response:", response.data);
       navigate(`/User/${response.data.userId}`);
+      handleClose(); 
+      window.localStorage.setItem("isLoggedIn",true);
     } catch (error) {
       console.error("Error submitting form:", error.message);
+      alert(error.message)
     }
-    handleClose(); 
-    window.localStorage.setItem("isLoggedIn",true);
   };
   const handleChange =(event)=>{
     const { name, value } = event.target;

@@ -19,6 +19,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import Divider from "@mui/material/Divider";
 import axios from "axios";
 import UserAdGrid from "./UserAdGrid";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 const carAdsData = [
   {
     image: "Images/toyota-fortuner.webp",
@@ -33,6 +36,50 @@ const carAdsData = [
   },
 ];
 const MyAds = () => {
+  const [user, setUser] = useState(null);
+  const {id} = useParams()
+  const [advertises, setAdvertises] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5278/advertises/myAds/${id}`);
+        // console.log('API Response:', response.data);
+        setAdvertises(response.data);
+      } catch (error) {
+        console.error("Error fetching advertisements:", error);
+      }
+    };
+    
+    fetchData();
+  }, [id]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5278/users/getUser/${id}`);
+        // console.log('API Response:', response.data);
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+    
+    fetchData();
+  }, [id]);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:5278/users/getUser/${id}`)
+  //     .then((response) => setUser(response.data))
+  //     .catch((error) => console.error("Error fetching user:", error));
+  // }, [id]);
+  console.log('User',user)
+  if(user==null)
+  {
+    return(
+      <CircularProgress/>
+    )
+  }
   return (
     <Container sx={{ marginTop: "50px", marginBottom: "500px" }}>
       <Grid container spacing={3}>
@@ -56,11 +103,11 @@ const MyAds = () => {
                 {/* Typography */}
                 <Grid item>
                   <Typography variant="h5" component="div">
-                    Jhon Doe
+                    {user.userName}
                   </Typography>
-                  <Typography color="text.secondary">
+                  {/* <Typography color="text.secondary">
                     <u>Edit Profile</u> | <u>Change Password</u>
-                  </Typography>
+                  </Typography> */}
                 </Grid>
               </Grid>
             </CardContent>
@@ -162,10 +209,9 @@ const MyAds = () => {
         {/* Second Card */}
         <Grid item xs={10}>
           <Card>
-            <CardContent>
-              
+            <CardContent>     
                 <Container maxWidth="md" sx={{ marginTop: "50px" }}>
-                  <UserAdGrid carAds={carAdsData}/>
+                  <UserAdGrid carAds={advertises??[]}/>
                 </Container>
               
             </CardContent>

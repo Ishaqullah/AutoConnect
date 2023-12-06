@@ -12,7 +12,6 @@ public class Seller{
     [Column("user_id")]
     public int? UserID {get; set;}
 
-
     public List<Transaction> Transactions { get; set; }
     public List<Advertise> Advertises { get; set; }
     public List<Feedback> Feedbacks { get; set; }

@@ -21,27 +21,35 @@ import PhotoUpload from "./photoUpload";
 import CustomModal from "./modal";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import SignUpModal from "./SignUpModal";
+import { useEffect } from "react";
 const sellCar = () => {
   const [formData, setFormData] = useState({
+    vehicleId:'',
+    images: "",
     selectedCity: "",
     make: "",
     model: "",
     variant: "",
     modelYear: "",
-    images: "",
     features: "",
     registeredCity: "",
     registeredYear: "",
     color: "",
     mileage: "",
     price: "",
-    description: "",
     bodyType: "",
+    description: "",
+    engineCapacity:"",
     engineTransmission: "",
     assembly: "",
     minPrice: "",
     maxPrice: "",
   });
+  const {id,advertiseId} = useParams()
+  console
+  const navigate = useNavigate()
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
@@ -81,18 +89,73 @@ const sellCar = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:5278/vehicles/submitVehicles",
-        formData
-      );
-      console.log("Server response:", response.data);
+      if (id != undefined)
+      {
+        const response = await axios.post(
+          `http://localhost:5278/advertises/submitAdvertises/${id}`,
+          formData
+        );
+        console.log("Server response:", response.data);
+        navigate(`/User/${id}`);
+      }
+      else{
+        alert("Please signup or login to post Advertisements!")
+      }
     } catch (error) {
       console.error("Error submitting form:", error.message);
     }
   };
 
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+    axios
+      .put(`http://localhost:5278/vehicles/updateVehicle/${formData.vehicleId}`, formData)
+      .then((resp) => {
+        console.log("Vehicle updated successfully:", resp.data);
+        navigate(`/User/${id}`);
+      })
+      .catch((error) => {
+        console.error("Error updating vehicle:", error);
+      });
+  };
+
+  useEffect(() => {
+    
+      axios
+        .get(`http://localhost:5278/advertises/getVehicles/${advertiseId}`)
+        .then((response) => {
+          console.log(response.data)
+          setFormData({
+            vehicleId: response.data.vehicleID || "",
+            images: response.data.vehicleImages || "",
+            selectedCity: response.data.vehicleCity || "",
+            make: response.data.make || "",
+            model: response.data.model || "",
+            variant: response.data.variant || "",
+            modelYear: response.data.vehicleModelYear || "",
+            features: response.data.features || "",
+            registeredCity: response.data.vehicleRegistrationCity || "",
+            registeredYear: response.data.vehicleRegistrationYear || "",
+            color: response.data.colour || "",
+            mileage: response.data.mileage || "",
+            price: response.data.price || "",
+            bodyType: response.data.bodyType || "",
+            description: response.data.description || "",
+            engineCapacity: response.data.engineCapacity || "",
+            engineTransmission: response.data.engineTransmission || "",
+            assembly: response.data.assembly || "",
+            minPrice: response.data.minPrice || "",
+            maxPrice: response.data.maxPrice || "",
+          });
+          
+          console.log(response.data);
+        })
+        .catch((error) => console.error("Error fetching vehicle:", error));
+    
+  }, [id,advertiseId]);
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={id && advertiseId? handleUpdate: handleSubmit}>
       <Container maxWidth="md" sx={{ marginTop: "50px", marginBottom: "50px" }}>
         <Card sx={{ marginBottom: "20px" }}>
           <CardContent>
@@ -275,7 +338,9 @@ const sellCar = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
-                <TextField fullWidth label="Engine Capacity (cc)" />
+                <TextField fullWidth label="Engine Capacity (cc)" name="engineCapacity"
+                  value={formData.engineCapacity}
+                  onChange={handleChange} />
               </Grid>
               <Grid item xs={6}>
                 <FormControl fullWidth>
@@ -299,9 +364,9 @@ const sellCar = () => {
                     value={formData.assembly}
                     onChange={handleChange}
                   >
-                    <MenuItem value="assembly1">Japan</MenuItem>
-                    <MenuItem value="assembly2">Pakistan</MenuItem>
-                    <MenuItem value="assembly3">USA</MenuItem>
+                    <MenuItem value="Japan">Japan</MenuItem>
+                    <MenuItem value="Pakistan">Pakistan</MenuItem>
+                    <MenuItem value="USA">USA</MenuItem>
                     {/* Add more assembly options */}
                   </Select>
                 </FormControl>

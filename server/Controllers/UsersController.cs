@@ -2,6 +2,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 
 [EnableCors("AllowAll")]
 [Route("[controller]")]
@@ -29,11 +30,21 @@ public class UsersController : ControllerBase
 
         try
         {
+            string userEmail = formData.GetProperty("email").GetString();
+            if (_context.Users.Any(u => u.UserEmail == userEmail))
+            {
+                return Conflict("User with the same email already exists");
+            }
             var newUser = new User{
                 UserEmail= formData.GetProperty("email").GetString(), 
                 UserPassword= hash,
-            };
+                Buyer = new Buyer{
 
+                },
+                Seller = new Seller{
+                    
+                }
+            };
             _context.Users.Add(newUser);
             _context.SaveChanges();
 
@@ -86,28 +97,32 @@ public class UsersController : ControllerBase
         {
             return BadRequest("Invalid data");
         }
-        string hash= BCrypt.Net.BCrypt.HashPassword(formData.GetProperty("password").GetString());
+        string userPass= formData.GetProperty("password").GetString();
 
         try
         {
             string email=formData.GetProperty("email").GetString();
-            var userWithEmail = _context.Users.Where(u => u.UserEmail == email).ToListAsync();
-            
-            if(userWithEmail == null){
-                return NotFound("User Does not exist");
+            Console.WriteLine(email);
+            var userWithEmailPass = _context.Users.Where(u => u.UserEmail == email).FirstOrDefault();
+            Console.WriteLine("hello");
+
+
+            if(userWithEmailPass == null){
+                return NotFound("User does not exist (Incorrect Username or Password)");
 
             }
-
-            var userPassword = _context.Users
-            .Where(u => u.UserEmail == email && u.UserPassword == hash)
-            .Select(u => u.UserPassword)
-            .FirstOrDefault();
-
-            if(userPassword == null){
-                return NotFound("Incorrect Password");
+            Console.WriteLine(userWithEmailPass.UserID);
+            Console.WriteLine(userWithEmailPass.UserPassword);
+            Console.WriteLine(userPass);
+            bool passwordsMatch = BCrypt.Net.BCrypt.Verify(userPass, userWithEmailPass.UserPassword);
+            if (passwordsMatch)
+            {
+                return Ok(new { UserId = userWithEmailPass.UserID, Message = "User logged in successfully" });
             }
-
-            return Ok("Login Successful");
+            else
+            {
+                throw new Exception("Incorrect password for user: " + userWithEmailPass.UserEmail);
+            }
 
         }
         catch (Exception ex)

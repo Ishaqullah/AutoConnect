@@ -6,7 +6,7 @@ public class AppDbContext : DbContext
     public DbSet<Vehicle> Vehicles { get; set; }
     public DbSet<Buyer> Buyers { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
-    public DbSet<Transaction> Sellers { get; set; }
+    public DbSet<Seller> Sellers { get; set; }
     public DbSet<Advertise> Advertises { get; set; }
     public DbSet<Inspection> Inspections  { get; set; }
     public DbSet<Mechanic> Mechanics  { get; set; }
@@ -39,7 +39,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Advertise>()
             .HasOne(a => a.Vehicle)
             .WithOne(v => v.Advertise)
-            .HasForeignKey<Advertise>(a => a.VehicleID);
+            .HasForeignKey<Advertise>(a => a.VehicleID)
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<Seller>()
             .HasOne(s => s.User)

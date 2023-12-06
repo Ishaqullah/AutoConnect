@@ -39,11 +39,13 @@ function App() {
                 <Route path='/User/:id' element={<Home onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/sellCar" element={<SellCar />}/>
                 <Route exact path="/sellCar/User/:id" element={<SellCar />}/>
+                <Route exact path="/sellCar/User/:id/:advertiseId" element={<SellCar />}/>
                 <Route exact path="/BuyCar" element={<BuyCar />}/>
                 <Route exact path="/BuyCar/User/:id" element={<BuyCar />}/>
                 <Route exact path="/UpdateProfileForm" element={<UpdateProfileForm />}/>
                 <Route exact path="/UpdateProfileForm/User/:id" element={<UpdateProfileForm />}/>
                 <Route exact path="/MyAds" element={<MyAds/>}/>
+                <Route exact path="/MyAds/User/:id" element={<MyAds/>}/>
                 <Route exact path="/AdDetails" element={<AdDetailPage/>}/>
               </Routes>
             </Grid>

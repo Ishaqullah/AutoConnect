@@ -10,12 +10,14 @@ import {
   Typography,
 } from '@mui/material';
 import { Close } from '@mui/icons-material'; // Import the Close icon
-
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 const LoginModal = ({ open, handleClose }) => {
   const [formData,setFormData]= useState({
     email:'',
     password:'',
   })
+  const navigate= useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -25,11 +27,13 @@ const LoginModal = ({ open, handleClose }) => {
         formData
       );
       console.log("Server response:", response.data);
+      navigate(`/User/${response.data.userId}`);
+      handleClose();
+      window.localStorage.setItem("isLoggedIn",true);
     } catch (error) {
       console.error("Error submitting form:", error.message);
+      alert(error.message)
     }
-    handleClose();
-    window.localStorage.setItem("isLoggedIn",true);
   };
 
   const handleChange =(event)=>{

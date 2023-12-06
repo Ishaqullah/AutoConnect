@@ -68,30 +68,18 @@ const Navbar = ({id}) => {
               </IconButton>
               My Profile
             </MenuItem></Link>
-            <Link style={{textDecoration:'none',color:'inherit'}} to="/MyAds"><MenuItem>
+            <Link style={{textDecoration:'none',color:'inherit'}} to={`/MyAds/User/${id}`}><MenuItem>
               <IconButton>
                 <RiAdvertisementFill />
               </IconButton>
               My Ads
             </MenuItem></Link>
-            <Link style={{textDecoration:'none',color:'inherit'}}  to="/sellCar"><MenuItem>
+            <Link style={{textDecoration:'none',color:'inherit'}}  to={`/sellCar/User/${id}`}><MenuItem>
               <IconButton>
                 <PostAddIcon />
               </IconButton>
               Post An Ad
             </MenuItem></Link>
-            <MenuItem>
-              <IconButton>
-              <RiAdvertisementFill />
-              </IconButton>
-              My Saved Ads
-            </MenuItem>
-            <MenuItem>
-              <IconButton>
-                <LockIcon />
-              </IconButton>
-              Change Password
-            </MenuItem>
             <Link to="/" style={{textDecoration:'none',color:'inherit'}}  > <MenuItem onClick={handleLogout}>
               <IconButton>
                 <ExitToAppIcon />
