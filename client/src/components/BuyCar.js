@@ -1,6 +1,8 @@
 import React from "react";
 import CarAdsGrid from "./CarAdsGrid";
+import SearchFilters from "./searchFilters";
 import { Container, Typography } from "@mui/material";
+
 const carAdsData = [
   // Sample car ads data
   {
@@ -35,16 +37,22 @@ const carAdsData = [
     engine: 1600,
     transmission: "Automatic",
     price: 25000,
-  }
+  },
   // Add more car ads data...
 ];
 
 const BuyCar = () => {
   return (
-    <Container  sx={{marginTop:'50px',marginBottom:'500px'}}>
-      <Typography variant="h4" color={"#9D1515"}><b>Used cars for sale in Pakistan</b></Typography>
-      <Container maxWidth="md" sx={{marginTop:'50px'}}>
-      <CarAdsGrid carAds={carAdsData} />
+    <Container sx={{ display: "flex", flexDirection: "row", marginTop: "50px", marginBottom: "500px" }}>
+      <SearchFilters />
+      <Container maxWidth="md" sx={{  marginLeft: '20px' }}>
+        <Typography variant="h4" color={"#9D1515"}>
+          <b>Used cars for sale in Pakistan</b>
+        </Typography>
+        <Container maxWidth="md" sx={{  marginTop:"20px" }}>
+        <CarAdsGrid carAds={carAdsData} />
+        </Container>
+
       </Container>
     </Container>
   );
