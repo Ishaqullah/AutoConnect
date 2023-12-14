@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import { useEffect } from 'react';
 const useStyles = makeStyles((theme) => ({
   imageContainer: {
     display: 'flex',
@@ -24,10 +24,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PhotoUpload = () => {
+const PhotoUpload = ({ onImagesChange }) => {
   const classes = useStyles();
   const [images, setImages] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  useEffect(() => {
+    onImagesChange(images);
+  }, [images, onImagesChange]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
