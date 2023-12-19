@@ -22,9 +22,16 @@ const FullScreenDialog = () => {
   const [open, setOpen] = React.useState(false);
   const [selectedOptions, setSelectedOptions] = React.useState([]);
   const [currentSection, setCurrentSection] = React.useState(1);
+  const [hasSelections, setHasSelections] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+
+    if(hasSelections) {
+        setCurrentSection(selectedOptions.length + 1)
+    } else{
+        resetSelection();
+    }
   };
 
   const handleClose = () => {
@@ -35,8 +42,11 @@ const FullScreenDialog = () => {
   const handleOptionSelect = (optionText) => {
     setSelectedOptions((prevOptions) => [...prevOptions, optionText]);
 
-    if (selectedOptions.length + 1 === 3) {
-      // User has selected three options, close the dialog
+    if(!hasSelections){
+        setHasSelections(true);
+    }
+    if (selectedOptions.length + 1 === 4) {
+      // User has selected four options, close the dialog
       setOpen(false);
     } else {
       setCurrentSection((prevSection) => prevSection + 1);
@@ -48,10 +58,12 @@ const FullScreenDialog = () => {
     setCurrentSection(1);
   };
 
+  
+
   return (
     <React.Fragment>
       <Button variant="outlined" onClick={handleClickOpen}>
-        {selectedOptions.length === 3
+        {selectedOptions.length === 4
           ? selectedOptions.join(', ')
           : 'Make/Model/Version'}
       </Button>
@@ -80,7 +92,7 @@ const FullScreenDialog = () => {
           </Toolbar>
         </AppBar>
         <Grid container spacing={3}>
-          {[1, 2, 3].map((section) => (
+          {[1, 2, 3, 4].map((section) => (
             <Grid item xs={3} key={section}>
               {(section <= currentSection) && (
                 <Paper elevation={3} style={{ height: '100%', padding: '20px' }}>

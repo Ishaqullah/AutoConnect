@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CarAdsGrid from "./CarAdsGrid";
+import SearchFilters from "./searchFilters";
 import { Container, Typography } from "@mui/material";
 import axios from "axios";
 
@@ -51,13 +52,16 @@ const BuyCar = () => {
       .catch((error) => console.error("Error fetching vehicles:", error));
   }, []);
   return (
-    <Container sx={{ marginTop: "50px", marginBottom: "500px" }}>
-      <Typography variant="h4" color={"#9D1515"}>
-        <b>Used cars for sale in Pakistan</b>
-        
-      </Typography>
-      <Container maxWidth="md" sx={{ marginTop: "50px" }}>
+    <Container sx={{ display: "flex", flexDirection: "row", marginTop: "50px", marginBottom: "500px" }}>
+      <SearchFilters />
+      <Container maxWidth="md" sx={{  marginLeft: '20px' }}>
+        <Typography variant="h4" color={"#9D1515"}>
+          <b>Used cars for sale in Pakistan</b>
+        </Typography>
+        <Container maxWidth="md" sx={{  marginTop:"20px" }}>
         <CarAdsGrid carAds={advertises} />
+        </Container>
+
       </Container>
       
     </Container>
