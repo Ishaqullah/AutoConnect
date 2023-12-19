@@ -17,7 +17,7 @@ app.post("/dialogflow-webhook", async (req, res) => {
     const receivedCarDetails = carDetailsResponse.data;
 
     const intentName = req.body.queryResult.intent.displayName; // Extract intent name from the request
-    let responseMessage = `Here are the details for the car you are looking for \n Name:${receivedCarDetails.name} \n  Location:${receivedCarDetails.location} \n Year:${receivedCarDetails.year} \n Mileage:${receivedCarDetails.fueltype}`;
+    let responseMessage = `Here are the details for the car you are looking for \n Make:${receivedCarDetails.make} \n  Location:${receivedCarDetails.vehicleCity} \n Year:${receivedCarDetails.vehicleModelYear} \n Mileage:${receivedCarDetails.bodyType}`;
     let fulfillmentMessage = "";
 
     // Your logic to construct the fulfillment message using receivedCarDetails and intentName

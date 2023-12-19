@@ -17,7 +17,7 @@ public class AdvertisesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Advertise>>> GetAdvertises()
     {
-        return await _context.Advertises.ToListAsync();
+        return await _context.Advertises.ToListAsync(); 
     }
 
     [HttpGet("myAds/{id}")]

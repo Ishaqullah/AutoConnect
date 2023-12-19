@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import { Grid } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -9,6 +9,7 @@ import { Card, CardContent, Typography, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import LoginModal from "./LoginModal";
 const images = [
   "/Images/image01.jpg",
   "/Images/image2.jpg",
@@ -46,9 +47,20 @@ const Header = () => {
   const { id } = useParams();
   console.log(id);
   const classes = useStyles();
+  const [openLogin,setOpenLogin]=useState(false);
 
+  const handleClick = () =>{
+    if(id===undefined)
+    {
+      setOpenLogin(true)
+    }
+  }
+  const handleLoginClose = () => {
+    setOpenLogin(false);
+  };
   return (
     <Grid container>
+      {openLogin && <LoginModal open={openLogin} handleClose={handleLoginClose}/>}
       <Grid item xs={6}>
         <Container maxWidth="sm">
           <Card
@@ -79,7 +91,7 @@ const Header = () => {
                 <Link
                   to={id === undefined ? "/sellCar" : `/sellCar/User/${id}`}
                 >
-                  <Button color="secondary" variant="contained">
+                  <Button onClick={handleClick} color="secondary" variant="contained" component={Link} to={id !== undefined ? `/sellCar/User/${id}` : "/"}>
                     <b>Sell Your Car</b>
                   </Button>
                 </Link>

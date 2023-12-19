@@ -15,9 +15,15 @@ import AdDetailPage from "./components/AdDetails";
 import AboutUsPage from "./components/AboutUsPage";
 import ContactForm from "./components/ContactForm";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 const theme = Theme;
 function App() {
   const [id,setId]=useState('')
+  // const {userId}=useParams();
+  // console.log(userId);
+  // if (id===''){
+  //   setId(userId);
+  // }
   const handleChildValueChange = (value) => {
     setId(value)
   };
@@ -38,7 +44,7 @@ function App() {
               
               <Routes>
                 <Route exact path="/" element={<Home onValueChange={handleChildValueChange}/>}/>
-                <Route path='/User/:id' element={<Home onValueChange={handleChildValueChange}/>}/>
+                <Route exact path='/User/:id' element={<Home onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/sellCar" element={<SellCar />}/>
                 <Route exact path="/sellCar/User/:id" element={<SellCar />}/>
                 <Route exact path="/sellCar/User/:id/:advertiseId" element={<SellCar />}/>

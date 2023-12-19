@@ -140,7 +140,7 @@ const Navbar = ({id}) => {
         </Typography>
         <div style={{ flexGrow: 1 }}></div>
         <div>
-          <Link to="/">
+          <Link to={id ? `/User/${id}` : '/'}>
             <Button color="secondary">
               <b>Home</b>
             </Button>
