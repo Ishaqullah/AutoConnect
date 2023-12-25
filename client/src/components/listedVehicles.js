@@ -1,5 +1,5 @@
 import React from "react";
-import Carousel from "react-material-ui-carousel";
+import { Carousel } from "react-responsive-carousel";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 const adData = [
@@ -41,6 +41,19 @@ const adData = [
   },
 ];
 
+const settings = {
+  showArrows: false,
+  showStatus: false,
+  showIndicators: false,
+  infiniteLoop: true,
+  autoPlay: true, // Enable autoplay
+  stopOnHover: true,
+  interval: 2000, // Set the autoplay interval in milliseconds
+  transitionTime: 1000, // Set the transition time in milliseconds
+  dynamicHeight: false, 
+  // labels:{leftArrow: 'previous slide / item', rightArrow: 'next slide / item'}
+  showThumbs:false
+};
 const chunkArray = (array, chunkSize) => {
   const result = [];
   for (let i = 0; i < array.length; i += chunkSize) {
@@ -62,7 +75,7 @@ const ListedVehicles = () => {
           <u>View all listed Vehicles</u>
         </Typography>
       </a>
-      <Carousel interval={2000}>
+      <Carousel {...settings}>
         {chunkedAdData.map((chunk, index) => (
           <div
             key={index}

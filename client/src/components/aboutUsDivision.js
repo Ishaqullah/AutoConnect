@@ -3,7 +3,10 @@ import Container from "@mui/material/Container";
 import { Grid, requirePropFactory } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Card, CardContent, Typography, Box } from "@mui/material";
+import { Link,useParams } from "react-router-dom";
 const aboutUsDivision = () => {
+  const {id}=useParams();
+  
   return (
     <Grid container>
       <Grid item xs={6}>
@@ -42,7 +45,7 @@ const aboutUsDivision = () => {
                 enthusiasts, experts, and your trusted partners on the road to
                 automotive excellence.
               </Typography>
-              <Button color="secondary" variant="contained">
+              <Button color="secondary" variant="contained" component={Link} to={id ? `/About/User/${id}` : "/About"}>
                 Learn More
               </Button>
             </CardContent>

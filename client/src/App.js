@@ -1,7 +1,7 @@
 import React from "react";
-import "./App.css";
+// import "./App.css";
 import Navbar from "./components/navbar";
-import { createTheme, colors, ThemeProvider } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Home from "./components/home";
 import Footer from "./components/footer";
@@ -14,8 +14,10 @@ import MyAds from "./components/MyAds";
 import AdDetailPage from "./components/AdDetails";
 import AboutUsPage from "./components/AboutUsPage";
 import ContactForm from "./components/ContactForm";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
+import MyAppBar from "./components/MyAppBar";
+import MySavedAds from "./components/MySavedAds";
 const theme = Theme;
 function App() {
   const [id,setId]=useState('')
@@ -27,9 +29,15 @@ function App() {
   const handleChildValueChange = (value) => {
     setId(value)
   };
+  // useEffect(() => {
+  //   // This code will run when the component mounts
+  //   window.location.reload();
+  // }, []);
+
+  
   return (
     <Router>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={Theme}>
       <div
         style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
@@ -52,11 +60,16 @@ function App() {
                 <Route exact path="/BuyCar/User/:id" element={<BuyCar />}/>
                 <Route exact path="/UpdateProfileForm" element={<UpdateProfileForm />}/>
                 <Route exact path="/UpdateProfileForm/User/:id" element={<UpdateProfileForm />}/>
-                <Route exact path="/MyAds" element={<MyAds/>}/>
+                {/* <Route exact path="/MyAds" element={<MyAds/>}/> */}
+                <Route exact path= "/MySavedAds/User/:id" element={<MySavedAds/>}/>
                 <Route exact path="/MyAds/User/:id" element={<MyAds/>}/>
-                <Route exact path="/AdDetails" element={<AdDetailPage/>}/>
+                <Route exact path="/MyApp/User/:id" element={<MyAppBar/>}/>
+                <Route exact path="/AdDetails/:advertiseId" element={<AdDetailPage/>}/>
+                <Route exact path="/AdDetails/:advertiseId/User/:id" element={<AdDetailPage/>}/>
                 <Route exact path="/About" element={<AboutUsPage/>}/>
                 <Route exact path="/Contact" element={<ContactForm/>}/>
+                <Route exact path="/About/User/:id" element={<AboutUsPage/>}/>
+                <Route exact path="/Contact/User/:id" element={<ContactForm/>}/>
               </Routes>
             </Grid>
 

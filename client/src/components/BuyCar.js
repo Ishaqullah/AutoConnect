@@ -43,12 +43,12 @@ import axios from "axios";
 // ];
 
 const BuyCar = () => {
-  const [advertises, setAdvertises] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
 
   useEffect(() => {
     axios
       .get("http://localhost:5278/vehicles")
-      .then((response) => setAdvertises(response.data))
+      .then((response) => setVehicles(response.data))
       .catch((error) => console.error("Error fetching vehicles:", error));
   }, []);
   return (
@@ -59,7 +59,7 @@ const BuyCar = () => {
           <b>Used cars for sale in Pakistan</b>
         </Typography>
         <Container maxWidth="md" sx={{  marginTop:"20px" }}>
-        <CarAdsGrid carAds={advertises} />
+        <CarAdsGrid carAds={vehicles} />
         </Container>
 
       </Container>

@@ -21,4 +21,6 @@ public class Advertise{
     public Vehicle Vehicle { get; set; }
     public Seller Seller { get; set; }
 
+    public List<SavedAds> SavedAds { get; set; }
+
 }

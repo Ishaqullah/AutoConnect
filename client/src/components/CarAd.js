@@ -8,9 +8,12 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
+import {Link,useParams } from "react-router-dom";
+import { useEffect } from "react";
+
 const CarAd = ({ car }) => {
   const [showCarAd, setShowCarAd] = useState(false);
-
+  const {id}=useParams();
   const handleNegotiateClick = async () => {
     try {
       const response = await axios.post("http://localhost:8000/negotiate", {
@@ -28,8 +31,23 @@ const CarAd = ({ car }) => {
     setShowCarAd(false);
   };
 
+  const [advertiseId, setAdvertises] = useState([]);
+
+  useEffect(() => {
+    // Assuming car.vehicleID is a simple value, such as a number or a string
+
+    
+    axios
+      .get(`http://localhost:5278/advertises/getAdvertiseIdByVehicleId/${car.vehicleID}`)
+      .then((response) => setAdvertises(response.data))
+      .catch((error) => console.error("Error fetching vehicles:", error));
+}, [car.vehicleID]); // Include car.vehicleID in the dependency array to react to changes
+
+
   return (
+    
     <Grid item xs={12} sm={6} md={4}>
+      <Link to={id!==undefined?`/AdDetails/${advertiseId}/User/${id}`:`/AdDetails/${advertiseId}`} style={{textDecoration:"none" ,color:"inherit"}}>
       <Card>
         <img
           src={car.vehicleImages.split(', ')[0]}
@@ -102,7 +120,9 @@ const CarAd = ({ car }) => {
           </Card>
         </div>
       )}
+      </Link>
     </Grid>
+    
   );
 };
 

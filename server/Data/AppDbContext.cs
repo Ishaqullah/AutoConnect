@@ -8,12 +8,13 @@ public class AppDbContext : DbContext
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Seller> Sellers { get; set; }
     public DbSet<Advertise> Advertises { get; set; }
-    public DbSet<Inspection> Inspections  { get; set; }
-    public DbSet<Mechanic> Mechanics  { get; set; }
-    public DbSet<MechanicRating> MechanicRatings  { get; set; }
-    public DbSet<Feedback> Feedbacks  { get; set; }
-    public DbSet<User> Users  { get; set; }
+    public DbSet<Inspection> Inspections { get; set; }
+    public DbSet<Mechanic> Mechanics { get; set; }
+    public DbSet<MechanicRating> MechanicRatings { get; set; }
+    public DbSet<Feedback> Feedbacks { get; set; }
+    public DbSet<User> Users { get; set; }
 
+    public DbSet<SavedAds> SavedAds { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Transaction>()
@@ -30,12 +31,12 @@ public class AppDbContext : DbContext
             .HasOne(t => t.Advertise)
             .WithOne(a => a.Transaction)
             .HasForeignKey<Transaction>(t => t.AdvertiseID);
-        
+
         modelBuilder.Entity<Transaction>()
             .HasOne(t => t.Vehicle)
             .WithOne(v => v.Transaction)
             .HasForeignKey<Transaction>(t => t.VehicleID);
-        
+
         modelBuilder.Entity<Advertise>()
             .HasOne(a => a.Vehicle)
             .WithOne(v => v.Advertise)
@@ -51,42 +52,52 @@ public class AppDbContext : DbContext
             .HasOne(b => b.User)
             .WithOne(u => u.Buyer)
             .HasForeignKey<Buyer>(b => b.UserID);
-        
+
         modelBuilder.Entity<Advertise>()
             .HasOne(a => a.Seller)
             .WithMany(s => s.Advertises)
             .HasForeignKey(a => a.SellerID);
-        
+
         modelBuilder.Entity<MechanicRating>()
             .HasOne(mr => mr.Mechanic)
             .WithMany(m => m.MechanicRatings)
             .HasForeignKey(mr => mr.MechanicID);
-        
+
         modelBuilder.Entity<Inspection>()
             .HasOne(i => i.Buyer)
             .WithMany(b => b.Inspections)
             .HasForeignKey(i => i.BuyerID);
-        
+
         modelBuilder.Entity<Inspection>()
             .HasOne(i => i.Mechanic)
             .WithMany(m => m.Inspections)
             .HasForeignKey(i => i.MechanicID);
-        
+
         modelBuilder.Entity<Inspection>()
             .HasOne(i => i.Vehicle)
             .WithMany(v => v.Inspections)
             .HasForeignKey(i => i.VehicleID);
-        
+
         modelBuilder.Entity<Feedback>()
             .HasOne(f => f.Buyer)
             .WithMany(b => b.Feedbacks)
             .HasForeignKey(f => f.BuyerID);
-        
+
         modelBuilder.Entity<Feedback>()
             .HasOne(f => f.Seller)
             .WithMany(s => s.Feedbacks)
             .HasForeignKey(f => f.SellerID);
+
+        modelBuilder.Entity<SavedAds>()
+            .HasOne(sa=>sa.Buyer)
+            .WithMany(a=>a.SavedAds)
+            .HasForeignKey(f => f.BuyerId);
+
+        modelBuilder.Entity<SavedAds>()
+            .HasOne(sa => sa.Advertise)
+            .WithMany(b=> b.SavedAds)
+            .HasForeignKey(f => f.AdId);
     }
-    
+
 
 }

@@ -2,6 +2,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using server.Migrations;
 
 [EnableCors("AllowAll")]
 [Route("[controller]")]
@@ -17,7 +18,21 @@ public class AdvertisesController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Advertise>>> GetAdvertises()
     {
-        return await _context.Advertises.ToListAsync(); 
+        return await _context.Advertises.ToListAsync();
+    }
+
+
+    [HttpGet("getAdvertiseIdByVehicleId/{vehicleId}")]
+    public IActionResult GetAdvertiseIdByVehicleId(int vehicleId)
+    {
+        // Console.WriteLine("this is"+vehicleId);
+        var advertiseId = _context.Advertises
+          .Where(a => a.VehicleID == vehicleId)
+          .Select(a => a.AdvertiseID)
+          .FirstOrDefault();
+
+
+        return Ok(advertiseId);
     }
 
     [HttpGet("myAds/{id}")]
@@ -116,9 +131,182 @@ public class AdvertisesController : ControllerBase
         return Ok(vehicleDetails);
     }
 
+    [HttpGet("adDetails/{id}")]
+    public IActionResult GetAdDetails(int id)
+    {
+        var adDetails = _context.Advertises
+            .Where(a => a.AdvertiseID == id)
+            .Join(
+                _context.Vehicles,
+                advertise => advertise.VehicleID,
+                vehicle => vehicle.VehicleID,
+                (advertise, vehicle) => new
+                {
+                    AdvertiseID = advertise.AdvertiseID,
+                    AdvertiseName = advertise.AdvertiseName,
+                    SellerID = advertise.SellerID,
+                    VehicleID = vehicle.VehicleID,
+                    VehicleImages = vehicle.VehicleImages,
+                    VehicleCity = vehicle.VehicleCity,
+                    VehicleRegistrationYear = vehicle.VehicleRegistrationYear,
+                    VehicleModelYear = vehicle.VehicleModelYear,
+                    VehicleRegistrationCity = vehicle.VehicleRegistrationCity,
+                    Mileage = vehicle.Mileage,
+                    Make = vehicle.Make,
+                    Model = vehicle.Model,
+                    Variant = vehicle.Variant,
+                    Colour = vehicle.Colour,
+                    BodyType = vehicle.BodyType,
+                    EngineCapacity = vehicle.EngineCapacity,
+                    EngineTransmission = vehicle.EngineTransmission,
+                    Features = vehicle.Features,
+                    Assembly = vehicle.Assembly,
+                    MinPrice = vehicle.MinPrice,
+                    MaxPrice = vehicle.MaxPrice,
+                    Price = vehicle.Price,
+                    Description = vehicle.Description,
+                    Seller = _context.Sellers
+                        .Where(seller => seller.SellerID == advertise.SellerID)
+                        .Join(
+                            _context.Users,
+                            seller => seller.UserID,
+                            user => user.UserID,
+                            (seller, user) => new
+                            {
+                                SellerID = seller.SellerID,
+                                UserID = user.UserID,
+                                UserName = user.UserName,
+                                UserEmail = user.UserEmail,
+                                UserPhone = user.UserPhone,
+                                UserAddress=user.UserAddress
+                            }
+                        )
+                        .FirstOrDefault()
+                })
+            .FirstOrDefault();
+
+        if (adDetails == null)
+        {
+            return NotFound($"Advertise not found for ID {id}");
+        }
+
+        return Ok(adDetails);
+    }
+
+
+    [HttpGet("isSavedAd/{advertiseId}")]
+    public IActionResult GetBuyerIdByAdId(int advertiseId)
+    {
+        var buyerId = _context.SavedAds
+            .Where(sa => sa.AdId==advertiseId)
+            .Select(sa => sa.BuyerId)
+            .FirstOrDefault();
+
+        if (buyerId != default(int))
+        {
+            return Ok(buyerId);
+        }
+        else
+        {
+            return NotFound("Buyer Id not found"); // Return 404 if ad_id is not found
+        }
+    }
+
+
+    [HttpDelete("user/{id}/adId/{advertiseId}")]
+    public IActionResult DeleteSavedAd(int id, int advertiseId)
+    {
+        var savedAd = _context.SavedAds
+            .FirstOrDefault(sa => sa.BuyerId == id && sa.AdId == advertiseId);
+
+        if (savedAd == null)
+        {
+            return NotFound(); // Return 404 if no matching record is found
+        }
+
+        _context.SavedAds.Remove(savedAd);
+        _context.SaveChanges();
+
+        return NoContent(); // Return 204 No Content on successful deletion
+    }
+
+    [HttpGet("savedAdsDetails/{id}")]
+    public IActionResult GetAdDetailsForBuyer(int id)
+    {
+        var adDetails = _context.SavedAds
+            .Where(sa => sa.BuyerId == id )
+            .Join(
+                _context.Advertises,
+                sa => sa.AdId,
+                ad => ad.AdvertiseID,
+                (sa, ad) => new 
+                {
+                    ad.AdvertiseID,
+                    ad.AdvertiseName,
+                    ad.VehicleID,
+                    ad.SellerID,
+                }
+            )
+            .ToList();
+
+        if (adDetails != null)
+        {
+            return Ok(adDetails);
+        }
+        else
+        {
+            return NotFound(); // Return 404 if no matching record is found
+        }
+    }
+
+    [HttpPost("savedAds/{advertiseId}")]
+    public async Task<IActionResult> SaveAd(int advertiseId, [FromBody] dynamic BuyerId)
+    {
+
+        if (BuyerId.ValueKind == JsonValueKind.Null)
+        {
+            return BadRequest("Invalid data");
+        }
+
+        Console.WriteLine("Buyer id is "+ int.Parse(BuyerId.GetProperty("id").GetString()) + "and ad id is " + advertiseId);
+        try{
+        // Ensure that the specified Ad and Buyer exist
+        var ad = await _context.Advertises.FindAsync(advertiseId);
+        if (ad == null)
+        {
+            return NotFound($"Ad with id {advertiseId} not found.");
+        }
+        var buyerId=int.Parse(BuyerId.GetProperty("id").GetString());
+        var buyer = await _context.Buyers.FindAsync(int.Parse(BuyerId.GetProperty("id").GetString()));
+        if (buyer == null)
+        {
+            return NotFound($"Buyer with id {buyerId} not found.");
+        }
+
+        // Create a new SavedAd entry
+        var savedAd = new SavedAds
+        {
+            AdId = advertiseId,
+            BuyerId = int.Parse(BuyerId.GetProperty("id").GetString()),
+            // You can add additional properties if needed
+        };
+
+        // Add to the context and save changes
+        _context.SavedAds.Add(savedAd);
+        _context.SaveChanges();
+
+        return Ok("Advertise saved successfully");
+        }
+        catch(Exception ex){
+            
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+
 
     [HttpPost("submitAdvertises/{id}")]
-    public IActionResult SubmitAdvertises(int id,[FromBody] dynamic formData)
+    public IActionResult SubmitAdvertises(int id, [FromBody] dynamic formData)
     {
         if (formData.ValueKind == JsonValueKind.Null)
         {
@@ -147,10 +335,12 @@ public class AdvertisesController : ControllerBase
 
         try
         {
-            var Advertise = new Advertise{
-                AdvertiseName= formData.GetProperty("make").GetString() + " " + formData.GetProperty("model").GetString()+" " + formData.GetProperty("variant").GetString(),
+            var Advertise = new Advertise
+            {
+                AdvertiseName = formData.GetProperty("make").GetString() + " " + formData.GetProperty("model").GetString() + " " + formData.GetProperty("variant").GetString(),
                 SellerID = _context.Sellers.Where(s => s.UserID == id).Select(s => s.SellerID).FirstOrDefault(),
-                Vehicle = new Vehicle{
+                Vehicle = new Vehicle
+                {
                     VehicleImages = formData.GetProperty("images").GetString(),
                     VehicleCity = formData.GetProperty("selectedCity").GetString(),
                     VehicleRegistrationYear = formData.GetProperty("registeredYear").GetString(),
@@ -162,7 +352,7 @@ public class AdvertisesController : ControllerBase
                     Variant = formData.GetProperty("variant").GetString(),
                     Colour = formData.GetProperty("color").GetString(),
                     BodyType = formData.GetProperty("bodyType").GetString(),
-                    EngineCapacity= formData.GetProperty("engineCapacity").GetString(),
+                    EngineCapacity = formData.GetProperty("engineCapacity").GetString(),
                     EngineTransmission = formData.GetProperty("engineTransmission").GetString(),
                     Features = formData.GetProperty("features").GetString(),
                     Assembly = formData.GetProperty("assembly").GetString(),
@@ -172,7 +362,7 @@ public class AdvertisesController : ControllerBase
                     Description = formData.GetProperty("description").GetString(),
                 }
             };
-            
+
 
             _context.Advertises.Add(Advertise);
             _context.SaveChanges();
@@ -184,4 +374,6 @@ public class AdvertisesController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
+    
 }

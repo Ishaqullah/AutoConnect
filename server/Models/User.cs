@@ -20,6 +20,7 @@ public class User{
     [Column("user_address")]
     public string? UserAddress { get; set; }
 
+    
     public Seller Seller { get; set; }
     public Buyer Buyer { get; set; }
 
