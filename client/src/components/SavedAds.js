@@ -13,8 +13,8 @@ import { useEffect } from "react";
 import {CircularProgress} from "@mui/material";
 
 const SavedAds = ({ car }) => {
-  const {id}= useParams()
-  const navigate = useNavigate();
+  
+  
   const [vehicleDetails,setVehicleDetails]= useState(null)
   useEffect(() => {
     axios

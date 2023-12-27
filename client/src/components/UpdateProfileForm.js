@@ -18,8 +18,11 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const UpdateProfileForm = () => {
+const UpdateProfileForm = ({onValueChange}) => {
   const { id } = useParams();
+  useEffect(() => {
+    onValueChange(id);
+  }, [id, onValueChange]);
   const navigate = useNavigate()
   const [formData, setFormData] = useState({
     userName: "",

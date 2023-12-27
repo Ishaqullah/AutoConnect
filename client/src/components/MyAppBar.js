@@ -21,9 +21,12 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';  
 import { Link } from 'react-router-dom';
 import {CircularProgress} from '@mui/material';
-const MyAppBar = () => {
+const MyAppBar = ({onValueChange}) => {
     const [user, setUser] = useState(null);
     const {id} = useParams();
+    useEffect(() => {
+        onValueChange(id);
+      }, [id, onValueChange]);
     useEffect(() => {
         const fetchData = async () => {
           try {

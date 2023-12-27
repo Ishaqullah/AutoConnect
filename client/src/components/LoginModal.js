@@ -30,6 +30,7 @@ const LoginModal = ({ open, handleClose }) => {
       navigate(`/User/${response.data.userId}`);
       handleClose();
       window.localStorage.setItem("isLoggedIn",true);
+      window.localStorage.setItem("userId",response.data.userId);
     } catch (error) {
       console.error("Error submitting form:", error.message);
       alert(error.message)

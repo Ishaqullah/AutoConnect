@@ -19,7 +19,7 @@ const SearchFilters = () => {
   };
 
   return (
-    <div>
+    <Container sx={{width:"500px"}}>
       <FormControl fullWidth>
         <OutlinedInput
           id="search-bar"
@@ -49,7 +49,7 @@ const SearchFilters = () => {
       <YearRange/>
       <MileageRange/>
       <SelectFilterRegisteredIn/>
-    </div>
+      </Container>
   );
 };
 

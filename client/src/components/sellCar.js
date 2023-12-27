@@ -24,7 +24,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import SignUpModal from "./SignUpModal";
 import { useEffect } from "react";
-const sellCar = () => {
+const sellCar = ({onValueChange}) => {
   const [formData, setFormData] = useState({
     vehicleId:'',
     images: "",
@@ -47,8 +47,14 @@ const sellCar = () => {
     minPrice: "",
     maxPrice: "",
   });
+
+  
   const {id,advertiseId} = useParams()
-  console
+  useEffect(() => {
+    onValueChange(id,advertiseId);
+  }, [id, onValueChange]);
+  
+
   const navigate = useNavigate()
   const handleChange = (event) => {
     const { name, value } = event.target;

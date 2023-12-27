@@ -6,7 +6,7 @@ import Grid from "@mui/material/Grid";
 import Home from "./components/home";
 import Footer from "./components/footer";
 import Theme from "./components/customizedTheme";
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,useNavigate} from "react-router-dom";
 import SellCar from "./components/sellCar";
 import BuyCar from "./components/BuyCar";
 import UpdateProfileForm from "./components/UpdateProfileForm";
@@ -21,13 +21,30 @@ import MySavedAds from "./components/MySavedAds";
 const theme = Theme;
 function App() {
   const [id,setId]=useState('')
+  const navigate = useNavigate();
+  const [advertiseId,setAdvertiseId]=useState('')
   // const {userId}=useParams();
   // console.log(userId);
   // if (id===''){
   //   setId(userId);
   // }
+  
+  useEffect(() => {
+    // Check if user is logged in (you can replace this with your authentication logic)
+    const isLoggedIn = window.localStorage.getItem("isLoggedIn");
+    const userId = window.localStorage.getItem("userId");
+    // If the user is logged in, redirect to localhost:3000/User/1
+    if (isLoggedIn) {
+      navigate(`/User/${userId}`);
+    }
+  },[]);
   const handleChildValueChange = (value) => {
     setId(value)
+  };
+
+  const handleTwoChildValueChanges = (value,advertiseId) => {
+    setId(value);
+    setAdvertiseId(advertiseId);
   };
   // useEffect(() => {
   //   // This code will run when the component mounts
@@ -36,7 +53,7 @@ function App() {
 
   
   return (
-    <Router>
+   
     <ThemeProvider theme={Theme}>
       <div
         style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
@@ -54,22 +71,20 @@ function App() {
                 <Route exact path="/" element={<Home onValueChange={handleChildValueChange}/>}/>
                 <Route exact path='/User/:id' element={<Home onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/sellCar" element={<SellCar />}/>
-                <Route exact path="/sellCar/User/:id" element={<SellCar />}/>
-                <Route exact path="/sellCar/User/:id/:advertiseId" element={<SellCar />}/>
-                <Route exact path="/BuyCar" element={<BuyCar />}/>
-                <Route exact path="/BuyCar/User/:id" element={<BuyCar />}/>
-                <Route exact path="/UpdateProfileForm" element={<UpdateProfileForm />}/>
-                <Route exact path="/UpdateProfileForm/User/:id" element={<UpdateProfileForm />}/>
-                {/* <Route exact path="/MyAds" element={<MyAds/>}/> */}
-                <Route exact path= "/MySavedAds/User/:id" element={<MySavedAds/>}/>
-                <Route exact path="/MyAds/User/:id" element={<MyAds/>}/>
-                <Route exact path="/MyApp/User/:id" element={<MyAppBar/>}/>
-                <Route exact path="/AdDetails/:advertiseId" element={<AdDetailPage/>}/>
-                <Route exact path="/AdDetails/:advertiseId/User/:id" element={<AdDetailPage/>}/>
-                <Route exact path="/About" element={<AboutUsPage/>}/>
-                <Route exact path="/Contact" element={<ContactForm/>}/>
-                <Route exact path="/About/User/:id" element={<AboutUsPage/>}/>
-                <Route exact path="/Contact/User/:id" element={<ContactForm/>}/>
+                <Route exact path="/sellCar/User/:id" element={<SellCar onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/sellCar/User/:id/:advertiseId" element={<SellCar onValueChange={handleTwoChildValueChanges} />}/>
+                <Route exact path="/BuyCar" element={<BuyCar onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/BuyCar/User/:id" element={<BuyCar onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/UpdateProfileForm/User/:id" element={<UpdateProfileForm onValueChange={handleChildValueChange}/>}/>
+                <Route exact path= "/MySavedAds/User/:id" element={<MySavedAds onValueChange={handleChildValueChange}/>}/> 
+                <Route exact path="/MyAds/User/:id" element={<MyAds onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/MyApp/User/:id" element={<MyAppBar onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/AdDetails/:advertiseId" element={<AdDetailPage onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/AdDetails/:advertiseId/User/:id" element={<AdDetailPage onValueChange={handleTwoChildValueChanges} />}/>
+                <Route exact path="/About" element={<AboutUsPage onValueChange={handleChildValueChange} />}/>
+                <Route exact path="/Contact" element={<ContactForm onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/About/User/:id" element={<AboutUsPage onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/Contact/User/:id" element={<ContactForm onValueChange={handleChildValueChange}/>}/>
               </Routes>
             </Grid>
 
@@ -84,7 +99,7 @@ function App() {
         </footer>
       </div>
     </ThemeProvider>
-    </Router>
+   
   );
 }
 

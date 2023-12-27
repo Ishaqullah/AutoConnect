@@ -13,7 +13,7 @@ import { useState,useEffect } from "react";
 import { MyLocation } from "@mui/icons-material";
 import MyAppBar from "./MyAppBar";
 import axios from "axios";
-const MySavedAds = () => {
+const MySavedAds = ({onValueChange}) => {
   const [advertises, setAdvertises] = useState([]);
   const {id}=useParams();
   useEffect(() => {
@@ -34,7 +34,7 @@ const MySavedAds = () => {
   console.log(advertises);
   return (
         <>
-        <MyAppBar />
+        <MyAppBar onValueChange={onValueChange}/>
         
         <Grid container spacing={2} sx={{marginBottom:"500px"}}>
           

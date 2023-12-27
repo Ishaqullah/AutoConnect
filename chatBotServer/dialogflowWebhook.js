@@ -14,14 +14,21 @@ app.post("/dialogflow-webhook", async (req, res) => {
     const carDetailsResponse = await axios.get(
       "http://localhost:8000/getCarDetails"
     );
-    const receivedCarDetails = carDetailsResponse.data;
 
+    const userDetailsResponse = await axios.get(
+      "http://localhost:8000/getUserDetails"
+    );
+    const receivedCarDetails = carDetailsResponse.data;
+    const receivedUserDetails= userDetailsResponse.data;
     const intentName = req.body.queryResult.intent.displayName; // Extract intent name from the request
-    let responseMessage = `Here are the details for the car you are looking for \n Make:${receivedCarDetails.make} \n  Location:${receivedCarDetails.vehicleCity} \n Year:${receivedCarDetails.vehicleModelYear} \n Mileage:${receivedCarDetails.bodyType}`;
+    let responseMessage = `Here are the details for the car you are looking for \n Make:${receivedCarDetails.make} \n  Location:${receivedCarDetails.vehicleCity} \n Year:${receivedCarDetails.vehicleModelYear} \n Mileage:${receivedCarDetails.mileage} \n Model:${receivedCarDetails.model} \n Variant:${receivedCarDetails.variant} \n Engine Tranmission:${receivedCarDetails.engineTransmission} \n Features:${receivedCarDetails.features} \n Price:${receivedCarDetails.price}`;
     let fulfillmentMessage = "";
 
     // Your logic to construct the fulfillment message using receivedCarDetails and intentName
-    if (intentName === "Request-Car-Details") {
+    if(intentName=="Default Welcome Intent"){
+      fulfillmentMessage=`Hello ${receivedUserDetails.userName}! Excited to negotiate for a new ride? Let's dive into the details and work out a great offer.`
+    }
+    else if (intentName === "Request-Car-Details") {
       fulfillmentMessage = responseMessage;
     } else if (intentName === "negotitation-intent") {
       if (discountRequests > 2) {

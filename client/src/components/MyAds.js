@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import {Typography,Divider} from "@mui/material";
 import MyAppBar from "./MyAppBar";
-const MyAds = () => {
+const MyAds = ({onValueChange}) => {
   const { id } = useParams();
   const [advertises, setAdvertises] = useState([]);
 
@@ -28,7 +28,7 @@ const MyAds = () => {
 
   return (
     <>
-      <MyAppBar />
+      <MyAppBar onValueChange={onValueChange}/>
       
       <Grid container spacing={2} sx={{marginBottom:"500px"}}>
         

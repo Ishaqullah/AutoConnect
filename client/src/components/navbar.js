@@ -45,6 +45,7 @@ const Navbar = ({ id }) => {
 
   const handleLogout = () => {
     window.localStorage.removeItem("isLoggedIn");
+    window.localStorage.removeItem("userId");
     // Perform additional logout operations as needed
   };
 

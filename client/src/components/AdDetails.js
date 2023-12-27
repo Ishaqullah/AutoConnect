@@ -28,8 +28,12 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { resolvePath, useParams } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
-const AdDetailPage = () => {
+const AdDetailPage = ({onValueChange}) => {
   const { advertiseId, id } = useParams();
+  
+  useEffect(() => {
+    onValueChange(id,advertiseId);
+  }, [id, onValueChange]);
   const [adDetails, setAdDetails] = useState("");
   const settings = {
     showArrows: false,

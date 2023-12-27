@@ -1,7 +1,11 @@
-import React from "react";
+import React ,{useEffect}from "react";
 import { Container, Typography, Grid, Paper } from "@mui/material";
-
-const AboutUsPage = () => {
+import { useParams } from "react-router-dom";
+const AboutUsPage = ({onValueChange}) => {
+  const {id} = useParams()
+  useEffect(() => {
+    onValueChange(id);
+  }, [id, onValueChange]);
   return (
     <Container sx={{ paddingTop: "20px" }}>
       <Typography variant="h3" component="h1" align="center" gutterBottom>
