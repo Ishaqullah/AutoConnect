@@ -311,15 +311,15 @@ const sellCar = ({ onValueChange }) => {
           registeredCity: response.data.vehicleRegistrationCity || "",
           registeredYear: response.data.vehicleRegistrationYear || "",
           color: response.data.colour || "",
-          mileage: response.data.mileage || "",
-          price: response.data.price || "",
+          mileage: String(response.data.mileage) || "",
+          price: String(response.data.price) || "",
           bodyType: response.data.bodyType || "",
           description: response.data.description || "",
           engineCapacity: response.data.engineCapacity || "",
           engineTransmission: response.data.engineTransmission || "",
           assembly: response.data.assembly || "",
-          minPrice: response.data.minPrice || "",
-          maxPrice: response.data.maxPrice || "",
+          minPrice: String(response.data.minPrice) || "",
+          maxPrice: String(response.data.maxPrice) || "",
         });
 
         console.log(response.data);

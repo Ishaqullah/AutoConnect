@@ -56,7 +56,7 @@ public class VehiclesController : ControllerBase
         existingVehicle.VehicleModelYear = formData.GetProperty("modelYear")?.GetString() ?? "";
         existingVehicle.VehicleRegistrationCity = formData.GetProperty("registeredCity")?.GetString() ?? "";
 
-        existingVehicle.Mileage = formData.GetProperty("mileage")?.GetInt32() ?? 0;
+        // existingVehicle.Mileage = formData.GetProperty("mileage")?.GetInt32() ?? 0;
 
         existingVehicle.Make = formData.GetProperty("make")?.GetString() ?? "";
         existingVehicle.Model = formData.GetProperty("model")?.GetString() ?? "";
@@ -68,9 +68,36 @@ public class VehiclesController : ControllerBase
         existingVehicle.Features = formData.GetProperty("features")?.GetString() ?? "";
         existingVehicle.Assembly = formData.GetProperty("assembly")?.GetString() ?? "";
 
-        existingVehicle.MinPrice = formData.GetProperty("minPrice")?.GetSingle() ?? 0.0f;
-        existingVehicle.MaxPrice = formData.GetProperty("maxPrice")?.GetSingle() ?? 0.0f;
-        existingVehicle.Price = formData.GetProperty("price")?.GetSingle() ?? 0.0f;
+        // existingVehicle.MinPrice = formData.GetProperty("minPrice")?.GetSingle() ?? 0.0f;
+        // existingVehicle.MaxPrice = formData.GetProperty("maxPrice")?.GetSingle() ?? 0.0f;
+
+
+        float tempPrice;
+        if (float.TryParse(formData.GetProperty("price")?.GetString(), out tempPrice))
+        {
+            existingVehicle.Price = tempPrice;
+        }
+
+
+        float tempMaxPrice;
+        if (float.TryParse(formData.GetProperty("maxPrice")?.GetString(), out tempMaxPrice))
+        {
+            existingVehicle.MaxPrice = tempMaxPrice;
+        }
+
+        float tempMinPrice;
+        if (float.TryParse(formData.GetProperty("minPrice")?.GetString(), out tempMinPrice))
+        {
+            existingVehicle.MinPrice = tempMinPrice;
+        }
+
+        int tempMileage;
+        if (int.TryParse(formData.GetProperty("mileage")?.GetString(), out tempMileage))
+        {
+            existingVehicle.Mileage = tempMileage;
+        }
+
+
 
         existingVehicle.Description = formData.GetProperty("description")?.GetString() ?? "";
 
@@ -106,7 +133,7 @@ public class VehiclesController : ControllerBase
     // }
 
     [HttpPost("submitVehicles/{id}")]
-    public IActionResult SubmitVehicles(int id,[FromBody] dynamic formData)
+    public IActionResult SubmitVehicles(int id, [FromBody] dynamic formData)
     {
         if (formData.ValueKind == JsonValueKind.Null)
         {
@@ -148,7 +175,7 @@ public class VehiclesController : ControllerBase
                 Variant = formData.GetProperty("variant").GetString(),
                 Colour = formData.GetProperty("color").GetString(),
                 BodyType = formData.GetProperty("bodyType").GetString(),
-                EngineCapacity= formData.GetProperty("engineCapacity").GetString(),
+                EngineCapacity = formData.GetProperty("engineCapacity").GetString(),
                 EngineTransmission = formData.GetProperty("engineTransmission").GetString(),
                 Features = formData.GetProperty("features").GetString(),
                 Assembly = formData.GetProperty("assembly").GetString(),
@@ -156,8 +183,9 @@ public class VehiclesController : ControllerBase
                 MaxPrice = float.Parse(formData.GetProperty("maxPrice").GetString()),
                 Price = float.Parse(formData.GetProperty("price").GetString()),
                 Description = formData.GetProperty("description").GetString(),
-                Advertise = new Advertise{
-                    AdvertiseName= formData.GetProperty("make").GetString() + " " + formData.GetProperty("model").GetString()+" " + formData.GetProperty("variant").GetString(),
+                Advertise = new Advertise
+                {
+                    AdvertiseName = formData.GetProperty("make").GetString() + " " + formData.GetProperty("model").GetString() + " " + formData.GetProperty("variant").GetString(),
                     SellerID = _context.Sellers.Where(s => s.UserID == id).Select(s => s.SellerID).FirstOrDefault(),
                 }
             };
