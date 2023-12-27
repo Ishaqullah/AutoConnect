@@ -35,7 +35,6 @@ const sellCar = ({ onValueChange }) => {
   const [modelYear, setModelYear] = useState(null);
   // const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    vehicleId: "",
     images: "",
     selectedCity: "",
     make: "",
@@ -262,7 +261,7 @@ const sellCar = ({ onValueChange }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    console.log(formData);
     try {
       if (id != undefined) {
         const response = await axios.post(
@@ -370,6 +369,7 @@ const sellCar = ({ onValueChange }) => {
                     name="selectedCity"
                     value={formData.selectedCity}
                     onChange={handleChange}
+                    required
                   >
                     {cities.map((city, index) => (
                       <MenuItem key={index} value={city.name}>
@@ -387,6 +387,7 @@ const sellCar = ({ onValueChange }) => {
                     name="make"
                     value={formData.make}
                     onChange={handleChange}
+                    required
                   >
                     {make.data.map((m, index) => (
                       <MenuItem key={index} value={m.name}>
@@ -404,6 +405,7 @@ const sellCar = ({ onValueChange }) => {
                     name="model"
                     value={formData.model}
                     onChange={handleChange}
+                    required
                   >
                     {model.data.map((mod, index) => (
                       <MenuItem key={index} value={mod.name}>
@@ -421,6 +423,7 @@ const sellCar = ({ onValueChange }) => {
                     name="variant"
                     value={formData.variant}
                     onChange={handleChange}
+                    required
                   >
                     {variant.data.map((v, index) => (
                       <MenuItem key={index} value={v.description}>
@@ -437,9 +440,10 @@ const sellCar = ({ onValueChange }) => {
                     name="modelYear"
                     value={formData.modelYear}
                     onChange={handleChange}
+                    required
                   >
                     {modelYear.map((m, index) => (
-                      <MenuItem key={index} value={m}>
+                      <MenuItem key={index} value={m.toString()}>
                         {m}
                       </MenuItem>
                     ))}
@@ -453,9 +457,10 @@ const sellCar = ({ onValueChange }) => {
                     name="registeredYear"
                     value={formData.registeredYear}
                     onChange={handleChange}
+                    required
                   >
                     {modelYear.map((m, index) => (
-                      <MenuItem key={index} value={m}>
+                      <MenuItem key={index} value={m.toString()}>
                         {m}
                       </MenuItem>
                     ))}
@@ -469,6 +474,7 @@ const sellCar = ({ onValueChange }) => {
                     name="registeredCity"
                     value={formData.registeredCity}
                     onChange={handleChange}
+                    required
                   >
                     {cities.map((city, index) => (
                       <MenuItem key={index} value={city.name}>
@@ -485,6 +491,7 @@ const sellCar = ({ onValueChange }) => {
                     name="color"
                     value={formData.color}
                     onChange={handleChange}
+                    required
                   >
                     <MenuItem value="Red">Red</MenuItem>
                     <MenuItem value="Blue">Blue</MenuItem>
@@ -548,6 +555,7 @@ const sellCar = ({ onValueChange }) => {
                   name="mileage"
                   value={formData.mileage}
                   onChange={handleChange}
+                  required
                 />
               </Grid>
               <Grid item xs={6}>
@@ -557,6 +565,7 @@ const sellCar = ({ onValueChange }) => {
                   name="price"
                   value={formData.price}
                   onChange={handleChange}
+                  required
                 />
               </Grid>
               <Grid item xs={12}>
@@ -569,6 +578,7 @@ const sellCar = ({ onValueChange }) => {
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
+                  required
                 />
               </Grid>
             </Grid>
@@ -593,6 +603,7 @@ const sellCar = ({ onValueChange }) => {
                     name="bodyType"
                     value={formData.bodyType}
                     onChange={handleChange}
+                    required
                   >
                       {bodyType.map((body, index) => (
                         <MenuItem key={index} value={body}>
@@ -609,6 +620,7 @@ const sellCar = ({ onValueChange }) => {
                   name="engineCapacity"
                   value={formData.engineCapacity}
                   onChange={handleChange}
+                  required
                 />
               </Grid>
               <Grid item xs={6}>
@@ -618,6 +630,7 @@ const sellCar = ({ onValueChange }) => {
                     name="engineTransmission"
                     value={formData.engineTransmission}
                     onChange={handleChange}
+                    required
                   >
                     <MenuItem value="Automatic">Automatic</MenuItem>
                     <MenuItem value="Manual">Manual</MenuItem>
@@ -632,6 +645,7 @@ const sellCar = ({ onValueChange }) => {
                     name="assembly"
                     value={formData.assembly}
                     onChange={handleChange}
+                    required
                   >
                     {countries.map((c, index) => (
                       <MenuItem key={index} value={c.name}>

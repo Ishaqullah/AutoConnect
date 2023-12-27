@@ -51,8 +51,10 @@ const CarAd = ({ car }) => {
         console.log("car details sent to server ");
 
         if (window.Botcopy) {
+          window.Botcopy.clearHistory();
           setLoading(false);
           window.Botcopy.openWindow();
+          
         } else {
           console.error("Botcopy is not initialized");
         }

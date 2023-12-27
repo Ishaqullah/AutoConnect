@@ -22,7 +22,7 @@ const BuyCar = ({onValueChange}) => {
 
   return (
     <Container sx={{ display: "flex", flexDirection: "row", marginTop: "50px", marginBottom: "500px" ,minWidth:"500px"}}>
-      <SearchFilters />
+      {/* <SearchFilters /> */}
       <Container maxWidth="md" sx={{  marginLeft: '20px' }}>
         <Typography variant="h4" color={"#9D1515"}>
           <b>Used cars for sale in Pakistan</b>

@@ -80,7 +80,13 @@ public class AdvertisesController : ControllerBase
             if (vehicle != null)
             {
                 _context.Vehicles.Remove(vehicle);
+                
             }
+        }
+         var savedAd = _context.SavedAds.FirstOrDefault(sa => sa.AdId == id);
+        if (savedAd != null)
+        {
+            _context.SavedAds.Remove(savedAd);
         }
 
         _context.Advertises.Remove(advertise);

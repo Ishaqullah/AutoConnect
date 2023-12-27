@@ -4,44 +4,44 @@ import { Card, CardContent, Typography, Box ,CircularProgress} from "@mui/materi
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useState,useEffect } from "react";
-// const adData = [
-//   {
-//     title: "Toyota Fortuner",
-//     price: "PKR 13,500,000",
-//     location: "Karachi",
-//     image: "/Images/toyota-fortuner.webp",
-//   },
-//   {
-//     title: "Honda HR-V 2023",
-//     price: "PKR 75,000,000",
-//     location: "Lahore",
-//     image: "/Images/honda-hr-v.webp",
-//   },
-//   {
-//     title: "Honda BR-V 2017",
-//     price: "PKR 4,250,000",
-//     location: "Karachi",
-//     image: "/Images/honda-br-v.webp",
-//   },
-//   {
-//     title: "Toyota Fortuner",
-//     price: "PKR 13,500,000",
-//     location: "Karachi",
-//     image: "/Images/toyota-fortuner.webp",
-//   },
-//   {
-//     title: "Honda HR-V 2023",
-//     price: "PKR 75,000,000",
-//     location: "Lahore",
-//     image: "/Images/honda-hr-v.webp",
-//   },
-//   {
-//     title: "Honda BR-V 2017",
-//     price: "PKR 4,250,000",
-//     location: "Karachi",
-//     image: "/Images/honda-br-v.webp",
-//   },
-// ];
+const adData = [
+  {
+    title: "Toyota Fortuner",
+    price: "PKR 13,500,000",
+    location: "Karachi",
+    image: "/Images/toyota-fortuner.webp",
+  },
+  {
+    title: "Honda HR-V 2023",
+    price: "PKR 75,000,000",
+    location: "Lahore",
+    image: "/Images/honda-hr-v.webp",
+  },
+  {
+    title: "Honda BR-V 2017",
+    price: "PKR 4,250,000",
+    location: "Karachi",
+    image: "/Images/honda-br-v.webp",
+  },
+  {
+    title: "Toyota Fortuner",
+    price: "PKR 13,500,000",
+    location: "Karachi",
+    image: "/Images/toyota-fortuner.webp",
+  },
+  {
+    title: "Honda HR-V 2023",
+    price: "PKR 75,000,000",
+    location: "Lahore",
+    image: "/Images/honda-hr-v.webp",
+  },
+  {
+    title: "Honda BR-V 2017",
+    price: "PKR 4,250,000",
+    location: "Karachi",
+    image: "/Images/honda-br-v.webp",
+  },
+];
 
 const settings = {
   showArrows: false,
@@ -77,7 +77,7 @@ const ListedVehicles = () => {
     return result;
   };
   
-  const chunkedAdData = chunkArray(vehicles, 3);
+  const chunkedAdData = chunkArray(adData, 3);
   if(vehicles==[])
   {
     return(
@@ -126,26 +126,26 @@ const ListedVehicles = () => {
                 sx={{ width: 300, height: 330, marginRight: 2 }}
               >
                 <img
-                  src={ad.vehicleImages.split(", ")[0]}
+                  src={ad.image}
                   alt={ad.title}
                   style={{ maxWidth: "100%", maxHeight: "100%" }}
                 />
                 <CardContent>
                   <Typography>
-                    <b>{ad.make + " " + ad.model + " " + ad.variant}</b>
+                    <b>{ad.title}</b>
                   </Typography>
                   <Typography sx={{ color: "success.main" }}>
                     {ad.price}
                   </Typography>
                   <Typography sx={{ color: "primary.light" }}>
-                    {ad.vehicleCity}
+                    {ad.location}
                   </Typography>
                 </CardContent>
               </Card>
             ))}
           </div>
         ))}
-      </Carousel>
+      </Carousel> 
     </Box>
   );
 };

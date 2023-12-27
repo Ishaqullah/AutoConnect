@@ -71,9 +71,9 @@ const MyAppBar = ({onValueChange}) => {
                   <Typography variant="h5" component="div">
                     {user.userName}
                   </Typography>
-                  {/* <Typography color="text.secondary">
+                  <Typography component={Link} to={`/UpdateProfileForm/User/${id}`} color="text.secondary">
                     <u>Edit Profile</u> | <u>Change Password</u>
-                  </Typography> */}
+                  </Typography>
                 </Grid>
               </Grid>
             </CardContent>

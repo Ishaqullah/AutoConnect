@@ -103,6 +103,7 @@ const UpdateProfileForm = ({onValueChange}) => {
                 fullWidth
                 value={formData.userPassword}
                 onChange={handleChange}
+                type="Password"
               />
             </Grid>
             <Grid item xs={12}>
