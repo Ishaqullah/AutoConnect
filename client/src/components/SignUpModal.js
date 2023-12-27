@@ -10,11 +10,12 @@ import {
   Typography,
 } from '@mui/material';
 import { Close } from '@mui/icons-material'; // Import the Close icon
-
-import { useNavigate } from "react-router-dom";
+import LoginModal from './LoginModal';
+import { useNavigate ,useParams} from "react-router-dom";
 import axios from 'axios';
 const SignUpModal = ({ open, handleClose }) => {
   const navigate= useNavigate()
+  const {id}=useParams();
   const [formData, setFormData]=useState({
     email:'',
     password:'',
@@ -49,8 +50,21 @@ const SignUpModal = ({ open, handleClose }) => {
       [name]: value,
     }));
   }
+  const [openLogin, setOpenLogin] = useState(false);
 
+  const handleClick = () => {
+      handleClose();
+      setOpenLogin(true);
+    
+  };
+  const handleLoginClose = () => {
+    setOpenLogin(false);
+  };
   return (
+    <>
+    {openLogin && (
+        <LoginModal open={openLogin} handleClose={handleLoginClose} />
+      )}
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
         <DialogTitle>
           <IconButton aria-label="close" onClick={handleClose} sx={{ position: 'absolute', right: 0, top: 0 }}>
@@ -98,10 +112,11 @@ const SignUpModal = ({ open, handleClose }) => {
         <DialogContent>
           <Typography variant="body2" align="center">
             Already have an account? <br />
-            <Button color="primary">Sign In</Button>
+            <Button color="primary" onClick={handleClick}>Sign In</Button>
           </Typography>
         </DialogContent>
       </Dialog>
+      </>
   );
 };
 
