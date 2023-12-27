@@ -76,7 +76,7 @@ const AdDetailPage = ({onValueChange}) => {
 
   const handleUnsave = () => {
     axios.delete(`http://localhost:5278/advertises/user/${id}/adId/${advertiseId}`);
-    window.location.reload();
+    setIsSaved(false);
   };
   useEffect(() => {
     const fetchData = async () => {

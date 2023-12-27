@@ -108,7 +108,7 @@ const CarAd = ({ car }) => {
           {/* Centered CircularProgress */}
         </div>
       )}
-      <Card>
+      <Card   sx={{height: "550px"}}>
         <Link
           to={
             id !== undefined
@@ -122,7 +122,7 @@ const CarAd = ({ car }) => {
             alt="Car"
             style={{ width: "100%", height: "200px", objectFit: "cover" }}
           />
-          <CardContent>
+          <CardContent style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
             <Typography variant="h6" gutterBottom>
               {car.make + " " + car.model + " " + car.variant}
             </Typography>

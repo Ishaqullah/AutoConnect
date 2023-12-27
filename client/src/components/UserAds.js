@@ -47,7 +47,7 @@ const UserAds = ({ car }) => {
   }
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card>
+      <Card sx={{height: "550px"}}>
       <img
           src={vehicleDetails.vehicleImages.split(', ')[0]}
           alt="Car"

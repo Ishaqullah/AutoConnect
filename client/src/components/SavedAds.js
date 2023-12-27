@@ -35,7 +35,7 @@ const SavedAds = ({ car }) => {
   }
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card>
+      <Card sx={{height: "500px"}}>
       <img
           src={vehicleDetails.vehicleImages.split(', ')[0]}
           alt="Car"
