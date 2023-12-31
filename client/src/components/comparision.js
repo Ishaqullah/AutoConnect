@@ -6,7 +6,7 @@ const comparision = () => {
   return (
     <Box
       sx={{
-        marginTop: "50px",
+        
         height: "100vh",
         display: "flex",
         flexDirection: "column",

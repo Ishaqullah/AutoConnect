@@ -58,7 +58,7 @@ const SavedAds = ({ car }) => {
             color="success.main"
             style={{ marginTop: "10px" }}
           >
-            Price: ${vehicleDetails.price}
+            Price:{vehicleDetails.price} Rs
           </Typography>
         </CardContent>
       </Card>

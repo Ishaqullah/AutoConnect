@@ -298,7 +298,7 @@ const AdDetailPage = ({onValueChange}) => {
                 color: "success.main",
               }}
             >
-              {adDetails.price}
+              {adDetails.price} Rs
             </Typography>
             <Button
               variant="contained"

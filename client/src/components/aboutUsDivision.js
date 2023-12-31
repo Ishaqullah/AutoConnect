@@ -10,14 +10,27 @@ const aboutUsDivision = () => {
   return (
     <Grid container>
       <Grid item xs={6}>
+      <Container maxWidth="sm">
+      <div
+          style={{
+            width: "100%",
+            minHeight: "600px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingTop: "50px",
+          }}
+        >
         <img
           src={"/Images/mercedes-benz-cla-coupe-2024-35-amg-premium-quarter-iridium-silver.png"}
           width={700}
           height={450}
         ></img>
+        </div>
+        </Container>
       </Grid>
       <Grid item xs={6}>
-        <Container maxWidth="sm">
+      <Container maxWidth="sm">
           <Card
             sx={{
               width: "100%",

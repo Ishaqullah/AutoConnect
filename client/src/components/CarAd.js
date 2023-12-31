@@ -139,7 +139,7 @@ const CarAd = ({ car }) => {
               color="success.main"
               style={{ marginTop: "10px" }}
             >
-              Price: ${car.price}
+              Price:{car.price} Rs
             </Typography>
           </CardContent>
         </Link>

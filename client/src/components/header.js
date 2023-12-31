@@ -148,7 +148,7 @@ const Header = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            paddingTop: "120px",
+            paddingTop: "50px",
           }}
         >
           <Carousel {...settings}>

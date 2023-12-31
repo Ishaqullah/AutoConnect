@@ -116,9 +116,13 @@ const ListedVehicles = () => {
             style={{
               display: "flex",
               flexDirection: "row",
-              marginTop: "20px",
+              marginTop: "50px",
               justifyContent: "center",
-            }}
+              height:350,
+            }
+            
+          }
+          
           >
             {chunk.map((ad, adIndex) => (
               <Card
