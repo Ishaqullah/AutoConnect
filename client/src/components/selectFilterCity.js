@@ -18,22 +18,30 @@ const MenuProps = {
   },
 };
 
+
 const city = [
   'Karachi',
   'Lahore',
   'Islamabad',
   'Peshawer',
-  'Rawalpindi',
+  'Amirabad',
   'Faisalabad'
 ];
 
-const SelectFilterCity = () => {
+const SelectFilterCity = ({onSearch}) => {
   const [cityName, setCityName] = React.useState('');
 
   const handleChange = (event) => {
-    setCityName(event.target.value);
+    const { value } = event.target;
+    console.log(value);
+      setCityName(value);
+    
+    onSearch(value);
   };
-
+ const handleCheckboxChange = () =>{
+  setCityName('');
+  onSearch('');
+ }
   return (
     <div>
       <FormControl sx={{ m: 1, width: 200 }}>
@@ -48,8 +56,8 @@ const SelectFilterCity = () => {
           MenuProps={MenuProps}
         >
           {city.map((name) => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={cityName === name} />
+            <MenuItem key={name} value={name}  >
+              <Checkbox checked={cityName === name} onChange={handleCheckboxChange}/>
               <ListItemText primary={name} />
             </MenuItem>
           ))}

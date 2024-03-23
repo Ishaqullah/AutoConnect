@@ -19,14 +19,13 @@ import {
   CircularProgress,
 } from "@mui/material";
 import PhotoUpload from "./photoUpload";
-import CustomModal from "./modal";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import SignUpModal from "./SignUpModal";
 import { useEffect } from "react";
 import { Country, State, City } from "country-state-city";
-
+import Loader from "./loader"
 const sellCar = ({ onValueChange }) => {
   const [make, setMake] = useState(null);
   const [model, setModel] = useState(null);
@@ -336,22 +335,7 @@ const sellCar = ({ onValueChange }) => {
   ) {
     return (
       // Show full-page overlay with CircularProgress when loading state is true
-      <div
-        style={{
-          position: "fixed",
-          zIndex: 9999,
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Grey shadow background
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <CircularProgress color="secondary" /> {/* Centered CircularProgress */}
-      </div>
+      <Loader loading={true}></Loader>
     );
   }
   // console.log(make.data);

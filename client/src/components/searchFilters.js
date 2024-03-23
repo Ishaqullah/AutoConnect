@@ -9,31 +9,28 @@ import PriceRange from './priceRange';
 import YearRange from './yearRange';
 import MileageRange from './mileageRange';
 import SelectFilterRegisteredIn from './selectFilterRegisteredIn';
+import Loader from './loader';
 
-const SearchFilters = () => {
+const SearchFilters = ({onSearch,onRangeSearch,onRegSearch}) => {
   const [selectedKeyword, setSelectedKeyword] = useState('');
-
-  const handleSearch = () => {
-    // Handle the search logic here based on selectedKeyword
-    console.log('Selected Keyword:', selectedKeyword);
-  };
+  
+  
 
   return (
     <Container sx={{width:"500px"}}>
+     
       <FormControl fullWidth>
         <OutlinedInput
           id="search-bar"
           placeholder="Search by keyword"
           value={selectedKeyword}
-          onChange={(event) => setSelectedKeyword(event.target.value)}
+          onChange={(event) => {
+            setSelectedKeyword(event.target.value);
+            onSearch(event.target.value);
+          }}
           fullWidth
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton onClick={handleSearch} edge="end">
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          }
+          
+          
           style={{
             border: '1px solid #d3d3d3',
             boxShadow: 'none',
@@ -41,14 +38,15 @@ const SearchFilters = () => {
             marginLeft:'8px'
           }}
         />
+        
       </FormControl>
-      <SelectFilterCity/>
-      <SelectFilterProvince/>
-      <SelectFilterMake/>
-      <PriceRange/>
-      <YearRange/>
-      <MileageRange/>
-      <SelectFilterRegisteredIn/>
+      <SelectFilterCity onSearch={onSearch}/>
+      {/* <SelectFilterProvince/> */}
+      <SelectFilterMake onSearch={onSearch}/>
+      <PriceRange onRangeSearch={onRangeSearch}/>
+      {/* <YearRange/> */}
+      <MileageRange onRangeSearch={onRangeSearch}/>
+      <SelectFilterRegisteredIn onRegSearch={onRegSearch}/>
       </Container>
   );
 };

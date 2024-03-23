@@ -1,11 +1,11 @@
-import * as React from 'react';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
-import Select from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
+import * as React from "react";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import Select from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,19 +18,21 @@ const MenuProps = {
   },
 };
 
-const registered = [
-  'Sindh',
-  'Punjab',
-  'Islamabad',
-  'Lahore',
-  'Karachi'
-];
+const registered = ["Sindh", "Punjab", "Islamabad", "Lahore", "Karachi",'Amirabad'];
 
-const SelectFilterRegisteredIn = () => {
-  const [registeredName, setRegisteredName] = React.useState('');
+const SelectFilterRegisteredIn = ({ onRegSearch }) => {
+  const [registeredCityName, setRegisteredCityName] = React.useState("");
 
   const handleChange = (event) => {
-    setRegisteredName(event.target.value);
+    const { value } = event.target;
+    console.log(value);
+    setRegisteredCityName(value);
+
+    onRegSearch(value);
+  };
+  const handleCheckboxChange = () => {
+    setRegisteredCityName("");
+    onRegSearch("");
   };
 
   return (
@@ -40,7 +42,7 @@ const SelectFilterRegisteredIn = () => {
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
-          value={registeredName}
+          value={registeredCityName}
           onChange={handleChange}
           input={<OutlinedInput label="Tag" />}
           renderValue={(selected) => selected}
@@ -48,7 +50,10 @@ const SelectFilterRegisteredIn = () => {
         >
           {registered.map((name) => (
             <MenuItem key={name} value={name}>
-              <Checkbox checked={registeredName === name} />
+              <Checkbox
+                checked={registeredCityName === name}
+                onChange={handleCheckboxChange}
+              />
               <ListItemText primary={name} />
             </MenuItem>
           ))}

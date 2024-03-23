@@ -133,7 +133,7 @@ const Navbar = ({ id }) => {
           height={25}
           alt="Steering Wheel"
         />
-        <Typography variant="h5" sx={{ color: "common.black" }}>
+        <Typography variant="h6" sx={{ color: "common.black" }}>
           <b>Auto</b>
         </Typography>
         <Typography variant="h5" sx={{ color: "secondary.main" }}>

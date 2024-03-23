@@ -18,6 +18,7 @@ import { useState,useEffect } from "react";
 import { useParams } from "react-router-dom";
 import MyAppBar from "./components/MyAppBar";
 import MySavedAds from "./components/MySavedAds";
+import AllComparisions from "./components/allComparisions";
 const theme = Theme;
 function App() {
   const [id,setId]=useState('')
@@ -85,6 +86,8 @@ function App() {
                 <Route exact path="/Contact" element={<ContactForm onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/About/User/:id" element={<AboutUsPage onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Contact/User/:id" element={<ContactForm onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/Comparisions/User/:id" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/Comparisions" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
               </Routes>
             </Grid>
 

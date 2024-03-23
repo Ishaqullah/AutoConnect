@@ -1,12 +1,14 @@
 import React from "react";
 import { Card, CardContent, Typography, Box, Grid } from "@mui/material";
 import Button from "@mui/material/Button";
-
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const comparision = () => {
+
+  const {id} =useParams();
   return (
     <Box
       sx={{
-        
         height: "100vh",
         display: "flex",
         flexDirection: "column",
@@ -21,9 +23,9 @@ const comparision = () => {
         <b>Car Comparisons</b>
       </Typography>
       <Typography sx={{ color: "primary.main", alignSelf: "flex-end" }}>
-        <a href="#" style={{ textDecoration: "none", color: "inherit" }}>
-          <u>View all listed Vehicles</u>
-        </a>
+      <Typography  component={Link} to={id ? `/Comparisions/User/${id}` : "/Comparisions"}  sx={{ color: "primary.main", textAlign: "right",display:"block" }}>
+          <u>View all vehicle comparision</u>
+        </Typography>
       </Typography>
       <Card
         sx={{
@@ -33,7 +35,10 @@ const comparision = () => {
           alignItems: "center",
         }}
       >
-        <CardContent sx={{ textAlign: "center" }}>
+        <CardContent
+          sx={{ textAlign: "center", textDecoration: "none", color: "inherit" }}
+          component={Link}
+        >
           <div
             style={{
               display: "flex",
@@ -83,7 +88,7 @@ const comparision = () => {
                     color: "white",
                   }}
                 >
-                  VS
+                  <Typography>VS</Typography>
                 </span>
               </div>
             </div>
@@ -112,72 +117,92 @@ const comparision = () => {
             View All Comparisons
           </Button>
         </CardContent>
-        <CardContent sx={{ textAlign: "center", marginLeft: "20px" }}>
-          <Typography>Mazda Rx</Typography>
-          <div
-            style={{
-              backgroundColor: "#9D1515",
-              borderRadius: "50%",
-              width: "50px",
-              height: "50px",
-              marginLeft: "23px",
-              marginTop: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <span
-                style={{ fontSize: "20px", fontWeight: "bold", color: "white" }}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <CardContent sx={{ textAlign: "center", marginLeft: "20px" }}>
+              <Typography>Mazda Rx</Typography>
+              <div
+                style={{
+                  backgroundColor: "#9D1515",
+                  borderRadius: "50%",
+                  width: "50px",
+                  height: "50px",
+                  marginLeft: "23px",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                }}
               >
-                VS
-              </span>
-            </div>
+                <div
+                  style={{
+                    position: "relative",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      color: "white",
+                    }}
+                  >
+                    <Typography>VS</Typography>
+                  </span>
+                </div>
+              </div>
+              <Typography>Mitsubishi Gto</Typography>
+            </CardContent>
           </div>
-          <Typography>Mitsubishi Gto</Typography>
-        </CardContent>
-        <CardContent sx={{ textAlign: "center", marginLeft: "20px" }}>
-          <Typography>Hyundai Sonata</Typography>
-          <div
-            style={{
-              backgroundColor: "#9D1515",
-              borderRadius: "50%",
-              width: "50px",
-              height: "50px",
-              marginLeft: "23px",
-              marginTop: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            <div
-              style={{
-                position: "relative",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <span
-                style={{ fontSize: "20px", fontWeight: "bold", color: "white" }}
+          <div>
+            <CardContent sx={{ textAlign: "center", marginLeft: "20px" }}>
+              <Typography>Hyundai Sonata</Typography>
+              <div
+                style={{
+                  backgroundColor: "#9D1515",
+                  borderRadius: "50%",
+                  width: "50px",
+                  height: "50px",
+                  marginLeft: "28px",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                }}
               >
-                VS
-              </span>
-            </div>
+                <div
+                  style={{
+                    position: "relative",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "20px",
+                      fontWeight: "bold",
+                      color: "white",
+                    }}
+                  >
+                    <Typography>VS</Typography>
+                  </span>
+                </div>
+              </div>
+              <Typography>Honda Civic</Typography>
+            </CardContent>
           </div>
-          <Typography>Honda Civic</Typography>
-        </CardContent>
+        </div>
       </Card>
     </Box>
   );
