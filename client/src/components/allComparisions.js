@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
   CardContent,
   CardHeader,
+  CardActions,
   Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@material-ui/core";
+  Box
+} from "@mui/material";
 import { FormControl } from "@mui/material";
 import { Button } from "@mui/material";
 import Select from "@mui/material/Select";
@@ -36,55 +33,43 @@ const AllComparisions = ({ onValueChange }) => {
   }, [id, onValueChange]);
   //   const classes = useStyles();
 
-  const [carData, setCarData] = useState({
-    make: 'Toyota',
-    model: 'Corolla',
-    variant: 'LE',
-  });
-  const [make1, setMake1] = React.useState("");
-  const [model1, setModel1] = React.useState("");
-  const [variant1, setVariant1] = React.useState("");
-
-  const [make2, setMake2] = React.useState("");
-  const [model2, setModel2] = React.useState("");
-  const [variant2, setVariant2] = React.useState("");
-  const [open,setOpen] =useState(false);
-  const handleMake1Change = (event) => {
-    setMake1(event.target.value);
+  const [vehicleOneData, setVehicleOneData] = useState(null);
+  const [vehicleTwoData, setVehicleTwoData] = useState(null);
+  const [vehicleThreeData, setVehicleThreeData] = useState(null);
+  const [vehicleIndex, setClickedVehicleIndex] = useState(1);
+  // Callback function to receive selected data from child
+  const handleSelectedData = (data) => {
+    console.log(data, vehicleIndex);
+    switch (vehicleIndex) {
+      case 1:
+        setVehicleOneData(data);
+        break;
+      case 2:
+        setVehicleTwoData(data);
+        break;
+      case 3:
+        setVehicleThreeData(data);
+        break;
+      default:
+        break;
+    }
   };
+  const [open, setOpen] = useState(false);
 
-  const handleModel1Change = (event) => {
-    setModel1(event.target.value);
-  };
-
-  const handleVariant1Change = (event) => {
-    setVariant1(event.target.value);
-  };
-
-  const handleMake2Change = (event) => {
-    setMake2(event.target.value);
-  };
-
-  const handleModel2Change = (event) => {
-    setModel2(event.target.value);
-  };
-
-  const handleVariant2Change = (event) => {
-    setVariant2(event.target.value);
-  };
-
-  const handleCompareClick = () => {
+  const handleCarClick = (vehicleIndex) => {
+    setClickedVehicleIndex(vehicleIndex);
     setOpen(true);
   };
-  const handleModalClose = () =>{
+  const handleModalClose = () => {
     setOpen(false);
-  }
+  };
+  const handleCompareClick = () => {};
 
   return (
     <div
       style={{
         position: "relative",
-        backgroundColor: "#9D1515",
+        backgroundColor: "#2E2D31",
         padding: "20px",
         minHeight: "150px",
         marginBottom: "500px",
@@ -93,157 +78,140 @@ const AllComparisions = ({ onValueChange }) => {
       <div
         style={{
           position: "absolute",
-          top: "150%",
+          top: "100%",
           left: "50%",
           transform: "translate(-50%, -50%)",
           zIndex: 1,
         }}
       >
-        <CarModal open={open} onClose={handleModalClose} carData={carData} />
-        <Card
+        <CarModal
+          open={open}
+          onClose={handleModalClose}
+          onSelectedData={(data) => handleSelectedData(data)}
+        />
+
+<Box
+      sx={{
+        borderRadius:"10px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor:"white",
+        // padding:"5px",
+        // border:"1px solid #9D1515"
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{ color: "secondary.main", alignSelf: "flex-start" }}
+      >
+        <b>Compare Cars</b>
+      </Typography>
+      <Card
           style={{
-            backgroundColor: "white",
-            margin: "0 auto",
-            width: "700px",
+            backgroundColor:"transparent",
+            // margin: "0 auto",
+            width: "800px",
+            borderRadius:"10px"
           }}
         >
-          <CardHeader title="Compare Cars" />
-          <CardContent>
-            <div style={{ marginBottom: "20px" }}>
-              <Typography variant="h6" gutterBottom>
-                Car 1
+
+          {/* <CardHeader title="Compare Cars" /> */}
+          <CardContent style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ textAlign: "center" }}>
+              <Typography   variant="h6" gutterBottom color={"GrayText"}>
+                Vehicle 1
               </Typography>
-              <div
+              <Button
+                variant="contained"
+                onClick={() => handleCarClick(1)}
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  backgroundColor: "transparent",
+                  color: "#7B7272",
+                  marginTop: "10px",
+                  minWidth: "160px",
                 }}
               >
-                <FormControl sx={{ m: 1, width: 200 }}>
-                  <InputLabel id="demo-multiple-checkbox-label">
-                    Make
-                  </InputLabel>
-                  <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    value={make1}
-                    onChange={handleMake1Change}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>Honda</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 1, width: 200 }}>
-                  <InputLabel id="demo-multiple-checkbox-label">
-                    Model
-                  </InputLabel>
-                  <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    value={model1}
-                    onChange={handleModel1Change}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>Accord</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 1, width: 200 }}>
-                  <InputLabel id="demo-multiple-checkbox-label">
-                    Variant
-                  </InputLabel>
-                  <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    value={variant1}
-                    onChange={handleVariant1Change}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>EX-L</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
+                {vehicleOneData ? (
+                  <>
+                    {vehicleOneData.make} / {vehicleOneData.model} /{" "}
+                    {vehicleOneData.variant}
+                  </>
+                ) : (
+                  <Typography>Make|Model|Variant</Typography>
+                )}
+              </Button>
             </div>
-            <div>
-              <Typography variant="h6" gutterBottom>
-                Car 2
+
+            <div style={{ textAlign: "center", marginLeft: "30px" }}>
+              <Typography variant="h6" gutterBottom color={"GrayText"}>
+                Vehicle 2
               </Typography>
-              <div
+              <Button
+                variant="contained"
+                onClick={() => handleCarClick(2)}
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  backgroundColor: "transparent",
+                  color: "#7B7272",
+                  marginTop: "10px",
+                  minWidth: "160px",
                 }}
               >
-                <FormControl sx={{ m: 1, width: 200 }}>
-                  <InputLabel id="demo-multiple-checkbox-label">
-                    Make
-                  </InputLabel>
-                  <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    value={make2}
-                    onChange={handleMake2Change}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>Honda</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 1, width: 200 }}>
-                  <InputLabel id="demo-multiple-checkbox-label">
-                    Model
-                  </InputLabel>
-                  <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    value={model2}
-                    onChange={handleModel2Change}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>Accord</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ m: 1, width: 200 }}>
-                  <InputLabel id="demo-multiple-checkbox-label">
-                    Variant
-                  </InputLabel>
-                  <Select
-                    labelId="demo-multiple-checkbox-label"
-                    id="demo-multiple-checkbox"
-                    value={variant2}
-                    onChange={handleVariant2Change}
-                    input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => selected}
-                    MenuProps={MenuProps}
-                  >
-                    <MenuItem>EX-L</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
+                {vehicleTwoData ? (
+                  <>
+                    {vehicleTwoData.make} / {vehicleTwoData.model}/{" "}
+                    {vehicleTwoData.variant}
+                  </>
+                ) : (
+                  <Typography>Make|Model|Variant</Typography>
+                )}
+              </Button>
             </div>
+
+            <div style={{ textAlign: "center", marginLeft: "30px" }}>
+              <Typography variant="h6" gutterBottom color={"GrayText"}>
+                Vehicle 3
+              </Typography>
+              <Button
+                variant="contained"
+                onClick={() => handleCarClick(3)}
+                style={{
+                  backgroundColor: "transparent",
+                  color: "#7B7272",
+                  marginTop: "10px",
+                  minWidth: "160px",
+                }}
+              >
+                {vehicleThreeData ? (
+                  <>
+                    {vehicleThreeData.make} / {vehicleThreeData.model} /{" "}
+                    {vehicleThreeData.variant}
+                  </>
+                ) : (
+                  <Typography>Make|Model|Variant</Typography>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+
+          <CardActions>
             <Button
               variant="contained"
               onClick={handleCompareClick}
               style={{
                 backgroundColor: "#7B7272",
                 color: "white",
-                marginTop: "20px",
+                marginTop: "10px",
+                minWidth: "160px",
+                marginLeft: "30px",
               }}
             >
-              Compare
+              <Typography>Compare</Typography>
             </Button>
-          </CardContent>
+          </CardActions>
         </Card>
+        </Box>
       </div>
     </div>
   );

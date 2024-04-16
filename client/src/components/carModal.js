@@ -28,15 +28,121 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CarModal = ({ open, onClose, carData }) => {
+const CarModal = ({ open, onClose,onSelectedData }) => {
   const classes = useStyles();
   const [make, setMake] = useState(null);
   const [model, setModel] = useState(null);
   const [variant, setVariant] = useState(null);
+  const [selectedMake, setSelectedMake] = useState(null);
+  const [selectedModel, setSelectedModel] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedData, setSelectedData] = useState({
+    make: null,
+    model: null,
+    variant: null,
+  });
   const handleClose = () => {
     onClose();
   };
+  
+  const handleMakeClick = (m) => {
+   
+    const options = {
+      method: "GET",
+      url: "https://car-api2.p.rapidapi.com/api/models",
+      params: {
+        sort: "id",
+        direction: "asc",
+        year: "2020",
+        verbose: "yes",
+        make: m,
+      },
+      headers: {
+        "X-RapidAPI-Key":
+          "cf6e6ca279mshd5ef3a24af2beeep19575djsn60dbef1c6631",
+        "X-RapidAPI-Host": "car-api2.p.rapidapi.com",
+      },
+    };
 
+    try {
+      axios.request(options).then((response) => {
+        console.log(response.data);
+        setModel(response.data);
+        // console.log("hello ",make);
+      });
+    } catch (error) {
+      console.error(error);
+      // Handle errors if any
+    }
+    console.log(m);
+    setSelectedMake(m);
+
+    setSelectedData({
+      ...selectedData,
+      make: m,
+    });
+    onSelectedData({ ...selectedData, make: m },);
+  };
+
+  const handleModelClick = (mod) => {
+    
+    
+
+    const options = {
+      method: "GET",
+      url: "https://car-api2.p.rapidapi.com/api/trims",
+      params: {
+        direction: "asc",
+        sort: "id",
+        year: "2020",
+        verbose: "yes",
+        make: selectedMake,
+        model: mod,
+      },
+
+      headers: {
+        "X-RapidAPI-Key":
+          "cf6e6ca279mshd5ef3a24af2beeep19575djsn60dbef1c6631",
+        "X-RapidAPI-Host": "car-api2.p.rapidapi.com",
+      },
+    };
+    try {
+      axios.request(options).then((response) => {
+        console.log(response.data);
+        setVariant(response.data);
+        // console.log("hello ",make);
+      });
+    } catch (error) {
+      console.error(error);
+      // Handle errors if any
+    }
+    setSelectedModel(mod);
+
+    setSelectedData({
+      ...selectedData,
+      model: mod,
+    });
+    onSelectedData({
+      ...selectedData,
+      model: mod,
+    });
+  };
+
+
+
+  const handleVariantClick = (variant) =>{
+    setSelectedVariant(variant);
+
+    setSelectedData({
+      ...selectedData,
+      variant:variant,
+    });
+    onSelectedData({
+      ...selectedData,
+      variant:variant,
+    });
+    handleClose();
+  }
   useEffect(() => {
     const fetchData = async () => {
       const options = {
@@ -68,41 +174,9 @@ const CarModal = ({ open, onClose, carData }) => {
 
     fetchData();
   }, []);
-  useEffect(() => {
-    const fetchData = async () => {
-      const options = {
-        method: "GET",
-        url: "https://car-api2.p.rapidapi.com/api/models",
-        params: {
-          sort: "id",
-          direction: "asc",
-          year: "2020",
-          verbose: "yes",
-          make: `${make}`,
-        },
-        headers: {
-          "X-RapidAPI-Key":
-            "cf6e6ca279mshd5ef3a24af2beeep19575djsn60dbef1c6631",
-          "X-RapidAPI-Host": "car-api2.p.rapidapi.com",
-        },
-      };
-      try {
-        axios.request(options).then((response) => {
-          console.log(response.data);
-          setModel(response.data);
-          // console.log("hello ",make);
-        });
-      } catch (error) {
-        console.error(error);
-        // Handle errors if any
-      }
-    };
-
-    fetchData();
-  }, [make]);
+  
   if (
-    make === null ||
-    model === null
+    make === null 
     // variant === null ||
   ) {
     return (
@@ -126,37 +200,47 @@ const CarModal = ({ open, onClose, carData }) => {
           <Grid item md={4}>
             <FormControl fullWidth>
               {make.data.map((m, index) => (
-                <MenuItem key={index} value={m.name}>
+                <Button
+                  key={index}
+                  onClick={() => handleMakeClick(m.name)}
+                  variant={selectedMake === m.name ? "contained" : "outlined"}
+                >
                   {m.name}
-                </MenuItem>
+                </Button>
               ))}
             </FormControl>
           </Grid>
 
           <Grid item md={4}>
-            <FormControl>
+           {model ?( <FormControl>
               {model.data.map((mod, index) => (
-                <MenuItem key={index} value={mod.name}>
+                <Button
+                  key={index}
+                  onClick={() => handleModelClick(mod.name)}
+                  variant={
+                    selectedModel === mod.name ? "contained" : "outlined"
+                  }
+                >
                   {mod.name}
-                </MenuItem>
+                </Button>
               ))}
-            </FormControl>
+            </FormControl>): (<Typography>Select Make</Typography>)}
           </Grid>
 
           <Grid item md={4}>
-            <List>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemText primary="Trash" />
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton component="a" href="#simple-list">
-                  <ListItemText primary="Spam" />
-                </ListItemButton>
-              </ListItem>
-            </List>
+            {variant ?(<FormControl fullWidth>
+              {variant.data.map((v, index) => (
+                <Button
+                  key={index}
+                  onClick={() => handleVariantClick(v.name)}
+                  variant={selectedVariant === v.name ? "contained" : "outlined"}
+                >
+                  {v.name}
+                </Button>
+              ))}
+            </FormControl>) : (<Typography>Select Make/Model</Typography>)}
           </Grid>
+
         </Grid>
       </DialogContent>
     </Dialog>
