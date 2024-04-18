@@ -9,6 +9,7 @@ const footer = () => {
     backgroundColor: "#2E2D31",
     color: "white",
     padding: "20px 0",
+    marginTop:"100px"
   };
 
   const socialMediaIconsStyles = {
