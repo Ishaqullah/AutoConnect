@@ -133,7 +133,7 @@ const Navbar = ({ id }) => {
           height={25}
           alt="Steering Wheel"
         />
-        <Typography variant="h6" sx={{ color: "common.black" }}>
+        <Typography variant="h5" sx={{ color: "common.black" }}>
           <b>Auto</b>
         </Typography>
         <Typography variant="h5" sx={{ color: "secondary.main" }}>
@@ -149,15 +149,27 @@ const Navbar = ({ id }) => {
             <b>Home</b>
           </Button>
 
-          <Button color="secondary" component={Link} to={id ? `/About/User/${id}` : "/About"}>
+          <Button
+            color="secondary"
+            component={Link}
+            to={id ? `/About/User/${id}` : "/About"}
+          >
             <b>About Us</b>
           </Button>
 
-          <Button color="secondary" component={Link} to={id ? `/BuyCar/User/${id}` : "/BuyCar"}>
+          <Button
+            color="secondary"
+            component={Link}
+            to={id ? `/BuyCar/User/${id}` : "/BuyCar"}
+          >
             <b>Used Cars</b>
           </Button>
 
-          <Button color="secondary" component={Link} to={id ? `/Contact/User/${id}` : "/Contact"}>
+          <Button
+            color="secondary"
+            component={Link}
+            to={id ? `/Contact/User/${id}` : "/Contact"}
+          >
             <b>Contact</b>
           </Button>
         </div>
