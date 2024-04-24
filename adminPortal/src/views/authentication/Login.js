@@ -7,10 +7,12 @@ import PageContainer from 'src/components/container/PageContainer';
 import Logo from 'src/layouts/full/shared/logo/Logo';
 import AuthLogin from './auth/AuthLogin';
 
+
 const Login2 = () => {
   
   return (
     <PageContainer title="Login" description="this is Login page">
+      
       <Box
         sx={{
           position: 'relative',

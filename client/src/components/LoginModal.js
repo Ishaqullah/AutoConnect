@@ -45,13 +45,13 @@ const LoginModal = ({ open, handleClose }) => {
     }
   };
 
-  const handleChange =(event)=>{
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  }
+    const handleChange =(event)=>{
+      const { name, value } = event.target;
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
  const handleClick= ()=>{
   handleClose();
   setOpenSignup(true);

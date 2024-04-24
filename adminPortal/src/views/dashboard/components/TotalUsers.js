@@ -2,15 +2,16 @@ import React from 'react';
 import Chart from 'react-apexcharts';
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography, Avatar, Fab } from '@mui/material';
-import { IconArrowDownRight, IconCurrencyDollar } from '@tabler/icons';
+import { IconArrowUpRight,IconUserPlus } from '@tabler/icons';
+
 import DashboardCard from '../../../components/shared/DashboardCard';
 
-const MonthlyEarnings = () => {
+const TotalUsers = () => {
   // chart color
   const theme = useTheme();
   const secondary = theme.palette.secondary.main;
   const secondarylight = '#f5fcff';
-  const errorlight = '#fdede8';
+  const errorlight = '#42A432';
 
   // chart
   const optionscolumnchart = {
@@ -53,10 +54,10 @@ const MonthlyEarnings = () => {
 
   return (
     <DashboardCard
-      title="Monthly Earnings"
+      title="Total Users"
       action={
         <Fab color="secondary" size="medium" sx={{color: '#ffffff'}}>
-          <IconCurrencyDollar width={24} />
+          <IconUserPlus width={24} />
         </Fab>
       }
       footer={
@@ -65,11 +66,11 @@ const MonthlyEarnings = () => {
     >
       <>
         <Typography variant="h3" fontWeight="700" mt="-20px">
-          $6,820
+         755
         </Typography>
         <Stack direction="row" spacing={1} my={1} alignItems="center">
           <Avatar sx={{ bgcolor: errorlight, width: 27, height: 27 }}>
-            <IconArrowDownRight width={20} color="#FA896B" />
+            <IconArrowUpRight width={20} color="#E6FFFA" />
           </Avatar>
           <Typography variant="subtitle2" fontWeight="600">
             +9%
@@ -83,4 +84,4 @@ const MonthlyEarnings = () => {
   );
 };
 
-export default MonthlyEarnings;
+export default TotalUsers;

@@ -8,7 +8,7 @@ import {
   IconButton,
   MenuItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from '@mui/material';
 
 import { IconListCheck, IconMail, IconUser } from '@tabler/icons';
@@ -23,7 +23,10 @@ const Profile = () => {
   const handleClose2 = () => {
     setAnchorEl2(null);
   };
-
+  const handleLogout = () => {
+    window.localStorage.removeItem('isLoggedIn');
+    window.localStorage.removeItem('adminId');
+  };
   return (
     <Box>
       <IconButton
@@ -84,7 +87,14 @@ const Profile = () => {
           <ListItemText>My Tasks</ListItemText>
         </MenuItem>
         <Box mt={1} py={1} px={2}>
-          <Button to="/auth/login" variant="outlined" color="primary" component={Link} fullWidth>
+          <Button
+            to="/auth/login"
+            onClick={handleLogout}
+            variant="outlined"
+            color="primary"
+            component={Link}
+            fullWidth
+          >
             Logout
           </Button>
         </Box>

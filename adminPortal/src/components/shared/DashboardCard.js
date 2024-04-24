@@ -16,7 +16,7 @@ const DashboardCard = ({
   return (
     <Card
       sx={{ padding: 0 }}
-      elevation={9}
+      elevation={12}
       variant={undefined}
     >
       {cardheading ? (

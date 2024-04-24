@@ -22,6 +22,67 @@ public class AdvertisesController : ControllerBase
     }
 
 
+    [HttpGet("adDetails")]
+    public IActionResult GetAllAdDetails()
+    {
+        var adDetails = _context.Advertises
+            .Join(
+                _context.Vehicles,
+                advertise => advertise.VehicleID,
+                vehicle => vehicle.VehicleID,
+                (advertise, vehicle) => new
+                {
+                    AdvertiseID = advertise.AdvertiseID,
+                    AdvertiseName = advertise.AdvertiseName,
+                    SellerID = advertise.SellerID,
+                    VehicleID = vehicle.VehicleID,
+                    VehicleCity = vehicle.VehicleCity,
+                    VehicleRegistrationYear = vehicle.VehicleRegistrationYear,
+                    VehicleModelYear = vehicle.VehicleModelYear,
+                    VehicleRegistrationCity = vehicle.VehicleRegistrationCity,
+                    Mileage = vehicle.Mileage,
+                    Make = vehicle.Make,
+                    Model = vehicle.Model,
+                    Variant = vehicle.Variant,
+                    Colour = vehicle.Colour,
+                    BodyType = vehicle.BodyType,
+                    EngineCapacity = vehicle.EngineCapacity,
+                    EngineTransmission = vehicle.EngineTransmission,
+                    Features = vehicle.Features,
+                    Assembly = vehicle.Assembly,
+                    MinPrice = vehicle.MinPrice,
+                    MaxPrice = vehicle.MaxPrice,
+                    Price = vehicle.Price,
+                    Description = vehicle.Description,
+                    Seller = _context.Sellers
+                        .Where(seller => seller.SellerID == advertise.SellerID)
+                        .Join(
+                            _context.Users,
+                            seller => seller.UserID,
+                            user => user.UserID,
+                            (seller, user) => new
+                            {
+                                SellerID = seller.SellerID,
+                                UserID = user.UserID,
+                                UserName = user.UserName,
+                                UserEmail = user.UserEmail,
+                                UserPhone = user.UserPhone,
+                                UserAddress = user.UserAddress
+                            }
+                        )
+                        .FirstOrDefault()
+                })
+            .ToList();
+
+        if (adDetails == null || adDetails.Count == 0)
+        {
+            return NotFound("No adverts found.");
+        }
+
+        return Ok(adDetails);
+    }
+
+
     [HttpGet("getAdvertiseIdByVehicleId/{vehicleId}")]
     public IActionResult GetAdvertiseIdByVehicleId(int vehicleId)
     {
@@ -34,6 +95,8 @@ public class AdvertisesController : ControllerBase
 
         return Ok(advertiseId);
     }
+
+
 
     [HttpGet("myAds/{id}")]
     public IActionResult GetAdvertisesId(int id)
@@ -80,10 +143,10 @@ public class AdvertisesController : ControllerBase
             if (vehicle != null)
             {
                 _context.Vehicles.Remove(vehicle);
-                
+
             }
         }
-         var savedAd = _context.SavedAds.FirstOrDefault(sa => sa.AdId == id);
+        var savedAd = _context.SavedAds.FirstOrDefault(sa => sa.AdId == id);
         if (savedAd != null)
         {
             _context.SavedAds.Remove(savedAd);
@@ -184,7 +247,7 @@ public class AdvertisesController : ControllerBase
                                 UserName = user.UserName,
                                 UserEmail = user.UserEmail,
                                 UserPhone = user.UserPhone,
-                                UserAddress=user.UserAddress
+                                UserAddress = user.UserAddress
                             }
                         )
                         .FirstOrDefault()
@@ -204,7 +267,7 @@ public class AdvertisesController : ControllerBase
     public IActionResult GetBuyerIdByAdId(int advertiseId)
     {
         var buyerId = _context.SavedAds
-            .Where(sa => sa.AdId==advertiseId)
+            .Where(sa => sa.AdId == advertiseId)
             .Select(sa => sa.BuyerId)
             .FirstOrDefault();
 
@@ -240,12 +303,12 @@ public class AdvertisesController : ControllerBase
     public IActionResult GetAdDetailsForBuyer(int id)
     {
         var adDetails = _context.SavedAds
-            .Where(sa => sa.BuyerId == id )
+            .Where(sa => sa.BuyerId == id)
             .Join(
                 _context.Advertises,
                 sa => sa.AdId,
                 ad => ad.AdvertiseID,
-                (sa, ad) => new 
+                (sa, ad) => new
                 {
                     ad.AdvertiseID,
                     ad.AdvertiseName,
@@ -274,37 +337,39 @@ public class AdvertisesController : ControllerBase
             return BadRequest("Invalid data");
         }
 
-        Console.WriteLine("Buyer id is "+ int.Parse(BuyerId.GetProperty("id").GetString()) + "and ad id is " + advertiseId);
-        try{
-        // Ensure that the specified Ad and Buyer exist
-        var ad = await _context.Advertises.FindAsync(advertiseId);
-        if (ad == null)
+        Console.WriteLine("Buyer id is " + int.Parse(BuyerId.GetProperty("id").GetString()) + "and ad id is " + advertiseId);
+        try
         {
-            return NotFound($"Ad with id {advertiseId} not found.");
+            // Ensure that the specified Ad and Buyer exist
+            var ad = await _context.Advertises.FindAsync(advertiseId);
+            if (ad == null)
+            {
+                return NotFound($"Ad with id {advertiseId} not found.");
+            }
+            var buyerId = int.Parse(BuyerId.GetProperty("id").GetString());
+            var buyer = await _context.Buyers.FindAsync(int.Parse(BuyerId.GetProperty("id").GetString()));
+            if (buyer == null)
+            {
+                return NotFound($"Buyer with id {buyerId} not found.");
+            }
+
+            // Create a new SavedAd entry
+            var savedAd = new SavedAds
+            {
+                AdId = advertiseId,
+                BuyerId = int.Parse(BuyerId.GetProperty("id").GetString()),
+                // You can add additional properties if needed
+            };
+
+            // Add to the context and save changes
+            _context.SavedAds.Add(savedAd);
+            _context.SaveChanges();
+
+            return Ok("Advertise saved successfully");
         }
-        var buyerId=int.Parse(BuyerId.GetProperty("id").GetString());
-        var buyer = await _context.Buyers.FindAsync(int.Parse(BuyerId.GetProperty("id").GetString()));
-        if (buyer == null)
+        catch (Exception ex)
         {
-            return NotFound($"Buyer with id {buyerId} not found.");
-        }
 
-        // Create a new SavedAd entry
-        var savedAd = new SavedAds
-        {
-            AdId = advertiseId,
-            BuyerId = int.Parse(BuyerId.GetProperty("id").GetString()),
-            // You can add additional properties if needed
-        };
-
-        // Add to the context and save changes
-        _context.SavedAds.Add(savedAd);
-        _context.SaveChanges();
-
-        return Ok("Advertise saved successfully");
-        }
-        catch(Exception ex){
-            
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
@@ -381,5 +446,5 @@ public class AdvertisesController : ControllerBase
         }
     }
 
-    
+
 }

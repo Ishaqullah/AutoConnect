@@ -14,6 +14,8 @@ public class AppDbContext : DbContext
     public DbSet<Feedback> Feedbacks { get; set; }
     public DbSet<User> Users { get; set; }
 
+    public DbSet<Admin> Admins { get; set; }
+
     public DbSet<SavedAds> SavedAds { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

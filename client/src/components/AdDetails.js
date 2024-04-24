@@ -49,7 +49,7 @@ const AdDetailPage = ({onValueChange}) => {
     showThumbs: false,
   };
 
-  const [isLoading, setIsLoading] = useState(true);
+  dvertisement
   const [isSaved, setIsSaved] = useState(false);
   const BuyerId = {
     id:id

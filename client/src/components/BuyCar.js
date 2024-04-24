@@ -19,6 +19,7 @@ const BuyCar = ({ onValueChange }) => {
       .then((response) => setVehicles(response.data))
       .catch((error) => console.error("Error fetching vehicles:", error));
   }, []);
+  // console.log(vehicles);
 
   const handleSearch = (selectedKeyword) => {
     const data = vehicles.filter((val) => {
