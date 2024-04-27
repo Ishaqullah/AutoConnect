@@ -35,6 +35,7 @@ const AdDetailPage = ({onValueChange}) => {
     onValueChange(id,advertiseId);
   }, [id, onValueChange]);
   const [adDetails, setAdDetails] = useState("");
+  const [isLoading, setIsLoading]=useState(true);
   const settings = {
     showArrows: false,
     showStatus: false,
@@ -49,7 +50,6 @@ const AdDetailPage = ({onValueChange}) => {
     showThumbs: false,
   };
 
-  dvertisement
   const [isSaved, setIsSaved] = useState(false);
   const BuyerId = {
     id:id

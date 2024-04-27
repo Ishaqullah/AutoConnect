@@ -14,64 +14,7 @@ import DashboardCard from '../../../components/shared/DashboardCard';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-// const advertisement = [
-//   {
-//     id: '1',
-//     vehicleMake: 'Toyota',
-//     vehicleModel: 'Corolla',
-//     vehicleVariant: 'Xli',
-//     sellerId: 'ishaq@gmail.com',
-//   },
-//   {
-//     id: '2',
-//     vehicleMake: 'Toyota',
-//     vehicleModel: 'Corolla',
-//     vehicleVariant: 'Xli',
-//     sellerId: 'ishaq@gmail.com',
-//   },
-//   {
-//     id: '3',
-//     vehicleMake: 'Toyota',
-//     vehicleModel: 'Corolla',
-//     vehicleVariant: 'Xli',
-//     sellerId: 'ishaq@gmail.com',
-//   },
-//   {
-//     id: '4',
-//     vehicleMake: 'Toyota',
-//     vehicleModel: 'Corolla',
-//     vehicleVariant: 'Xli',
-//     sellerId: 'ishaq@gmail.com',
-//   },
-//   {
-//     id: '5',
-//     vehicleMake: 'Toyota',
-//     vehicleModel: 'Corolla',
-//     vehicleVariant: 'Xli',
-//     sellerId: 'ishaq@gmail.com',
-//   },
-//   {
-//     id: '6',
-//     vehicleMake: 'Toyota',
-//     vehicleModel: 'Corolla',
-//     vehicleVariant: 'Xli',
-//     sellerId: 'ishaq@gmail.com',
-//   },
-//   {
-//     id: '7',
-//     vehicleMake: 'Toyota',
-//     vehicleModel: 'Corolla',
-//     vehicleVariant: 'Xli',
-//     sellerId: 'ishaq@gmail.com',
-//   },
-//   {
-//     id: '8',
-//     vehicleMake: 'Toyota',
-//     vehicleModel: 'Corolla',
-//     vehicleVariant: 'Xli',
-//     sellerId: 'ishaq@gmail.com',
-//   },
-// ];
+
 
 const ListedAds = () => {
   const [advertisement, setAdvertisement] = useState([]);

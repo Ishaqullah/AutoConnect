@@ -27,13 +27,13 @@ const Menuitems = [
     id: uniqueId(),
     title: 'List of Users',
     icon: ListIcon,
-    href: '/ui/typography',
+    href: '/userManagment/listOfUsers',
   },
   {
     id: uniqueId(),
-    title: 'View/Delete Users',
+    title: 'User feedback',
     icon: PreviewIcon,
-    href: '/ui/shadow',
+    href: '/userManagment/feedback',
   },
   {
     navlabel: true,
@@ -43,7 +43,7 @@ const Menuitems = [
     id: uniqueId(),
     title: 'List of Mechanincs',
     icon: ListIcon,
-    href: '/auth/login',
+    href: '/mechanicManagment/listOfMechanics',
   },
   {
     id: uniqueId(),
@@ -59,7 +59,7 @@ const Menuitems = [
     id: uniqueId(),
     title: 'Chat',
     icon: ChatBubbleOutlineIcon,
-    href: '/icons',
+    href: '/chat',
   },
   // {
   //   id: uniqueId(),

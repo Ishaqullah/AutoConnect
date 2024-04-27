@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { ChatEngine } from 'react-chat-engine'
-
-const Icons = () => {
-
+import axios from 'axios';
+const Chat = () => {
+  
   return (
     <PageContainer title="ChatBox" description="this is ChatBox">
       <DashboardCard title="ChatBox">
@@ -18,4 +18,4 @@ const Icons = () => {
   );
 };
 
-export default Icons;
+export default Chat;

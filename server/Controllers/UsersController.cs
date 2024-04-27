@@ -15,7 +15,20 @@ public class UsersController : ControllerBase
     {
         _context = context;
     }
+     [HttpGet]
+    public IActionResult GetAllUsers()
+    {
+        try
+        {
+            var users = _context.Users.ToList();
 
+            return Ok(users);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
     [HttpPost("signupUsers")]
     public IActionResult SignupUsers([FromBody] dynamic formData)
     {
@@ -130,4 +143,67 @@ public class UsersController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+    [HttpGet("counts")]
+     public IActionResult GetCounts()
+    {
+        try
+        {
+            // Count number of unique sellers in the Advertise table
+            int numberOfSellers = _context.Advertises.Select(a => a.SellerID).Distinct().Count();
+
+            // Count number of buyers in the Buyer table
+            int numberOfBuyers = _context.Buyers.Count();
+
+            var counts = new
+            {
+                NumberOfSellers = numberOfSellers,
+                NumberOfBuyers = numberOfBuyers
+            };
+
+            return Ok(counts);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+    [HttpDelete("delete/{id}")]
+public IActionResult DeleteUser(int id)
+{
+    try
+    {
+        var user = _context.Users.Find(id);
+
+        if (user == null)
+        {
+            return NotFound($"User with ID {id} not found");
+        }
+
+        // Find all adverts posted by the user
+        var adverts = _context.Advertises.Where(a => a.SellerID == id).ToList();
+
+        // Extract vehicle IDs from the adverts
+        var vehicleIds = adverts.Select(a => a.VehicleID).ToList();
+
+        // Remove the adverts
+        _context.Advertises.RemoveRange(adverts);
+
+        // Remove the vehicles associated with the adverts
+        var vehicles = _context.Vehicles.Where(v => vehicleIds.Contains(v.VehicleID)).ToList();
+        _context.Vehicles.RemoveRange(vehicles);
+
+        // Remove the user
+        _context.Users.Remove(user);
+        
+        _context.SaveChanges();
+
+        return Ok($"User with ID {id} and associated vehicles deleted successfully");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
 }

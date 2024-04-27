@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 
 const BuyersVsSellers = () => {
+  const [count, setCount] = useState({ numberOfBuyers: 0, numberOfSellers: 0 });
+  useEffect(() => {
+    axios
+      .get('http://localhost:5278/users/counts')
+      .then((response) => setCount(response.data))
+      .catch((error) => console.error('Error fetching number of buyers and sellers:', error));
+  }, []);
   // chart color
   const theme = useTheme();
   const primary = theme.palette.primary.main;
@@ -17,10 +25,10 @@ const BuyersVsSellers = () => {
     },
     colors: [primary, secondary],
     plotOptions: {
-        bar: {
-            borderRadius: 10,
-            columnWidth: '15%',
-          }
+      bar: {
+        borderRadius: 10,
+        columnWidth: '15%',
+      },
     },
     dataLabels: {
       enabled: false,
@@ -54,8 +62,8 @@ const BuyersVsSellers = () => {
   // chart data
   const series = [
     {
-    name:['Users'],
-      data: [355, 400], // Update with actual number of buyers
+      name: ['Users'],
+      data: [count.numberOfBuyers, count.numberOfSellers], // Update with actual number of buyers
     },
   ];
 

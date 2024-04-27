@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 // mui imports
 import {
   ListItemIcon,
@@ -10,7 +10,6 @@ import {
   ListItemText,
   useTheme
 } from '@mui/material';
-
 const NavItem = ({ item, level, pathDirect, onClick }) => {
   const Icon = item.icon;
   const theme = useTheme();
@@ -38,14 +37,14 @@ const NavItem = ({ item, level, pathDirect, onClick }) => {
       },
     },
   }));
-
+  const {id}=useParams();
   return (
     <List component="li" disablePadding key={item.id}>
       <ListItemStyled
         button
         component={item.external ? 'a' : NavLink}
-        to={item.href}
-        href={item.external ? item.href : ''}
+        to={item.href+`/${id}`}
+        href={item.external ? item.href+`/${id}` : ''}
         disabled={item.disabled}
         selected={pathDirect === item.href}
         target={item.external ? '_blank' : ''}

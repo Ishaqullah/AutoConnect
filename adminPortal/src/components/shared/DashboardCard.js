@@ -11,13 +11,15 @@ const DashboardCard = ({
   headtitle,
   headsubtitle,
   middlecontent,
+  marginTop,
 }) => {
 
   return (
     <Card
-      sx={{ padding: 0 }}
+      sx={{ padding: 0,mt:marginTop }}
       elevation={12}
       variant={undefined}
+      
     >
       {cardheading ? (
         <CardContent>

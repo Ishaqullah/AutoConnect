@@ -1,5 +1,6 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 import Chart from 'react-apexcharts';
+import axios from 'axios'
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography, Avatar, Fab } from '@mui/material';
 import { IconArrowUpRight,IconUserPlus } from '@tabler/icons';
@@ -7,6 +8,13 @@ import { IconArrowUpRight,IconUserPlus } from '@tabler/icons';
 import DashboardCard from '../../../components/shared/DashboardCard';
 
 const TotalUsers = () => {
+  const [count, setCount] = useState({ numberOfBuyers: 0});
+  useEffect(() => {
+    axios
+      .get('http://localhost:5278/users/counts')
+      .then((response) => setCount(response.data))
+      .catch((error) => console.error('Error fetching number of buyers and sellers:', error));
+  }, []);
   // chart color
   const theme = useTheme();
   const secondary = theme.palette.secondary.main;
@@ -66,7 +74,7 @@ const TotalUsers = () => {
     >
       <>
         <Typography variant="h3" fontWeight="700" mt="-20px">
-         755
+         {count.numberOfBuyers}
         </Typography>
         <Stack direction="row" spacing={1} my={1} alignItems="center">
           <Avatar sx={{ bgcolor: errorlight, width: 27, height: 27 }}>

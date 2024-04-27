@@ -1,8 +1,11 @@
 import { Box, Container, Typography, Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import ErrorImg from 'src/assets/images/backgrounds/404-error-idea.gif';
-
-const Error = () => (
+import { useParams } from 'react-router-dom';
+const Error = () =>{ 
+  const {id} =useParams();
+  return(
+ 
   <Box
     display="flex"
     flexDirection="column"
@@ -18,11 +21,11 @@ const Error = () => (
       <Typography align="center" variant="h4" mb={4}>
         This page you are looking for could not be found.
       </Typography>
-      <Button color="primary" variant="contained" component={Link} to="/" disableElevation>
+      <Button color="primary" variant="contained" component={Link} to={`/dashboard/${id}`} disableElevation>
         Go Back to Home
       </Button>
     </Container>
   </Box>
-);
+)};
 
 export default Error;

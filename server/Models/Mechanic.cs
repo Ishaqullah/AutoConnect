@@ -25,7 +25,7 @@ public class Mechanic
     public required string MechanicAddress {get; set;}
     
     [Column("average_rating")]
-    public required float AverageRating {get; set;}
+    public float AverageRating {get; set;}
 
     public List<MechanicRating> MechanicRatings { get; set; }
 

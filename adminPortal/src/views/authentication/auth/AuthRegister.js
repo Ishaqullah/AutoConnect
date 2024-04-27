@@ -22,7 +22,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
             formData
           );
           console.log("Server response:", response.data);
-          navigate(`/dashboard`);
+          navigate(`/dashboard/${response.data.adminId}`);
           window.localStorage.setItem("isLoggedIn",true);
         } catch (error) {
           console.error("Error submitting form:", error.message);
