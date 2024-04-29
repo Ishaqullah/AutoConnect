@@ -14,7 +14,25 @@ public class AdminsController : ControllerBase
     {
         _context = context;
     }
+    [HttpGet("{id}")]
+    public IActionResult GetAllAdmins(int id)
+    {
+        try
+        {
+             var admin = _context.Admins.Find(id);
 
+        if (admin == null)
+        {
+            return NotFound($"Admin with ID {id} not found");
+        }
+
+        return Ok(admin);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
     [HttpPost("signupAdmin")]
     public IActionResult SignupAdmin([FromBody] dynamic formData)
     {
