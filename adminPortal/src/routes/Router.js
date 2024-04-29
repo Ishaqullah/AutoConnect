@@ -18,13 +18,13 @@ const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 const isLoggedIn = () => {
   return localStorage.getItem('isLoggedIn') === 'true';
 };
-
+const id=localStorage.getItem('adminId');
 const Router = [
   {
     path: '/',
     element: isLoggedIn() ? <FullLayout /> : <Navigate to="/auth/login" />,
     children: [
-      { path: '/', element: <Navigate to="/dashboard" /> },
+      { path: '/', element: isLoggedIn() ? <Navigate to={`/dashboard/${id}`}/>: <Navigate to="/auth/login" /> },
       { path: '/dashboard/:id', exact: true, element: <Dashboard /> },
       { path: '/mechanicManagment/listOfMechanics/:id', exact: true, element: <MechanicList /> },
       { path: '/chat/:id', exact: true, element: <Chat /> },
