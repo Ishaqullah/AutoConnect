@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 [Table("user_main")]
 
-public class User{
-    [Key,Required]
+public class User
+{
+    [Key, Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("user_id")]
     public int UserID { get; set; }
@@ -20,9 +21,9 @@ public class User{
     [Column("user_address")]
     public string? UserAddress { get; set; }
 
-    
+
     public Seller Seller { get; set; }
     public Buyer Buyer { get; set; }
-
+    public List<MechanicRating> MechanicRatings { get; set; }
 
 }

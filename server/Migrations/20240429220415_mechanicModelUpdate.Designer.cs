@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429220415_mechanicModelUpdate")]
+    partial class mechanicModelUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,24 +239,9 @@ namespace server.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("mechanic_id");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer")
-                        .HasColumnName("rating");
-
-                    b.Property<string>("Review")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("review");
-
-                    b.Property<int?>("UserID")
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
-
                     b.HasKey("MechanicRatingID");
 
                     b.HasIndex("MechanicID");
-
-                    b.HasIndex("UserID");
 
                     b.ToTable("mechanic_rating");
                 });
@@ -579,13 +567,7 @@ namespace server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("User", "User")
-                        .WithMany("MechanicRatings")
-                        .HasForeignKey("UserID");
-
                     b.Navigation("Mechanic");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SavedAds", b =>
@@ -690,8 +672,6 @@ namespace server.Migrations
                 {
                     b.Navigation("Buyer")
                         .IsRequired();
-
-                    b.Navigation("MechanicRatings");
 
                     b.Navigation("Seller")
                         .IsRequired();

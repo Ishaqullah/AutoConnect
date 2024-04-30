@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429234029_test2")]
+    partial class test2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -235,15 +238,6 @@ namespace server.Migrations
                         .IsRequired()
                         .HasColumnType("integer")
                         .HasColumnName("mechanic_id");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer")
-                        .HasColumnName("rating");
-
-                    b.Property<string>("Review")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("review");
 
                     b.Property<int?>("UserID")
                         .HasColumnType("integer")
@@ -580,7 +574,7 @@ namespace server.Migrations
                         .IsRequired();
 
                     b.HasOne("User", "User")
-                        .WithMany("MechanicRatings")
+                        .WithMany()
                         .HasForeignKey("UserID");
 
                     b.Navigation("Mechanic");
@@ -690,8 +684,6 @@ namespace server.Migrations
                 {
                     b.Navigation("Buyer")
                         .IsRequired();
-
-                    b.Navigation("MechanicRatings");
 
                     b.Navigation("Seller")
                         .IsRequired();

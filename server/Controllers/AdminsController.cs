@@ -33,6 +33,32 @@ public class AdminsController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+    [HttpPut("updateMechanic/{id}")]
+    public IActionResult UpdateMechanic(int id, [FromBody] dynamic formData)
+    {
+        try
+        {
+            var existingMechanic = _context.Mechanics.Find(id);
+
+            if (existingMechanic == null)
+            {
+                return NotFound("Mechanic not found");
+            }
+
+            existingMechanic.MechanicName = formData.GetProperty("name").GetString();
+            existingMechanic.MechanicEmail = formData.GetProperty("email").GetString();
+            existingMechanic.MechanicAddress = formData.GetProperty("address").GetString();
+            existingMechanic.MechanicPhone = formData.GetProperty("phone").GetString();
+
+            _context.SaveChanges();
+
+            return Ok(existingMechanic);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
     [HttpPost("signupAdmin")]
     public IActionResult SignupAdmin([FromBody] dynamic formData)
     {

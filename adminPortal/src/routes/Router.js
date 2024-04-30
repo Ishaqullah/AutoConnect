@@ -15,6 +15,7 @@ const Feedback = Loadable(lazy(() => import('../views/userManagement/Feedback'))
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));
+const MechanicReviews = Loadable(lazy(()=>import('../views/mechanicManagement/MechanicReviews')))
 const isLoggedIn = () => {
   return localStorage.getItem('isLoggedIn') === 'true';
 };
@@ -30,6 +31,7 @@ const Router = [
       { path: '/chat/:id', exact: true, element: <Chat /> },
       { path: '/userManagment/listOfUsers/:id', exact: true, element: <UserList /> },
       { path: '/userManagment/feedback/:id', exact: true, element: <Feedback /> },
+      { path: '/mehcanicManagement/MechanicReviews/:id', exact: true, element: <MechanicReviews /> },
       { path: '*', element: <Navigate to="/auth/404/:id" /> },
     ],
   },

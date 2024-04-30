@@ -47,9 +47,9 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Add/View/Delete Mechanic',
+    title: 'Reviews of mechanic',
     icon: IconUserPlus,
-    href: '/auth/register',
+    href: '/mehcanicManagement/MechanicReviews',
   },
   {
     navlabel: true,
