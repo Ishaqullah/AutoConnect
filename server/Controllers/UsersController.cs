@@ -49,6 +49,7 @@ public class UsersController : ControllerBase
                 return Conflict("User with the same email already exists");
             }
             var newUser = new User{
+                UserName=formData.GetProperty("name").GetString(),
                 UserEmail= formData.GetProperty("email").GetString(), 
                 UserPassword= hash,
                 Buyer = new Buyer{

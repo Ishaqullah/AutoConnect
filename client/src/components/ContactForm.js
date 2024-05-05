@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Typography, TextField, Button, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
+import ChatWidget from "../ChatWidget";
 const ContactForm = ({onValueChange}) => {
   const {id} = useParams()
   useEffect(() => {
@@ -71,7 +72,9 @@ const ContactForm = ({onValueChange}) => {
             </Button>
           </Grid>
         </Grid>
+        
       </form>
+      <ChatWidget/>
     </Container>
   );
 };

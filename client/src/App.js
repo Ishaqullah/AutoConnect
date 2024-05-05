@@ -1,6 +1,7 @@
 import React from "react";
 // import "./App.css";
 import Navbar from "./components/navbar";
+import "./style.scss";
 import { ThemeProvider } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Home from "./components/home";
@@ -14,11 +15,13 @@ import MyAds from "./components/MyAds";
 import AdDetailPage from "./components/AdDetails";
 import AboutUsPage from "./components/AboutUsPage";
 import ContactForm from "./components/ContactForm";
-import { useState,useEffect } from "react";
+import ChatBox from "./components/ChatBox";
+import { useState,useEffect,useContext } from "react";
 import { useParams } from "react-router-dom";
 import MyAppBar from "./components/MyAppBar";
 import MySavedAds from "./components/MySavedAds";
 import AllComparisions from "./components/allComparisions";
+import {AuthContext} from "./context/AuthContext";
 const theme = Theme;
 function App() {
   const [id,setId]=useState('')
@@ -29,7 +32,8 @@ function App() {
   // if (id===''){
   //   setId(userId);
   // }
-  
+  const  currentUser  = useContext(AuthContext);
+  console.log("The details of current user logged in",currentUser)
   useEffect(() => {
     // Check if user is logged in (you can replace this with your authentication logic)
     const isLoggedIn = window.localStorage.getItem("isLoggedIn");
@@ -88,6 +92,7 @@ function App() {
                 <Route exact path="/Contact/User/:id" element={<ContactForm onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Comparisions/User/:id" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Comparisions" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/ChatBox/User/:id" element={<ChatBox onValueChange={handleChildValueChange}/>}/>
               </Routes>
             </Grid>
 

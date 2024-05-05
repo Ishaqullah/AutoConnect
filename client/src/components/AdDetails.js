@@ -25,7 +25,7 @@ import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import ChatIcon from "@mui/icons-material/Chat";
-import { resolvePath, useParams } from "react-router-dom";
+import { resolvePath, useParams,Link } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 const AdDetailPage = ({onValueChange}) => {
@@ -314,6 +314,8 @@ const AdDetailPage = ({onValueChange}) => {
               color="secondary"
               startIcon={<ChatIcon />}
               fullWidth
+              component={Link}
+              to={id!==undefined?(`/ChatBox/User/${id}`):(``)}
               sx={{ marginTop: "10px" }}
             >
               Send Message

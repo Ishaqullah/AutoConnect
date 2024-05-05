@@ -9,7 +9,7 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 /* ****Pages***** */
 const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
 const MechanicList = Loadable(lazy(() => import('../views/mechanicManagement/MechanicList')))
-const Chat = Loadable(lazy(() => import('../views/chat/Chat')))
+const ChatBox = Loadable(lazy(() => import('../views/chat/ChatBox')))
 const UserList = Loadable(lazy(() => import('../views/userManagement/UserList')))
 const Feedback = Loadable(lazy(() => import('../views/userManagement/Feedback')))
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
@@ -28,7 +28,7 @@ const Router = [
       { path: '/', element: isLoggedIn() ? <Navigate to={`/dashboard/${id}`}/>: <Navigate to="/auth/login" /> },
       { path: '/dashboard/:id', exact: true, element: <Dashboard /> },
       { path: '/mechanicManagment/listOfMechanics/:id', exact: true, element: <MechanicList /> },
-      { path: '/chat/:id', exact: true, element: <Chat /> },
+      { path: '/chat/:id', exact: true, element: <ChatBox /> },
       { path: '/userManagment/listOfUsers/:id', exact: true, element: <UserList /> },
       { path: '/userManagment/feedback/:id', exact: true, element: <Feedback /> },
       { path: '/mehcanicManagement/MechanicReviews/:id', exact: true, element: <MechanicReviews /> },
