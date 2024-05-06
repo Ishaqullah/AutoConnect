@@ -1,5 +1,5 @@
 import { styles } from "../styles";
-//for displaying the model view/Window
+import Chat from "../../chat/Chat";
 function ModalWindow(props) {
     // returning display
     return (
