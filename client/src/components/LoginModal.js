@@ -13,6 +13,8 @@ import { Close } from '@mui/icons-material'; // Import the Close icon
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignUpModal from './SignUpModal';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 const LoginModal = ({ open, handleClose }) => {
   const [openSignup, setOpenSignup] = useState(false);
   const [formData,setFormData]= useState({
@@ -37,6 +39,7 @@ const LoginModal = ({ open, handleClose }) => {
       console.log("Server response:", response.data);
       navigate(`/User/${response.data.userId}`);
       handleClose();
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
       window.localStorage.setItem("isLoggedIn",true);
       window.localStorage.setItem("userId",response.data.userId);
     } catch (error) {

@@ -43,8 +43,8 @@ const NavItem = ({ item, level, pathDirect, onClick }) => {
       <ListItemStyled
         button
         component={item.external ? 'a' : NavLink}
-        to={item.href+`/${id}`}
-        href={item.external ? item.href+`/${id}` : ''}
+        to={'/mechanic'+item.href+`/${id}`}
+        href={item.external ? '/mechanic'+item.href+`/${id}` : ''}
         disabled={item.disabled}
         selected={pathDirect === item.href}
         target={item.external ? '_blank' : ''}

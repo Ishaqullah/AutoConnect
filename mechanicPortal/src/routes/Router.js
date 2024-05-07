@@ -18,18 +18,18 @@ const Login = Loadable(lazy(() => import('../views/authentication/Login')));
 const isLoggedIn = () => {
   return localStorage.getItem('isLoggedIn') === 'true';
 };
-
+const id=localStorage.getItem('mechanicId');
 const Router = [
   {
     path: '/',
     element: isLoggedIn() ? <FullLayout /> : <Navigate to="/auth/login" />,
     children: [
-      { path: '/', element: <Navigate to="/dashboard" /> },
-      { path: '/dashboard/:id', exact: true, element: <Dashboard /> },
-      { path: '/mechanicManagment/listOfMechanics/:id', exact: true, element: <MechanicList /> },
-      { path: '/chat/:id', exact: true, element: <Chat /> },
-      { path: '/userManagment/listOfUsers/:id', exact: true, element: <UserList /> },
-      { path: '/userManagment/feedback/:id', exact: true, element: <Feedback /> },
+      { path: '/', element: isLoggedIn() ? <Navigate to={`/mechanic/dashboard/${id}`} /> : <Navigate to="/auth/login" /> },
+      { path: '/mechanic/dashboard/:id', exact: true, element: <Dashboard /> },
+      { path: '/mechanic/profile/:id', exact: true, element: <MechanicList /> },
+      { path: '/mechanic/appointments/:id', exact: true, element: <Chat /> },
+      { path: '/mechanic/listOfUsers/:id', exact: true, element: <UserList /> },
+      { path: '/mechanic/reviews/:id', exact: true, element: <Feedback /> },
       { path: '*', element: <Navigate to="/auth/404/:id" /> },
     ],
   },

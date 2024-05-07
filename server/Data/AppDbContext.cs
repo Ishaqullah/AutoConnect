@@ -81,14 +81,11 @@ public class AppDbContext : DbContext
             .HasForeignKey(i => i.VehicleID);
 
         modelBuilder.Entity<Feedback>()
-            .HasOne(f => f.Buyer)
-            .WithMany(b => b.Feedbacks)
-            .HasForeignKey(f => f.BuyerID);
+            .HasOne(f => f.User)
+            .WithMany(u => u.Feedbacks)
+            .HasForeignKey(f => f.UserID);
 
-        modelBuilder.Entity<Feedback>()
-            .HasOne(f => f.Seller)
-            .WithMany(s => s.Feedbacks)
-            .HasForeignKey(f => f.SellerID);
+    
 
         modelBuilder.Entity<SavedAds>()
             .HasOne(sa=>sa.Buyer)

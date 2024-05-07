@@ -25,15 +25,19 @@ import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import ChatIcon from "@mui/icons-material/Chat";
-import { resolvePath, useParams } from "react-router-dom";
+import { resolvePath, useParams,Link } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
+import SimilarAds from "./SimilarAds";
+import { supabase } from "../lib/supabase";
 const AdDetailPage = ({onValueChange}) => {
   const { advertiseId, id } = useParams();
   
   useEffect(() => {
     onValueChange(id,advertiseId);
   }, [id, onValueChange]);
+  const [advertise,setAdvertise]=useState(null);
+  const [similarAds,setSimilarAds]=useState(null);
   const [adDetails, setAdDetails] = useState("");
   const [isLoading, setIsLoading]=useState(true);
   const settings = {
@@ -90,7 +94,7 @@ const AdDetailPage = ({onValueChange}) => {
       } finally {
         setTimeout(() => {
           setIsLoading(false);
-        }, 2000);
+        }, 4000);
       }
     };
 
@@ -115,11 +119,40 @@ const AdDetailPage = ({onValueChange}) => {
       } finally {
         setTimeout(() => {
           setIsLoading(false);
-        }, 2000);
+        }, 4000);
       }
     };
     fetchIsSaved();
   },[advertiseId]);
+
+  useEffect(()=>{
+    const fetchAds = async ()=>{
+      const {data }= await supabase.from('advertise').select('*');
+
+      if(data){
+        setAdvertise(data);
+        console.log("ads from supa",advertise);
+      }
+    };
+    fetchAds();
+  },[]);
+  useEffect (()=>{
+    if(!advertise?.embedding){
+      return;
+    }
+    const fetchSimilarAds = async ()=>{
+      const { data} = await supabase.rpc('match_advertises', {
+        query_embedding: advertise.embedding, // Pass the embedding you want to compare
+        match_threshold: 0.78, // Choose an appropriate threshold for your data
+        match_count: 3, // Choose the number of matches
+      })
+      console.log("similar",data);
+      setSimilarAds(data);
+      console.log("simiral ads",similarAds);
+    };
+    fetchSimilarAds();
+    
+  },[]);
 
 
   const imageUrls = adDetails.vehicleImages
@@ -271,6 +304,7 @@ const AdDetailPage = ({onValueChange}) => {
             </Typography>
           </CardContent>
         </Card>
+        <SimilarAds/>
       </Grid>
 
       <Grid item xs={12} md={3}>
@@ -314,6 +348,8 @@ const AdDetailPage = ({onValueChange}) => {
               color="secondary"
               startIcon={<ChatIcon />}
               fullWidth
+              component={Link}
+              to={id!==undefined?(`/ChatBox/User/${id}`):(``)}
               sx={{ marginTop: "10px" }}
             >
               Send Message

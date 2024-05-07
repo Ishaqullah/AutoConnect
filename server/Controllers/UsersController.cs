@@ -49,6 +49,7 @@ public class UsersController : ControllerBase
                 return Conflict("User with the same email already exists");
             }
             var newUser = new User{
+                UserName=formData.GetProperty("name").GetString(),
                 UserEmail= formData.GetProperty("email").GetString(), 
                 UserPassword= hash,
                 Buyer = new Buyer{
@@ -199,6 +200,47 @@ public IActionResult DeleteUser(int id)
         _context.SaveChanges();
 
         return Ok($"User with ID {id} and associated vehicles deleted successfully");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
+
+[HttpPost("feedback/{id}")]
+public IActionResult SaveFeedback(int id,[FromBody] dynamic formData)
+{
+    if (formData.ValueKind == JsonValueKind.Null)
+    {
+        return BadRequest("Invalid data");
+    }
+
+    try
+    {
+        int userId = id;
+        string feedback = formData.GetProperty("feedback").GetString();
+        int rating = formData.GetProperty("rating").GetInt32();
+
+        // Check if the user exists
+        var user = _context.Users.Find(userId);
+        if (user == null)
+        {
+            return NotFound($"User with ID {userId} not found");
+        }
+
+        // Save feedback
+        var newFeedback = new Feedback
+        {
+            UserID = userId,
+            feedback = feedback,
+            rating = rating
+        };
+
+        _context.Feedbacks.Add(newFeedback);
+        _context.SaveChanges();
+
+        return Ok("Feedback saved successfully");
     }
     catch (Exception ex)
     {

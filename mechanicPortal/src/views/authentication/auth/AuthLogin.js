@@ -28,7 +28,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             formData
           );
           console.log("Server response:", response.data);
-          navigate(`/dashboard/${response.data.mechanicId}`);
+          navigate(`/mechanic/dashboard/${response.data.mechanicId}`);
           window.localStorage.setItem("isLoggedIn",true);
           window.localStorage.setItem("mechanicId",response.data.mechanicId);
         } catch (error) {

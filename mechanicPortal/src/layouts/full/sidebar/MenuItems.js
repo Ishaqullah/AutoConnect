@@ -1,9 +1,10 @@
 import {
    IconLayoutDashboard, IconUserPlus
 } from '@tabler/icons';
-import ListIcon from '@mui/icons-material/List';
-import PreviewIcon from '@mui/icons-material/Preview';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import VideoCallIcon from '@mui/icons-material/VideoCall';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import ReviewsIcon from '@mui/icons-material/Reviews';
 import { uniqueId } from 'lodash';
 
 
@@ -21,45 +22,39 @@ const Menuitems = [
   },
   {
     navlabel: true,
-    subheader: 'User Management',
+    subheader: 'Users',
   },
   {
     id: uniqueId(),
-    title: 'List of Users',
-    icon: ListIcon,
-    href: '/userManagment/listOfUsers',
+    title: 'User Profiles',
+    icon: PeopleOutlineIcon,
+    href: '/listOfUsers',
   },
   {
     id: uniqueId(),
-    title: 'User feedback',
-    icon: PreviewIcon,
-    href: '/userManagment/feedback',
+    title: 'User reviews',
+    icon: ReviewsIcon,
+    href: '/reviews',
   },
   {
     navlabel: true,
-    subheader: 'Mechanic Managment',
+    subheader: 'Profile Managment',
   },
   {
     id: uniqueId(),
-    title: 'List of Mechanincs',
-    icon: ListIcon,
-    href: '/mechanicManagment/listOfMechanics',
-  },
-  {
-    id: uniqueId(),
-    title: 'Add/View/Delete Mechanic',
-    icon: IconUserPlus,
-    href: '/auth/register',
+    title: 'Update Profile',
+    icon: PersonAddAltIcon,
+    href: '/profile',
   },
   {
     navlabel: true,
-    subheader: 'Customer Support',
+    subheader: 'Appointments',
   },
   {
     id: uniqueId(),
-    title: 'Chat',
-    icon: ChatBubbleOutlineIcon,
-    href: '/chat',
+    title: 'Seek for appointments',
+    icon: VideoCallIcon ,
+    href: '/appointments',
   },
   // {
   //   id: uniqueId(),

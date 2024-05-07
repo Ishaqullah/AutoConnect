@@ -10,13 +10,18 @@ public class MechanicRating
     public int MechanicRatingID { get; set; }
     
     [Column("rating")]
-    public required int Rating;
+    public int Rating {get; set;}
     
     [Column("review")]
-    public required string Review;
+    public string Review {get; set;}
 
     [Column("mechanic_id")]
     public int? MechanicID {get; set;}
+
+    [Column("user_id")]
+    public int? UserID { get; set;}
+
+    public User User { get; set; }
     public Mechanic Mechanic { get; set; }
 
 }
