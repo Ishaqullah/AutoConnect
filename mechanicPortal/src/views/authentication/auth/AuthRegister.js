@@ -89,7 +89,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
           size="large"
           fullWidth
           component={Link}
-          to="/auth/login"
+          to="/"
           onClick={handleSubmit}
         >
           Sign Up

@@ -4,7 +4,10 @@ import { useTheme } from '@mui/material/styles';
 import DashboardCard from '../../../components/shared/DashboardCard';
 import Chart from 'react-apexcharts';
 import { useParams } from 'react-router';
-
+import Typography from '@mui/material/Typography';
+import { Rating } from '@mui/material';
+import Box from '@mui/material/Box';
+import MechanicList from 'src/views/mechanicManagement/MechanicList';
 const BuyersVsSellers = () => {
   const [count, setCount] = useState({ numberOfBuyers: 0, numberOfSellers: 0 });
   useEffect(() => {
@@ -71,7 +74,7 @@ const BuyersVsSellers = () => {
       },
     },
   };
-  
+
   // chart data
   const series = [
     {
@@ -79,10 +82,27 @@ const BuyersVsSellers = () => {
       data: [count.numberOfBuyers, count.numberOfSellers], // Update with actual number of buyers
     },
   ];
+  
+  const [value, setValue] = useState(2);
+
+
 
   return (
-    <DashboardCard title="">
-      <Chart options={options} series={series} type="bar" height="370px" />
+    <DashboardCard title="Rating">
+      <Box
+        sx={{
+          '& > legend': { mt: 2 },
+        }}
+      ></Box>
+      {/* <Chart options={options} series={series} type="bar" height="370px" /> */}
+      <Typography component="legend" />
+      <Rating
+        name="simple-controlled"
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+      />
     </DashboardCard>
   );
 };

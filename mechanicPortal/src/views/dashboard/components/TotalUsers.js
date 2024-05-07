@@ -1,14 +1,14 @@
-import React,{useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import axios from 'axios'
 import { useTheme } from '@mui/material/styles';
 import { Stack, Typography, Avatar, Fab } from '@mui/material';
-import { IconArrowUpRight,IconUserPlus } from '@tabler/icons';
+import { IconArrowUpRight, IconUserPlus } from '@tabler/icons';
 
 import DashboardCard from '../../../components/shared/DashboardCard';
 
 const TotalUsers = () => {
-  const [count, setCount] = useState({ numberOfBuyers: 0});
+  const [count, setCount] = useState({ numberOfBuyers: 0 });
   useEffect(() => {
     axios
       .get('http://localhost:5278/users/counts')
@@ -62,17 +62,17 @@ const TotalUsers = () => {
 
   return (
     <DashboardCard
-      title="Total Users"
-      action={
-        <Fab color="secondary" size="medium" sx={{color: '#ffffff'}}>
-          <IconUserPlus width={24} />
-        </Fab>
-      }
-      footer={
-        <Chart options={optionscolumnchart} series={seriescolumnchart} type="area" height="60px" />
-      }
+    // title="Total Users"
+    // action={
+    //   <Fab color="secondary" size="medium" sx={{color: '#ffffff'}}>
+    //     <IconUserPlus width={24} />
+    //   </Fab>
+    // }
+    // footer={
+    //   <Chart options={optionscolumnchart} series={seriescolumnchart} type="area" height="60px" />
+    // }
     >
-      <>
+      {/* <>
         <Typography variant="h3" fontWeight="700" mt="-20px">
          {count.numberOfBuyers}
         </Typography>
@@ -87,6 +87,16 @@ const TotalUsers = () => {
             last year
           </Typography>
         </Stack>
+      </> */}
+      <>
+        <Avatar src="/broken-image.jpg">
+        </Avatar>
+        <>
+        <Typography variant="subtitle1">Waseem Bhae</Typography>
+        <Typography variant="body2" color="textSecondary">waseem.bhae@gmail.com</Typography>
+        <Typography variant="body2" color="textSecondary">03352262666</Typography>
+        </>
+        
       </>
     </DashboardCard>
   );

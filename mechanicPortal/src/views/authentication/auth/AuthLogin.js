@@ -103,7 +103,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
           size="large"
           fullWidth
           component={Link}
-          to="/dashboard/"
+          to="/"
           type="submit"
           onClick={handleLogin}
         >
