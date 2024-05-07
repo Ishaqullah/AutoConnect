@@ -14,7 +14,6 @@ public class Seller{
 
     public List<Transaction> Transactions { get; set; }
     public List<Advertise> Advertises { get; set; }
-    public List<Feedback> Feedbacks { get; set; }
     public User User { get; set; }
 
 }

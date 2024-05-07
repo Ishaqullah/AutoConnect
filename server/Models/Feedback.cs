@@ -11,11 +11,11 @@ public class Feedback{
     [Column("feedback")]
     public required string feedback {get; set;}
 
-    [Column("buyer_id")]
-    public int? BuyerID {get; set;}
+     [Column("rating")]
+    public int? rating {get; set;}
+
+    [Column("user_id")]
+    public int? UserID {get; set;}
     
-    [Column("seller_id")]
-    public int? SellerID {get; set;}
-    public Buyer Buyer { get; set; }
-    public Seller Seller { get; set; }
+    public User User { get; set; }
 }

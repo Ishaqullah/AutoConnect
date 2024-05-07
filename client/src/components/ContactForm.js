@@ -8,16 +8,20 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Modal,
+  Box,
+  Rating,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import ChatWidget from "../ChatWidget";
-import emailjs from "@emailjs/browser";
-import Chat from "../chat/Chat";
+import axios  from "axios";
 import Alert from "@mui/material/Alert";
+
 const ContactForm = ({ onValueChange }) => {
   const { id } = useParams();
   const [message, setMessage] = useState("");
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [rating, setRating] = useState(2);
   useEffect(() => {
     onValueChange(id);
   }, [id, onValueChange]);
@@ -28,9 +32,15 @@ const ContactForm = ({ onValueChange }) => {
     message: "",
   });
 
+  const [feedBackFormData, setFeedbackFormData] = useState({
+    feedback: "",
+    rating: 0,
+  });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setFeedbackFormData({ ...feedBackFormData, [name]: value });
   };
   const form = useRef();
 
@@ -49,6 +59,7 @@ const ContactForm = ({ onValueChange }) => {
     //       console.log('FAILED...', error.text);
     //     },
     //   );
+
     setMessage("Email submitted");
     setTimeout(() => {
       setMessage("");
@@ -60,9 +71,52 @@ const ContactForm = ({ onValueChange }) => {
     });
   };
 
+  const submitFeedback = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const response = await axios.post(
+        `http://localhost:5278/users/feedback/${id}`,
+        feedBackFormData
+      );
+      console.log("Server response:", response.data);
+      setMessage("Thanks for your feedback");
+      setTimeout(() => {
+        setMessage("");
+      }, 3000);
+    } catch (error) {
+      console.error("Error submitting form:", error.message);
+      alert(error.message);
+    }
+   
+    setFeedbackFormData({
+      feedback: "",
+      rating: 0,
+    });
+    console.log("User feedback", feedBackFormData.feedback, feedBackFormData.rating);
+  };
+  const handleFeedbackModalOpen = () => {
+    setShowFeedbackModal(true);
+  };
+
+  const handleFeedbackModalClose = () => {
+    setShowFeedbackModal(false);
+  };
+
   return (
     <Container sx={{ paddingTop: "80px" }}>
       <Grid container spacing={3}>
+        {/* Feedback Button */}
+        <Grid item xs={12}>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleFeedbackModalOpen}
+          >
+            Give Feedback
+          </Button>
+        </Grid>
+
         {/* Left half for the large picture */}
         <Grid item xs={12} sm={6}>
           <Card sx={{ height: "100%" }}>
@@ -132,61 +186,69 @@ const ContactForm = ({ onValueChange }) => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} sm={6} mt={10}>
-          <Card sx={{ height: "100%" }}>
-            <CardContent>
-              <div className="home with-small-margin">
-                <div className="container with-small-margin">
-                  <Chat />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} sm={6} mt={10}>
-          <Card
-            sx={{
-              height: "100%",
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center", 
-              alignItems: "center",
-            }}
-          >
-            <CardContent>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <img
-                  src="/Images/chat_2.png"
-                  style={{
-                    marginBottom: "10px",
-                    height: "150px",
-                    width: "150px",
-                  }}
-                />
-                <span
-                  style={{
-                    color: "#7B7272",
-                    fontSize: "64px",
-                    fontWeight: "500",
-                    fontFamily: "Maven-Pro",
-                  }}
-                >
-                  Chat with our support team
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>
       </Grid>
+
+      {/* Feedback Modal */}
+      <Modal
+        open={showFeedbackModal}
+        onClose={handleFeedbackModalClose}
+        aria-labelledby="feedback-modal-title"
+        aria-describedby="feedback-modal-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "#f0f0f0",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Card sx={{ backgroundColor: "#f0f0f0", height: "100%" }}>
+            <CardContent>
+              {message ? <Alert severity="success">{message}</Alert> : <></>}
+              <Typography variant="h5" component="h2" gutterBottom>
+                Give us feedback
+              </Typography>
+              <form onSubmit={submitFeedback}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      fullWidth
+                      label="Message"
+                      variant="outlined"
+                      multiline
+                      rows={6}
+                      name="feedback"
+                      value={feedBackFormData.feedback}
+                      onChange={handleChange}
+                      required
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Rating
+                      name="rating"
+                      value={rating}
+                      onChange={(event, value) => {
+                        setRating(value);
+                        setFeedbackFormData({ ...feedBackFormData, rating: value });
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Button variant="contained" color="primary" type="submit">
+                      Submit
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </CardContent>
+          </Card>
+        </Box>
+      </Modal>
     </Container>
   );
 };

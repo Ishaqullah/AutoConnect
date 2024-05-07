@@ -25,5 +25,5 @@ public class User
     public Seller Seller { get; set; }
     public Buyer Buyer { get; set; }
     public List<MechanicRating> MechanicRatings { get; set; }
-
+    public List<Feedback> Feedbacks { get; set; }
 }

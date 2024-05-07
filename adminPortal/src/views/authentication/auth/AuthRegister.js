@@ -5,9 +5,7 @@ import axios from 'axios';
 import { useNavigate ,useParams} from "react-router-dom";
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
-import { auth,db } from "../../../firebase";
-import {  createUserWithEmailAndPassword,updateProfile} from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore"; 
+
 const AuthRegister = ({ title, subtitle, subtext }) => {
     const navigate= useNavigate()
     const [formData,setFormData]=useState({
@@ -29,32 +27,6 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
         } catch (error) {
           console.error("Error submitting form:", error.message);
           alert(error.message)
-        }
-
-        try {
-          // Create user in Firebase Authentication
-          const res = await createUserWithEmailAndPassword(
-            auth,
-            formData.email,
-            formData.password
-          );
-    
-          // Update the user's display name
-          await updateProfile(res.user, {
-            displayName: formData.name
-          });
-    
-          await setDoc(doc(db, "users", res.user.uid), {
-            uid:res.user.uid,
-            displayName:formData.name,
-            email:formData.email,
-          });
-    
-          await setDoc(doc(db, "userChats", res.user.uid), {});
-          console.log("Firebase user created:", res.user);
-        } catch (error) {
-          console.error("Error creating user:", error.message);
-          alert(error.message);
         }
       };
       const handleChange =(event)=>{

@@ -1,7 +1,7 @@
 using System.Text.Json;
+using BCrypt.Net;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using BCrypt.Net;
 
 [EnableCors("AllowAll")]
 [Route("[controller]")]
@@ -14,25 +14,27 @@ public class AdminsController : ControllerBase
     {
         _context = context;
     }
+
     [HttpGet("{id}")]
     public IActionResult GetAllAdmins(int id)
     {
         try
         {
-             var admin = _context.Admins.Find(id);
+            var admin = _context.Admins.Find(id);
 
-        if (admin == null)
-        {
-            return NotFound($"Admin with ID {id} not found");
-        }
+            if (admin == null)
+            {
+                return NotFound($"Admin with ID {id} not found");
+            }
 
-        return Ok(admin);
+            return Ok(admin);
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
     [HttpPut("updateMechanic/{id}")]
     public IActionResult UpdateMechanic(int id, [FromBody] dynamic formData)
     {
@@ -59,6 +61,7 @@ public class AdminsController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
     [HttpPost("signupAdmin")]
     public IActionResult SignupAdmin([FromBody] dynamic formData)
     {
@@ -75,7 +78,9 @@ public class AdminsController : ControllerBase
                 return Conflict("Admin with the same email already exists");
             }
 
-            string hash = BCrypt.Net.BCrypt.HashPassword(formData.GetProperty("password").GetString());
+            string hash = BCrypt.Net.BCrypt.HashPassword(
+                formData.GetProperty("password").GetString()
+            );
 
             var newAdmin = new Admin
             {
@@ -115,16 +120,56 @@ public class AdminsController : ControllerBase
                 return NotFound("Admin does not exist (Incorrect Email or Password)");
             }
 
-            bool passwordsMatch = BCrypt.Net.BCrypt.Verify(adminPassword, adminWithEmail.AdminPassword);
+            bool passwordsMatch = BCrypt.Net.BCrypt.Verify(
+                adminPassword,
+                adminWithEmail.AdminPassword
+            );
 
             if (passwordsMatch)
             {
-                return Ok(new { AdminId = adminWithEmail.AdminID, Message = "Admin logged in successfully" });
+                return Ok(
+                    new
+                    {
+                        AdminId = adminWithEmail.AdminID,
+                        Message = "Admin logged in successfully"
+                    }
+                );
             }
             else
             {
                 throw new Exception("Incorrect password for admin: " + adminWithEmail.AdminEmail);
             }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+    [HttpGet("allFeedbacks")]
+    public IActionResult GetAllFeedbacksWithUsers()
+    {
+        try
+        {
+            var feedbacks = _context
+                .Feedbacks.Join(
+                    _context.Users,
+                    feedback => feedback.UserID,
+                    user => user.UserID,
+                    (feedback, user) =>
+                        new
+                        {
+                            FeedbackID = feedback.FeedbackID,
+                            UserID = feedback.UserID,
+                            UserName = user.UserName,
+                            UserEmail = user.UserEmail,
+                            FeedbackText = feedback.feedback,
+                            Rating = feedback.rating
+                        }
+                )
+                .ToList();
+
+            return Ok(feedbacks);
         }
         catch (Exception ex)
         {
