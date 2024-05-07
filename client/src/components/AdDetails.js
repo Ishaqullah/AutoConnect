@@ -25,21 +25,21 @@ import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import ChatIcon from "@mui/icons-material/Chat";
-import { resolvePath, useParams,Link } from "react-router-dom";
+import { resolvePath, useParams, Link } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import SimilarAds from "./SimilarAds";
 import { supabase } from "../lib/supabase";
-const AdDetailPage = ({onValueChange}) => {
+const AdDetailPage = ({ onValueChange }) => {
   const { advertiseId, id } = useParams();
-  
+
   useEffect(() => {
-    onValueChange(id,advertiseId);
+    onValueChange(id, advertiseId);
   }, [id, onValueChange]);
-  const [advertise,setAdvertise]=useState(null);
-  const [similarAds,setSimilarAds]=useState(null);
+  const [advertise, setAdvertise] = useState(null);
+  const [similarAds, setSimilarAds] = useState(null);
   const [adDetails, setAdDetails] = useState("");
-  const [isLoading, setIsLoading]=useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const settings = {
     showArrows: false,
     showStatus: false,
@@ -56,14 +56,14 @@ const AdDetailPage = ({onValueChange}) => {
 
   const [isSaved, setIsSaved] = useState(false);
   const BuyerId = {
-    id:id
+    id: id,
   };
   const handleSave = async () => {
     // setIsSaved(true);
     try {
       const response = await axios.post(
         `http://localhost:5278/advertises/savedAds/${advertiseId}`,
-         BuyerId
+        BuyerId
       );
 
       // Check the response or update the UI based on your API response
@@ -79,7 +79,9 @@ const AdDetailPage = ({onValueChange}) => {
   };
 
   const handleUnsave = () => {
-    axios.delete(`http://localhost:5278/advertises/user/${id}/adId/${advertiseId}`);
+    axios.delete(
+      `http://localhost:5278/advertises/user/${id}/adId/${advertiseId}`
+    );
     setIsSaved(false);
   };
   useEffect(() => {
@@ -101,17 +103,15 @@ const AdDetailPage = ({onValueChange}) => {
     fetchData();
   }, [advertiseId]);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     const fetchIsSaved = async () => {
       try {
         const response = await axios.get(
           `http://localhost:5278/advertises/isSavedAd/${advertiseId}`
         );
-        if(response.data==id){
+        if (response.data == id) {
           setIsSaved(true);
-        }
-        else{
+        } else {
           setIsSaved(false);
         }
       } catch (error) {
@@ -123,38 +123,43 @@ const AdDetailPage = ({onValueChange}) => {
       }
     };
     fetchIsSaved();
-  },[advertiseId]);
+  }, [advertiseId]);
 
-  useEffect(()=>{
-    const fetchAds = async ()=>{
-      const {data }= await supabase.from('advertise').select('*');
+  useEffect(() => {
+    const fetchAds = async () => {
+      const { data: ads } = await supabase.from("advertise").select("*").eq("advertise_id",advertiseId);
 
-      if(data){
-        setAdvertise(data);
-        console.log("ads from supa",advertise);
+      if (ads == null) {
+        setIsLoading(true);
+      } else {
+        console.log("data from supa", ads);
+        if (!ads[0]?.embedding) {
+         return;
+        }
+        const { data: simAds } = await supabase.rpc("match_advertises", {
+          query_embedding: ads[0].embedding, // Pass the embedding you want to compare
+          match_threshold: 0.78, // Choose an appropriate threshold for your data
+          match_count: 3, // Choose the number of matches
+        }
+        
+      );
+        console.log("Sim ads",simAds);
+        setSimilarAds(simAds);
+        
       }
     };
     fetchAds();
-  },[]);
-  useEffect (()=>{
-    if(!advertise?.embedding){
-      return;
-    }
-    const fetchSimilarAds = async ()=>{
-      const { data} = await supabase.rpc('match_advertises', {
-        query_embedding: advertise.embedding, // Pass the embedding you want to compare
-        match_threshold: 0.78, // Choose an appropriate threshold for your data
-        match_count: 3, // Choose the number of matches
-      })
-      console.log("similar",data);
-      setSimilarAds(data);
-      console.log("simiral ads",similarAds);
-    };
-    fetchSimilarAds();
-    
-  },[]);
-
-
+  }, []);
+  // useEffect(() => {
+  //   if (!advertise?.embedding) {
+  //     return;
+  //   }
+  //   const fetchSimilarAds = async () => {
+      
+  //   };
+  //   fetchSimilarAds();
+  // }, []);
+ 
   const imageUrls = adDetails.vehicleImages
     ? adDetails.vehicleImages.split(", ")
     : [];
@@ -173,6 +178,8 @@ const AdDetailPage = ({onValueChange}) => {
       </Container>
     );
   }
+  console.log("simiral ads", similarAds);
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={9} md={9}>
@@ -201,11 +208,9 @@ const AdDetailPage = ({onValueChange}) => {
               Ad Details
             </Typography>
             {id !== undefined ? (
-              
-                <Button onClick={!isSaved ? handleSave : handleUnsave}>
-                  {isSaved ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                </Button>
-              
+              <Button onClick={!isSaved ? handleSave : handleUnsave}>
+                {isSaved ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              </Button>
             ) : null}
           </CardContent>
           <Grid container justifyContent="center" spacing={2}>
@@ -304,7 +309,7 @@ const AdDetailPage = ({onValueChange}) => {
             </Typography>
           </CardContent>
         </Card>
-        <SimilarAds/>
+        <SimilarAds similarAds={similarAds}/>
       </Grid>
 
       <Grid item xs={12} md={3}>
@@ -349,7 +354,7 @@ const AdDetailPage = ({onValueChange}) => {
               startIcon={<ChatIcon />}
               fullWidth
               component={Link}
-              to={id!==undefined?(`/ChatBox/User/${id}`):(``)}
+              to={id !== undefined ? `/ChatBox/User/${id}` : ``}
               sx={{ marginTop: "10px" }}
             >
               Send Message
