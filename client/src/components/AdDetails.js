@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -22,16 +22,19 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import SpeedIcon from "@mui/icons-material/Speed";
 import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import DriveEtaIcon from "@mui/icons-material/DriveEta";
-import PhoneIcon from "@mui/icons-material/Phone";
+import VideocamIcon from "@mui/icons-material/Videocam";
 import ConstructionIcon from "@mui/icons-material/Construction";
 import ChatIcon from "@mui/icons-material/Chat";
-import { resolvePath, useParams, Link } from "react-router-dom";
+import { resolvePath, useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import SimilarAds from "./SimilarAds";
 import { supabase } from "../lib/supabase";
+import Loader from "./loader";
+import { toast } from "react-toastify";
 const AdDetailPage = ({ onValueChange }) => {
   const { advertiseId, id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     onValueChange(id, advertiseId);
@@ -69,116 +72,89 @@ const AdDetailPage = ({ onValueChange }) => {
       // Check the response or update the UI based on your API response
       if (response.status === 200) {
         setIsSaved(true);
-        console.log("Ad saved successfully!");
+        toast.success("Ad saved successfully!");
       } else {
-        console.error("Error saving ad:", response.data);
+        toast.error("Error saving ad:", response.data);
       }
     } catch (error) {
       console.error("Error saving ad:", error);
     }
   };
-
   const handleUnsave = () => {
     axios.delete(
       `http://localhost:5278/advertises/user/${id}/adId/${advertiseId}`
+
     );
+
     setIsSaved(false);
+    toast.success("Ad removed from saved ads!");
   };
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(
           `http://localhost:5278/advertises/adDetails/${advertiseId}`
         );
         setAdDetails(response.data);
+        try {
+          const response = await axios.get(
+            `http://localhost:5278/advertises/isSavedAd/${advertiseId}`
+          );
+          if (response.data == id) {
+            setIsSaved(true);
+          } else {
+            setIsSaved(false);
+          }
+        } catch (error) {
+          console.log("Error fetching ad", error);
+        }
+        const { data: ads } = await supabase
+          .from("advertise")
+          .select("*")
+          .eq("advertise_id", advertiseId);
+
+        if (ads == null) {
+          setIsLoading(true);
+        } else {
+          console.log("data from supa", ads);
+          if (!ads[0]?.embedding) {
+            return;
+          }
+          const { data: simAds } = await supabase.rpc("match_advertises", {
+            query_embedding: ads[0].embedding, // Pass the embedding you want to compare
+            match_threshold: 0.78, // Choose an appropriate threshold for your data
+            match_count: 3, // Choose the number of matches
+          });
+
+          setSimilarAds(simAds);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.log("Error fetching ad", error);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 4000);
       }
     };
 
     fetchData();
   }, [advertiseId]);
 
-  useEffect(() => {
-    const fetchIsSaved = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5278/advertises/isSavedAd/${advertiseId}`
-        );
-        if (response.data == id) {
-          setIsSaved(true);
-        } else {
-          setIsSaved(false);
-        }
-      } catch (error) {
-        console.log("Error fetching ad", error);
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 4000);
-      }
-    };
-    fetchIsSaved();
-  }, [advertiseId]);
-
-  useEffect(() => {
-    const fetchAds = async () => {
-      const { data: ads } = await supabase.from("advertise").select("*").eq("advertise_id",advertiseId);
-
-      if (ads == null) {
-        setIsLoading(true);
-      } else {
-        console.log("data from supa", ads);
-        if (!ads[0]?.embedding) {
-         return;
-        }
-        const { data: simAds } = await supabase.rpc("match_advertises", {
-          query_embedding: ads[0].embedding, // Pass the embedding you want to compare
-          match_threshold: 0.78, // Choose an appropriate threshold for your data
-          match_count: 3, // Choose the number of matches
-        }
-        
-      );
-        console.log("Sim ads",simAds);
-        setSimilarAds(simAds);
-        
-      }
-    };
-    fetchAds();
-  }, []);
   // useEffect(() => {
   //   if (!advertise?.embedding) {
   //     return;
   //   }
   //   const fetchSimilarAds = async () => {
-      
+
   //   };
   //   fetchSimilarAds();
   // }, []);
- 
+
   const imageUrls = adDetails.vehicleImages
     ? adDetails.vehicleImages.split(", ")
     : [];
   console.log(adDetails);
   if (isLoading) {
-    return (
-      <Container
-        sx={{
-          alignContent: "center",
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "100px",
-        }}
-      >
-        <CircularProgress />
-      </Container>
-    );
+    return <Loader loading={isLoading} />;
   }
-  console.log("simiral ads", similarAds);
 
   return (
     <Grid container spacing={3}>
@@ -309,7 +285,6 @@ const AdDetailPage = ({ onValueChange }) => {
             </Typography>
           </CardContent>
         </Card>
-       
       </Grid>
 
       <Grid item xs={12} md={3}>
@@ -339,16 +314,8 @@ const AdDetailPage = ({ onValueChange }) => {
             >
               {adDetails.price} Rs
             </Typography>
-            <Button
-              variant="contained"
-              color="success"
-              startIcon={<PhoneIcon />}
-              fullWidth
-              sx={{ marginTop: "20px" }}
-            >
-              Contact Seller
-            </Button>
-            <Button
+           
+            {id!=adDetails.seller.userID && <Button
               variant="outlined"
               color="secondary"
               startIcon={<ChatIcon />}
@@ -358,7 +325,7 @@ const AdDetailPage = ({ onValueChange }) => {
               sx={{ marginTop: "10px" }}
             >
               Send Message
-            </Button>
+            </Button>}
           </CardContent>
         </Card>
 
@@ -371,7 +338,7 @@ const AdDetailPage = ({ onValueChange }) => {
               component="div"
               sx={{ fontWeight: "bold" }}
             >
-              Seller Details
+              {adDetails.seller.userID!=id ? ("Seller ") : ("Your ")} Details
             </Typography>
             <Typography variant="subtitle1" sx={{ marginTop: "10px" }}>
               <b>Name:</b> {adDetails.seller.userName}
@@ -391,7 +358,7 @@ const AdDetailPage = ({ onValueChange }) => {
         </Card>
       </Grid>
       <Grid item xs={12} md={12}>
-      <SimilarAds similarAds={similarAds}/>
+        <SimilarAds similarAds={similarAds} />
       </Grid>
     </Grid>
   );

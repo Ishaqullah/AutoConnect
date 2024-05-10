@@ -168,6 +168,15 @@ const Navbar = ({ id }) => {
             <b>Used Cars</b>
           </Button>
 
+
+          <Button
+            color="secondary"
+            component={Link}
+            to={id ? `/Mechanics/User/${id}` : "/Mechanics"}
+          >
+            <b>Mechanics</b>
+          </Button>
+
           <Button
             color="secondary"
             component={Link}

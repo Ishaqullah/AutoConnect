@@ -4,23 +4,33 @@ import SearchFilters from "./searchFilters";
 import { Container, Typography } from "@mui/material";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Loader from "./loader";
 
 const BuyCar = ({ onValueChange }) => {
   const [vehicles, setVehicles] = useState([]);
   const { id } = useParams();
   const [filteredData, setFilteredData] = useState();
-
+  const [loading,setLoading]= useState(true);
   useEffect(() => {
     onValueChange(id);
   }, [id, onValueChange]);
   useEffect(() => {
-    axios
-      .get("http://localhost:5278/vehicles")
-      .then((response) => setVehicles(response.data))
-      .catch((error) => console.error("Error fetching vehicles:", error));
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5278/vehicles`
+        );
+        setVehicles(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log("Error fetching ad", error);
+      } 
+    };
+
+    fetchData();
   }, []);
   // console.log(vehicles);
-
+  
   const handleSearch = (selectedKeyword) => {
     const data = vehicles.filter((val) => {
       if (selectedKeyword == "") {
@@ -82,6 +92,7 @@ const BuyCar = ({ onValueChange }) => {
         minWidth: "500px",
       }}
     >
+      <Loader loading={loading}/>
       <SearchFilters onSearch={handleSearch} onRangeSearch={handleRangeSearch} onRegSearch={handleRegSearch}/>
       <Container maxWidth="md" sx={{ marginLeft: "20px" }}>
         <Typography variant="h4" color={"#9D1515"}>

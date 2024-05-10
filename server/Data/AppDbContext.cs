@@ -65,6 +65,13 @@ public class AppDbContext : DbContext
             .WithMany(m => m.MechanicRatings)
             .HasForeignKey(mr => mr.MechanicID);
 
+
+        modelBuilder.Entity<MechanicRating>()
+        .HasOne(mr => mr.User)  // Assuming there's a User navigation property in the MechanicRating entity pointing to the User entity
+        .WithMany(u => u.MechanicRatings)
+        .HasForeignKey(mr => mr.UserID)  // Assuming the foreign key property in MechanicRating entity referring to User is called UserID
+        .OnDelete(DeleteBehavior.Cascade); // Cascade delete behavior
+
         modelBuilder.Entity<Inspection>()
             .HasOne(i => i.Buyer)
             .WithMany(b => b.Inspections)

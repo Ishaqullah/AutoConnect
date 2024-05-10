@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SignUpModal from './SignUpModal';
 import { signInWithEmailAndPassword } from "firebase/auth";
+import {  toast } from 'react-toastify';
+
 import { auth } from "../firebase";
 const LoginModal = ({ open, handleClose }) => {
   const [openSignup, setOpenSignup] = useState(false);
@@ -37,14 +39,15 @@ const LoginModal = ({ open, handleClose }) => {
         formData
       );
       console.log("Server response:", response.data);
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
       navigate(`/User/${response.data.userId}`);
       handleClose();
-      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      toast.success("Welcome to AutoConnect");
       window.localStorage.setItem("isLoggedIn",true);
       window.localStorage.setItem("userId",response.data.userId);
     } catch (error) {
       console.error("Error submitting form:", error.message);
-      alert(error.message)
+      toast.error("Incorrect credentials")
     }
   };
 
@@ -62,6 +65,7 @@ const LoginModal = ({ open, handleClose }) => {
  }
    return (
     <>
+   
     {openSignup && (<SignUpModal open={openSignup} handleClose={handleSignupClose} />)}
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
       <DialogTitle>

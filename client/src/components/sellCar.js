@@ -26,6 +26,7 @@ import SignUpModal from "./SignUpModal";
 import { useEffect } from "react";
 import { Country, State, City } from "country-state-city";
 import Loader from "./loader"
+import { toast } from "react-toastify";
 const sellCar = ({ onValueChange }) => {
   const [make, setMake] = useState(null);
   const [model, setModel] = useState(null);
@@ -267,13 +268,13 @@ const sellCar = ({ onValueChange }) => {
           `http://localhost:5278/advertises/submitAdvertises/${id}`,
           formData
         );
-        console.log("Server response:", response.data);
+        toast.success("Add posted successfully")
         navigate(`/User/${id}`);
       } else {
         alert("Please signup or login to post Advertisements!");
       }
     } catch (error) {
-      console.error("Error submitting form:", error.message);
+      toast.error("Error submitting form");
     }
   };
 
@@ -285,11 +286,11 @@ const sellCar = ({ onValueChange }) => {
         formData
       )
       .then((resp) => {
-        console.log("Vehicle updated successfully:", resp.data);
-        navigate(`/User/${id}`);
+        toast.success("Add Updated successfully")
+        navigate(`/MyAds/User/${id}`);
       })
       .catch((error) => {
-        console.error("Error updating vehicle:", error);
+        toast.error("Error updating vehicle:", error);
       });
   };
 

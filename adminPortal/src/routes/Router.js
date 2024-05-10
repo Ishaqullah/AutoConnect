@@ -18,13 +18,13 @@ const MechanicReviews = Loadable(lazy(()=>import('../views/mechanicManagement/Me
 const isLoggedIn = () => {
   return localStorage.getItem('isLoggedIn') === 'true';
 };
-const id=localStorage.getItem('adminId');
+const adminId=localStorage.getItem('adminId');
 const Router = [
   {
     path: '/',
-    element: isLoggedIn() ? <FullLayout /> : <Navigate to="/auth/login" />,
+    element: <FullLayout /> ,
     children: [
-      { path: '/', element: isLoggedIn() ? <Navigate to={`/dashboard/${id}`}/>: <Navigate to="/auth/login" /> },
+      { path: '/', element: isLoggedIn() ? <Navigate to={`/dashboard/${adminId}`}/>: <Navigate to="/auth/login" /> },
       { path: '/dashboard/:id', exact: true, element: <Dashboard /> },
       { path: '/mechanicManagment/listOfMechanics/:id', exact: true, element: <MechanicList /> },
       { path: '/feedback/:id', exact: true, element: <Feedback /> },

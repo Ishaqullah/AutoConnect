@@ -23,6 +23,9 @@ import MySavedAds from "./components/MySavedAds";
 import AllComparisions from "./components/allComparisions";
 import {supabase} from "./lib/supabase";
 import {AuthContext} from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
+import VideoRoom from "./components/VideoRoom";
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = Theme;
 function App() {
@@ -31,16 +34,7 @@ function App() {
   const [advertiseId,setAdvertiseId]=useState('')
 
 
-  useEffect (()=>{
-    const fetchAds = async () =>{
-      let { data: advertise, error } = await supabase.from('advertise').select('*')
-    
-      console.log("error from supabase",error);
-      console.log("ads from supabase",advertise)
-    };
-fetchAds();
-   
-  },[]);
+  
           
 
   // const {userId}=useParams();
@@ -54,11 +48,12 @@ fetchAds();
     // Check if user is logged in (you can replace this with your authentication logic)
     const isLoggedIn = window.localStorage.getItem("isLoggedIn");
     const userId = window.localStorage.getItem("userId");
-    // If the user is logged in, redirect to localhost:3000/User/1
-    if (isLoggedIn) {
+    
+    // If the user is logged in and the current path is not the home page, redirect to the user's page
+    if (isLoggedIn && window.location.pathname === '/') {
       navigate(`/User/${userId}`);
     }
-  },[]);
+  }, []);
   const handleChildValueChange = (value) => {
     setId(value)
   };
@@ -87,7 +82,20 @@ fetchAds();
 
             <Grid item xs={10}>
               <Navbar id={id}/>
-              
+              <ToastContainer  position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                toastStyle={{
+                  width: "auto",
+                  margin: "0 auto",
+                  textAlign: "center"
+                }}/>
               <Routes>
                 <Route exact path="/" element={<Home onValueChange={handleChildValueChange}/>}/>
                 <Route exact path='/User/:id' element={<Home onValueChange={handleChildValueChange}/>}/>
@@ -109,6 +117,7 @@ fetchAds();
                 <Route exact path="/Comparisions/User/:id" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Comparisions" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/ChatBox/User/:id" element={<ChatBox onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/Room/:roomId/User/:id" element={<VideoRoom onValueChange={handleChildValueChange}/>}/>
               </Routes>
             </Grid>
 
