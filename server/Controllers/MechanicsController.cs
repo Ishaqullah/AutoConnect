@@ -295,4 +295,43 @@ public class MechanicsController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+    [HttpGet("ratings-reviews/{id}")]
+public IActionResult GetMechanicRatingReviews(int id)
+{
+    try
+    {
+        // Find the mechanic
+        var mechanic = _context.Mechanics.Find(id);
+
+        if (mechanic == null)
+        {
+            return NotFound("Mechanic not found");
+        }
+
+        // Retrieve all ratings and reviews for the mechanic
+        var ratingsReviews = _context.MechanicRatings
+            .Include(r => r.User) // Include user details
+            .Where(r => r.MechanicID == id)
+            .Select(r => new
+            {
+                Rating = r.Rating,
+                Review = r.Review,
+                User = new
+                {
+                    UserId = r.User.UserID,
+                    UserName = r.User.UserName,
+                    UserEmail = r.User.UserEmail
+                    // Add other user details as needed
+                }
+            })
+            .ToList();
+
+        return Ok(ratingsReviews);
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
 }
