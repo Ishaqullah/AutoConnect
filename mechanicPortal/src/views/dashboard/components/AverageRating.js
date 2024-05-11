@@ -13,7 +13,7 @@ const AverageRating = () => {
   useEffect(() => {
     const fetchMechanic = async () => {
       try {
-        const response = await axios.get(`http://localhost:5278/mechanics/${id}`);
+        const response = await axios.get(`http://localhost:5278/mechanics/ratings/${id}`);
         setMechanic(response.data);
       } catch (error) {
         console.error('Error fetching mechanic:', error);
@@ -38,11 +38,11 @@ const AverageRating = () => {
       {mechanic && (
         <>
           <Typography variant="h3" fontWeight="700" mt="-20px">
-            {mechanic.averageRating}
+          {mechanic.averageRating.toFixed(2)}
           </Typography>
           <Stack direction="column" spacing={1} my={1}>
           <Rating name="half-rating-read" defaultValue={mechanic.averageRating} precision={0.5} readOnly />
-              
+
               <Avatar sx={{ bgcolor: errorlight, width: 27, height: 27 }}>
                 <IconTrendingUp width={20} color="#E6FFFA" />
               </Avatar>
