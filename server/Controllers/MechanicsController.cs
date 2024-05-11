@@ -17,24 +17,34 @@ public class MechanicsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetAllAdmins(int id)
+     public IActionResult GetMechanicsById(int id)
+{
+    try
     {
-        try
-        {
-            var mechanic = _context.Mechanics.Find(id);
+        var mechanic = _context.Mechanics.Find(id);
 
-            if (mechanic == null)
-            {
-                return NotFound($"Mechanic with ID {id} not found");
-            }
-
-            return Ok(mechanic);
-        }
-        catch (Exception ex)
+        if (mechanic == null)
         {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
+            return NotFound($"Mechanic with ID {id} not found");
         }
+
+        // Create a new object to hold mechanic information
+        var mechanicInfo = new
+        {
+            Name = mechanic.MechanicName,
+            Email = mechanic.MechanicEmail,
+            Address = mechanic.MechanicAddress ?? null, // If Address is null, set it to null
+            Phone = mechanic.MechanicPhone ?? null,
+            AverageRating=mechanic.AverageRating
+        };
+
+        return Ok(mechanicInfo);
     }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
     [HttpGet]
     public IActionResult GetAllMechanics()
     {
@@ -52,7 +62,7 @@ public class MechanicsController : ControllerBase
                 .ToList(); // Materialize the ratings
 
                 double averageRating = ratings.Any() ? ratings.Average() : 0; // Calculate average
-
+                int numberOfReviews = ratings.Count();
                 // Create the mechanic detail object with the average rating
                 var mechanicDetail = new
                 {
@@ -61,7 +71,8 @@ public class MechanicsController : ControllerBase
                     MechanicEmail = mechanic.MechanicEmail,
                     MechanicPhone = mechanic.MechanicPhone,
                     MechanicAddress = mechanic.MechanicAddress,
-                    AverageRating = averageRating // Assign the calculated average rating
+                    AverageRating = averageRating,
+                    NumberOfReviews = numberOfReviews // Assign the calculated average rating
                 };
 
                 mechanicDetails.Add(mechanicDetail);
@@ -121,8 +132,6 @@ public class MechanicsController : ControllerBase
                 MechanicEmail = formData.GetProperty("email").GetString(),
                 MechanicPassword = hashPassword,
                 MechanicName = formData.GetProperty("name").GetString(),
-                MechanicAddress = formData.GetProperty("address").GetString(),
-                MechanicPhone = formData.GetProperty("phone").GetString()
             };
 
             _context.Mechanics.Add(newMechanic);
@@ -251,8 +260,8 @@ public class MechanicsController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
-    [HttpPost("ratings/{id}")]
-    public IActionResult GiveRating(int id, [FromBody] dynamic formData)
+    [HttpPost("ratings/{id}/{userId}")]
+    public IActionResult GiveRating(int id,int userId, [FromBody] dynamic formData)
     {
         if (formData.ValueKind == JsonValueKind.Null)
         {
@@ -272,7 +281,7 @@ public class MechanicsController : ControllerBase
             {
                 MechanicID = id,
                 Rating = (int)formData.GetProperty("rating").GetDouble(),
-                UserID = (int)formData.GetProperty("userId").GetDouble(),
+                UserID = userId,
                 Review = formData.GetProperty("review").GetString()
             };
 

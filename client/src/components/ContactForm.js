@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios  from "axios";
 import Alert from "@mui/material/Alert";
+import { toast } from "react-toastify";
 
 const ContactForm = ({ onValueChange }) => {
   const { id } = useParams();
@@ -80,10 +81,7 @@ const ContactForm = ({ onValueChange }) => {
         feedBackFormData
       );
       console.log("Server response:", response.data);
-      setMessage("Thanks for your feedback");
-      setTimeout(() => {
-        setMessage("");
-      }, 3000);
+      toast.success("Thanks for your feedback");
     } catch (error) {
       console.error("Error submitting form:", error.message);
       alert(error.message);
@@ -111,7 +109,7 @@ const ContactForm = ({ onValueChange }) => {
           <Button
             variant="outlined"
             color="primary"
-            onClick={handleFeedbackModalOpen}
+            onClick={() => {id!=undefined ?(handleFeedbackModalOpen) : (toast.warning("Login first to give feedback "))}}
           >
             Give Feedback
           </Button>

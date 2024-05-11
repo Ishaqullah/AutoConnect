@@ -22,7 +22,7 @@ const id=localStorage.getItem('mechanicId');
 const Router = [
   {
     path: '/',
-    element: isLoggedIn() ? <FullLayout /> : <Navigate to="/auth/login" />,
+    element: <FullLayout />,
     children: [
       { path: '/', element: isLoggedIn() ? <Navigate to={`/mechanic/dashboard/${id}`} /> : <Navigate to="/auth/login" /> },
       { path: '/mechanic/dashboard/:id', exact: true, element: <Dashboard /> },

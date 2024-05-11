@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import {Alert} from '@mui/material';
+import { toast } from 'react-toastify';
 const AuthLogin = ({ title, subtitle, subtext }) => {
     const [formData,setFormData]= useState({
         email:'',
@@ -28,7 +29,9 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
             formData
           );
           console.log("Server response:", response.data);
+          toast.success("Welcome to Autoconnect")
           navigate(`/mechanic/dashboard/${response.data.mechanicId}`);
+         
           window.localStorage.setItem("isLoggedIn",true);
           window.localStorage.setItem("mechanicId",response.data.mechanicId);
         } catch (error) {

@@ -26,6 +26,9 @@ import {AuthContext} from "./context/AuthContext";
 import { ToastContainer } from "react-toastify";
 import VideoRoom from "./components/VideoRoom";
 import 'react-toastify/dist/ReactToastify.css';
+import MechanicListing from "./components/MechanicListing";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 const theme = Theme;
 function App() {
@@ -71,6 +74,7 @@ function App() {
   return (
    
     <ThemeProvider theme={Theme}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div
         style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
       >
@@ -118,6 +122,8 @@ function App() {
                 <Route exact path="/Comparisions" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/ChatBox/User/:id" element={<ChatBox onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Room/:roomId/User/:id" element={<VideoRoom onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/Mechanics" element={<MechanicListing onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/Mechanics/User/:id" element={<MechanicListing onValueChange={handleChildValueChange}/>}/>
               </Routes>
             </Grid>
 
@@ -131,6 +137,7 @@ function App() {
           <Footer />
         </footer>
       </div>
+      </LocalizationProvider>
     </ThemeProvider>
    
   );
