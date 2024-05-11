@@ -35,7 +35,7 @@ public class MechanicsController : ControllerBase
             Email = mechanic.MechanicEmail,
             Address = mechanic.MechanicAddress ?? null, // If Address is null, set it to null
             Phone = mechanic.MechanicPhone ?? null,
-            AverageRating=mechanic.AverageRating
+            avgRating=mechanic.AverageRating
         };
 
         return Ok(mechanicInfo);
