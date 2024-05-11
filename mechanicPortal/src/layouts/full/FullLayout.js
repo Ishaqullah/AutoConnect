@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { styled, Container, Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-
+import { ToastContainer } from "react-toastify";
 
 import Header from './header/Header';
 import Sidebar from './sidebar/Sidebar';
-
+import 'react-toastify/dist/ReactToastify.css';
 const MainWrapper = styled('div')(() => ({
   display: 'flex',
   minHeight: '100vh',
@@ -59,6 +59,20 @@ const FullLayout = () => {
           {/* Page Route */}
           {/* ------------------------------------------- */}
           <Box sx={{ minHeight: 'calc(100vh - 170px)' }}>
+            <ToastContainer position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                toastStyle={{
+                  width: "auto",
+                  margin: "0 auto",
+                  textAlign: "center" 
+                }}/>
             <Outlet />
           </Box>
           {/* ------------------------------------------- */}

@@ -3,12 +3,9 @@ import { Grid, Box } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 
 // components
-import BuyersVsSellers from './components/BuyersVsSellers';
-import YearlyBreakup from './components/YearlyBreakup';
-import RecentTransactions from './components/RecentTransactions';
+import Profile from './components/Profile';
 import ListedAds from './components/ListedAds';
-import Blog from './components/Blog';
-import TotalUsers from './components/TotalUsers';
+import AverageRating from './components/AverageRating';
 
 
 const Dashboard = () => {
@@ -17,7 +14,7 @@ const Dashboard = () => {
       <Box>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={8}>
-            <BuyersVsSellers />
+            <Profile />
           </Grid>
           <Grid item xs={12} lg={4}>
             <Grid container spacing={3}>
@@ -25,7 +22,7 @@ const Dashboard = () => {
                 <YearlyBreakup />
               </Grid> */}
               <Grid item xs={12}>
-                <TotalUsers />
+                <AverageRating />
               </Grid>
             </Grid>
           </Grid>

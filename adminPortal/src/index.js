@@ -5,9 +5,11 @@ import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+
   <Suspense>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Suspense>
+  
 );

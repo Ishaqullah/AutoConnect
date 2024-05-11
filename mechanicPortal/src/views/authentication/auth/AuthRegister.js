@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useNavigate ,useParams} from "react-router-dom";
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 import { Stack } from '@mui/system';
+import { toast } from 'react-toastify';
 
 const AuthRegister = ({ title, subtitle, subtext }) => {
     const navigate= useNavigate()
@@ -22,6 +23,7 @@ const AuthRegister = ({ title, subtitle, subtext }) => {
             formData
           );
           console.log("Server response:", response.data);
+          toast.success("Welcome to Autoconnect");
           navigate(`/dashboard/${response.data.mechanicId}`);
           window.localStorage.setItem("isLoggedIn",true);
         } catch (error) {

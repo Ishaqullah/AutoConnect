@@ -30,12 +30,6 @@ const Menuitems = [
     href: '/userManagment/listOfUsers',
   },
   {
-    id: uniqueId(),
-    title: 'User feedback',
-    icon: PreviewIcon,
-    href: '/userManagment/feedback',
-  },
-  {
     navlabel: true,
     subheader: 'Mechanic Managment',
   },
@@ -47,19 +41,19 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: 'Add/View/Delete Mechanic',
+    title: 'Reviews of mechanic',
     icon: IconUserPlus,
-    href: '/auth/register',
+    href: '/mehcanicManagement/MechanicReviews',
   },
   {
     navlabel: true,
-    subheader: 'Customer Support',
+    subheader: 'Customer Feedback',
   },
   {
     id: uniqueId(),
-    title: 'Chat',
+    title: 'Feedback',
     icon: ChatBubbleOutlineIcon,
-    href: '/chat',
+    href: '/feedback',
   },
   // {
   //   id: uniqueId(),

@@ -35,7 +35,6 @@ const CarAd = ({ car }) => {
       );
     }, [id]);
   }
-  console.log(userData);
 
   const handleNegotiateClick = async () => {
     try {
@@ -48,7 +47,6 @@ const CarAd = ({ car }) => {
           carDetails: carDetailsWithoutImages,
           userDetails: userData,
         });
-        console.log("car details sent to server ");
         setShowCarAd(true);
         setLoading(false);
         // if (window.Botcopy) {

@@ -15,7 +15,7 @@ public class Buyer
 
     public List<Transaction> Transactions { get; set; }
     public List<Inspection> Inspections { get; set; }
-    public List<Feedback> Feedbacks { get; set; }
+    
     public User User { get; set; }
 
     public List<SavedAds> SavedAds { get; set; }
