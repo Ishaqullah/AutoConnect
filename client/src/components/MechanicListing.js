@@ -87,9 +87,7 @@ const MechanicListing = ({ onValueChange }) => {
             <Typography variant="body1" gutterBottom>
               Email: {mechanic.mechanicEmail}
             </Typography>
-            <Typography variant="body1" gutterBottom>
-              Phone: {mechanic.mechanicPhone}
-            </Typography>
+           
             <Typography variant="body1" gutterBottom>
               Address: {mechanic.mechanicAddress}
             </Typography>

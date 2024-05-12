@@ -29,5 +29,5 @@ public class Mechanic
 
     public List<MechanicRating> MechanicRatings { get; set; }
 
-    public List<Inspection> Inspections { get; set; }
+    public List<Appointment> Appointments { get; set; }
 }

@@ -14,7 +14,7 @@ public class Buyer
     public int? UserID {get; set;}
 
     public List<Transaction> Transactions { get; set; }
-    public List<Inspection> Inspections { get; set; }
+    public List<Appointment> Appointments { get; set; }
     
     public User User { get; set; }
 

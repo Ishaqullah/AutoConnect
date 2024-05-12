@@ -1,15 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-[Table("inspection")]
-public class Inspection{
+[Table("appointment")]
+public class Appointment{
     [Key,Required]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [Column("inspection_id")]
-    public int InspectionID { get; set; }
+    [Column("appointment_id")]
+    public int AppointmentID { get; set; }
 
-    [Column("description")]
-    public string Description {get; set;}
+    [Column("status")]
+    public string Status {get; set;}
+
+
+    [Column("date")]
+    public string DateAndTime {get; set;}
 
     [Column("buyer_id")]
     public int? BuyerID {get; set;}
@@ -17,10 +21,9 @@ public class Inspection{
     [Column("mechanic_id")]
     public int? MechanicID {get; set;}
     
-    [Column("vehicle_id")]
-    public int? VehicleID {get; set;}
+    
     public Buyer Buyer { get; set; }  
     public Mechanic Mechanic { get; set; }  
-    public Vehicle Vehicle { get; set; }  
+   
 
 }
