@@ -84,6 +84,44 @@ namespace server.Migrations
                     b.ToTable("advertise");
                 });
 
+            modelBuilder.Entity("Appointment", b =>
+                {
+                    b.Property<int>("AppointmentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("appointment_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AppointmentID"));
+
+                    b.Property<int?>("BuyerID")
+                        .IsRequired()
+                        .HasColumnType("integer")
+                        .HasColumnName("buyer_id");
+
+                    b.Property<string>("DateAndTime")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("date");
+
+                    b.Property<int?>("MechanicID")
+                        .IsRequired()
+                        .HasColumnType("integer")
+                        .HasColumnName("mechanic_id");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("status");
+
+                    b.HasKey("AppointmentID");
+
+                    b.HasIndex("BuyerID");
+
+                    b.HasIndex("MechanicID");
+
+                    b.ToTable("appointment");
+                });
+
             modelBuilder.Entity("Buyer", b =>
                 {
                     b.Property<int>("BuyerID")
@@ -115,68 +153,25 @@ namespace server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FeedbackID"));
 
-                    b.Property<int?>("BuyerID")
+                    b.Property<int?>("UserID")
                         .IsRequired()
                         .HasColumnType("integer")
-                        .HasColumnName("buyer_id");
-
-                    b.Property<int?>("SellerID")
-                        .IsRequired()
-                        .HasColumnType("integer")
-                        .HasColumnName("seller_id");
+                        .HasColumnName("user_id");
 
                     b.Property<string>("feedback")
                         .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("feedback");
 
+                    b.Property<int?>("rating")
+                        .HasColumnType("integer")
+                        .HasColumnName("rating");
+
                     b.HasKey("FeedbackID");
 
-                    b.HasIndex("BuyerID");
-
-                    b.HasIndex("SellerID");
+                    b.HasIndex("UserID");
 
                     b.ToTable("feedback");
-                });
-
-            modelBuilder.Entity("Inspection", b =>
-                {
-                    b.Property<int>("InspectionID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("inspection_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("InspectionID"));
-
-                    b.Property<int?>("BuyerID")
-                        .IsRequired()
-                        .HasColumnType("integer")
-                        .HasColumnName("buyer_id");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<int?>("MechanicID")
-                        .IsRequired()
-                        .HasColumnType("integer")
-                        .HasColumnName("mechanic_id");
-
-                    b.Property<int?>("VehicleID")
-                        .IsRequired()
-                        .HasColumnType("integer")
-                        .HasColumnName("vehicle_id");
-
-                    b.HasKey("InspectionID");
-
-                    b.HasIndex("BuyerID");
-
-                    b.HasIndex("MechanicID");
-
-                    b.HasIndex("VehicleID");
-
-                    b.ToTable("inspection");
                 });
 
             modelBuilder.Entity("Mechanic", b =>
@@ -193,7 +188,6 @@ namespace server.Migrations
                         .HasColumnName("average_rating");
 
                     b.Property<string>("MechanicAddress")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("mechanic_address");
 
@@ -213,7 +207,6 @@ namespace server.Migrations
                         .HasColumnName("mechanic_password");
 
                     b.Property<string>("MechanicPhone")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("mechanic_phone");
 
@@ -236,9 +229,25 @@ namespace server.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("mechanic_id");
 
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer")
+                        .HasColumnName("rating");
+
+                    b.Property<string>("Review")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("review");
+
+                    b.Property<int?>("UserID")
+                        .IsRequired()
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
                     b.HasKey("MechanicRatingID");
 
                     b.HasIndex("MechanicID");
+
+                    b.HasIndex("UserID");
 
                     b.ToTable("mechanic_rating");
                 });
@@ -499,6 +508,25 @@ namespace server.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("Appointment", b =>
+                {
+                    b.HasOne("Buyer", "Buyer")
+                        .WithMany("Appointments")
+                        .HasForeignKey("BuyerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Mechanic", "Mechanic")
+                        .WithMany("Appointments")
+                        .HasForeignKey("MechanicID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("Mechanic");
+                });
+
             modelBuilder.Entity("Buyer", b =>
                 {
                     b.HasOne("User", "User")
@@ -512,48 +540,13 @@ namespace server.Migrations
 
             modelBuilder.Entity("Feedback", b =>
                 {
-                    b.HasOne("Buyer", "Buyer")
+                    b.HasOne("User", "User")
                         .WithMany("Feedbacks")
-                        .HasForeignKey("BuyerID")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Seller", "Seller")
-                        .WithMany("Feedbacks")
-                        .HasForeignKey("SellerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Buyer");
-
-                    b.Navigation("Seller");
-                });
-
-            modelBuilder.Entity("Inspection", b =>
-                {
-                    b.HasOne("Buyer", "Buyer")
-                        .WithMany("Inspections")
-                        .HasForeignKey("BuyerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Mechanic", "Mechanic")
-                        .WithMany("Inspections")
-                        .HasForeignKey("MechanicID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Vehicle", "Vehicle")
-                        .WithMany("Inspections")
-                        .HasForeignKey("VehicleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Buyer");
-
-                    b.Navigation("Mechanic");
-
-                    b.Navigation("Vehicle");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MechanicRating", b =>
@@ -564,7 +557,15 @@ namespace server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("User", "User")
+                        .WithMany("MechanicRatings")
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Mechanic");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SavedAds", b =>
@@ -640,9 +641,7 @@ namespace server.Migrations
 
             modelBuilder.Entity("Buyer", b =>
                 {
-                    b.Navigation("Feedbacks");
-
-                    b.Navigation("Inspections");
+                    b.Navigation("Appointments");
 
                     b.Navigation("SavedAds");
 
@@ -651,7 +650,7 @@ namespace server.Migrations
 
             modelBuilder.Entity("Mechanic", b =>
                 {
-                    b.Navigation("Inspections");
+                    b.Navigation("Appointments");
 
                     b.Navigation("MechanicRatings");
                 });
@@ -659,8 +658,6 @@ namespace server.Migrations
             modelBuilder.Entity("Seller", b =>
                 {
                     b.Navigation("Advertises");
-
-                    b.Navigation("Feedbacks");
 
                     b.Navigation("Transactions");
                 });
@@ -670,6 +667,10 @@ namespace server.Migrations
                     b.Navigation("Buyer")
                         .IsRequired();
 
+                    b.Navigation("Feedbacks");
+
+                    b.Navigation("MechanicRatings");
+
                     b.Navigation("Seller")
                         .IsRequired();
                 });
@@ -678,8 +679,6 @@ namespace server.Migrations
                 {
                     b.Navigation("Advertise")
                         .IsRequired();
-
-                    b.Navigation("Inspections");
 
                     b.Navigation("Transaction")
                         .IsRequired();

@@ -19,15 +19,15 @@ public class Mechanic
     public required string MechanicPassword {get; set;}
     
     [Column("mechanic_phone")]
-    public required string MechanicPhone {get; set;}
+    public  string? MechanicPhone {get; set;}
     
     [Column("mechanic_address")]
-    public required string MechanicAddress {get; set;}
+    public  string? MechanicAddress {get; set;}
     
     [Column("average_rating")]
     public float AverageRating {get; set;}
 
     public List<MechanicRating> MechanicRatings { get; set; }
 
-    public List<Inspection> Inspections { get; set; }
+    public List<Appointment> Appointments { get; set; }
 }

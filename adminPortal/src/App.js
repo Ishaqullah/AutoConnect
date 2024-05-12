@@ -1,7 +1,6 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { useRoutes } from 'react-router-dom';
 import Router from './routes/Router';
-
 import { baselightTheme } from "./theme/DefaultColors";
 
 function App() {

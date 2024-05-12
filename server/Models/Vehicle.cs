@@ -67,6 +67,6 @@ public class Vehicle{
 
     public Transaction Transaction { get; set; }
     public Advertise Advertise { get; set; }
-    public List<Inspection> Inspections { get; set; }
+   
     
 }
