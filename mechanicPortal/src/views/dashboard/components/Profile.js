@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import { Fab, Card, CardContent, Typography, Button } from '@mui/material';
 import { IconUser } from '@tabler/icons';
 import '../utils/Profile.css';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const [mechanic, setMechanic] = useState(null);
@@ -45,7 +46,7 @@ const Profile = () => {
                 <Typography variant="body1" component="div" gutterBottom>
                   Update your profile to get in touch with buyers
                 </Typography>
-                <Button variant="contained" color="primary">
+                <Button component={Link} to={`/mechanic/profile/${id}`} variant="contained" color="primary">
                   Update Profile
                 </Button>
               </>

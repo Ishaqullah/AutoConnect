@@ -35,7 +35,8 @@ public class MechanicsController : ControllerBase
             Email = mechanic.MechanicEmail,
             Address = mechanic.MechanicAddress ?? null, // If Address is null, set it to null
             Phone = mechanic.MechanicPhone ?? null,
-            avgRating=mechanic.AverageRating
+            avgRating=mechanic.AverageRating,
+            Password=mechanic.MechanicPassword
         };
 
         return Ok(mechanicInfo);
@@ -72,7 +73,8 @@ public class MechanicsController : ControllerBase
                     MechanicPhone = mechanic.MechanicPhone,
                     MechanicAddress = mechanic.MechanicAddress,
                     AverageRating = averageRating,
-                    NumberOfReviews = numberOfReviews // Assign the calculated average rating
+                    NumberOfReviews = numberOfReviews,
+                    Password = mechanic.MechanicPassword 
                 };
 
                 mechanicDetails.Add(mechanicDetail);
@@ -332,6 +334,35 @@ public IActionResult GetMechanicRatingReviews(int id)
     {
         return StatusCode(500, $"Internal server error: {ex.Message}");
     }
+}
+    [HttpPut("updateMechanic/{id}")]
+public IActionResult updateMechanic(int id, [FromBody] dynamic formData)
+{
+    var existingMechanic = _context.Mechanics.Find(id);
+    Console.WriteLine("existingMechanic");
+    if (existingMechanic == null)
+    {
+        return NotFound(); 
+    }
+    
+    existingMechanic.MechanicName = formData.GetProperty("name").GetString();
+    existingMechanic.MechanicEmail = formData.GetProperty("email").GetString();
+    
+    
+    // Check if the password is already hashed
+    if (formData.GetProperty("password").GetString() != existingMechanic.MechanicPassword)
+    {
+
+        // If not hashed, hash the password before updating
+        existingMechanic.MechanicPassword = BCrypt.Net.BCrypt.HashPassword(formData.GetProperty("password").GetString());
+    }
+    
+    existingMechanic.MechanicPhone = formData.GetProperty("phone").GetString();
+    existingMechanic.MechanicAddress = formData.GetProperty("address").GetString();
+
+    _context.SaveChanges();
+
+    return Ok(existingMechanic);
 }
 
 [HttpGet("appointments/{mechanicId}")]

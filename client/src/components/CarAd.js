@@ -12,6 +12,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Loader from "./loader";
+import ChatBot from "./ChatBot";
 const CarAd = ({ car }) => {
   const [showCarAd, setShowCarAd] = useState(false);
   const { id } = useParams();
@@ -144,38 +145,7 @@ const CarAd = ({ car }) => {
         )}
       </Card>
 
-      {showCarAd?(<div
-          style={{
-            position: "fixed",
-            bottom: "20px",
-            right: "20px",
-            zIndex: "1000", // Ensure it's on top of other content
-          }}
-        >
-          <Card>
-            {/* Card content */}
-            <CardContent>
-              <iframe
-                allow="microphone;"
-                width="350"
-                height="430"
-                src="https://console.dialogflow.com/api-client/demo/embedded/6210cad5-f700-43a8-af42-088baaad7db5"
-              ></iframe>
-       
-            </CardContent>
-            {/* Actions */}
-            <CardActions>
-              <Button
-                onClick={handleCloseChatBot}
-                variant="outlined"
-                color="primary"
-              >
-                Close
-              </Button>
-              {/* Add other actions */}
-            </CardActions>
-          </Card>
-        </div>
+      {showCarAd?(<ChatBot/>
       ):(<></>)
       }
     </Grid>
