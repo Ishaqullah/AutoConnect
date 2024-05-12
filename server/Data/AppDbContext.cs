@@ -8,7 +8,7 @@ public class AppDbContext : DbContext
     public DbSet<Transaction> Transactions { get; set; }
     public DbSet<Seller> Sellers { get; set; }
     public DbSet<Advertise> Advertises { get; set; }
-    public DbSet<Inspection> Inspections { get; set; }
+    public DbSet<Appointment> Appointments { get; set; }
     public DbSet<Mechanic> Mechanics { get; set; }
     public DbSet<MechanicRating> MechanicRatings { get; set; }
     public DbSet<Feedback> Feedbacks { get; set; }
@@ -72,21 +72,17 @@ public class AppDbContext : DbContext
         .HasForeignKey(mr => mr.UserID)  // Assuming the foreign key property in MechanicRating entity referring to User is called UserID
         .OnDelete(DeleteBehavior.Cascade); // Cascade delete behavior
 
-        modelBuilder.Entity<Inspection>()
+        modelBuilder.Entity<Appointment>()
             .HasOne(i => i.Buyer)
-            .WithMany(b => b.Inspections)
+            .WithMany(b => b.Appointments)
             .HasForeignKey(i => i.BuyerID);
 
-        modelBuilder.Entity<Inspection>()
+        modelBuilder.Entity<Appointment>()
             .HasOne(i => i.Mechanic)
-            .WithMany(m => m.Inspections)
+            .WithMany(m => m.Appointments)
             .HasForeignKey(i => i.MechanicID);
 
-        modelBuilder.Entity<Inspection>()
-            .HasOne(i => i.Vehicle)
-            .WithMany(v => v.Inspections)
-            .HasForeignKey(i => i.VehicleID);
-
+   
         modelBuilder.Entity<Feedback>()
             .HasOne(f => f.User)
             .WithMany(u => u.Feedbacks)

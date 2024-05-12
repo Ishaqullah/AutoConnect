@@ -354,4 +354,60 @@ public IActionResult GetMechanicRatingReviews(int id)
         return Ok(existingMechanic);
     }
 
+[HttpGet("appointments/{mechanicId}")]
+public IActionResult GetAppointmentsByMechanicId(int mechanicId)
+{
+    try
+    {
+        // Find all appointments for the specified mechanic
+        var appointments = _context.Appointments
+            .Where(a => a.MechanicID == mechanicId)
+            .Include(a => a.Buyer) // Include Buyer navigation property
+            .ToList();
+
+        // Map appointments to DTOs to include user email and phone
+        var appointmentsDTO = appointments.Select(a => new
+        {
+            AppointmentId = a.AppointmentID,
+            UserId = a.Buyer.UserID,
+            UserEmail = _context.Users.FirstOrDefault(u => u.UserID == a.Buyer.UserID)?.UserEmail,
+            UserPhone = _context.Users.FirstOrDefault(u => u.UserID == a.Buyer.UserID)?.UserPhone,
+            AppointmentDate = a.DateAndTime,
+            AppointmentStatus = a.Status
+        });
+
+        return Ok(appointmentsDTO);
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+[HttpPut("appointments/{appointmentId}")]
+public IActionResult UpdateAppointmentStatus(int appointmentId, [FromBody] dynamic formData)
+{
+    try
+    {
+        // Find the appointment by ID
+        var appointment = _context.Appointments.Find(appointmentId);
+
+        if (appointment == null)
+        {
+            return NotFound($"Appointment with ID {appointmentId} not found");
+        }
+
+        // Update the status of the appointment
+        appointment.Status = formData.GetProperty("status").GetString();
+
+        // Save changes to the database
+        _context.SaveChanges();
+
+        return Ok($"Appointment with ID {appointmentId} updated successfully");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
 }

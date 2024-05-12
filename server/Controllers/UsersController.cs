@@ -260,5 +260,107 @@ public IActionResult SaveFeedback(int id,[FromBody] dynamic formData)
         return StatusCode(500, $"Internal server error: {ex.Message}");
     }
 }
+[HttpPost("appointment/{id}/{mechanicId}")]
+public IActionResult CreateAppointment(int id,int mechanicId,[FromBody] dynamic formData)
+{
+    if (formData.ValueKind == JsonValueKind.Null)
+    {
+        return BadRequest("Invalid data");
+    }
+
+    try
+    {
+        // Extract data from the request body
+        int userId = id;
+        int mId = mechanicId;
+        string appointmentDate = formData.GetProperty("appointmentDate").GetString();
+        string status = formData.GetProperty("status").GetString();
+
+        // Check if the user and mechanic exist
+        var user = _context.Users.Find(userId);
+        var mechanic = _context.Mechanics.Find(mechanicId);
+        
+        if (user == null || mechanic == null)
+        {
+            return NotFound("User or mechanic not found");
+        }
+
+        // Create a new appointment
+        var newAppointment = new Appointment
+        {
+            BuyerID = userId,
+            MechanicID = mechanicId,
+            DateAndTime= appointmentDate,
+            Status = status
+        };
+
+        _context.Appointments.Add(newAppointment);
+        _context.SaveChanges();
+
+        return Ok("Appointment created successfully");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
+[HttpGet("appointmentStatus/{userId}/{mechanicId}")]
+    public IActionResult GetAppointmentStatus(int userId, int mechanicId)
+    {
+        try
+        {
+            // Check if the user and mechanic exist
+            var user = _context.Users.Find(userId);
+            var mechanic = _context.Mechanics.Find(mechanicId);
+
+            if (user == null || mechanic == null)
+            {
+                return NotFound("User or mechanic not found");
+            }
+
+            // Find the appointment for the specified user and mechanic
+            var appointment = _context.Appointments
+                .FirstOrDefault(a => a.BuyerID == userId && a.MechanicID == mechanicId);
+
+            if (appointment == null)
+            {
+                return NotFound("Appointment not found for the specified user and mechanic");
+            }
+
+            // Return the status of the appointment
+            return Ok(new { AppointmentStatus = appointment.Status ,AppointmentDate=appointment.DateAndTime});
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+[HttpDelete("appointment/{userId}/{mechanicId}")]
+public IActionResult DeleteAppointment(int userId, int mechanicId)
+{
+    try
+    {
+        // Find the appointment for the specified user and mechanic
+        var appointment = _context.Appointments
+            .FirstOrDefault(a => a.BuyerID == userId && a.MechanicID == mechanicId);
+
+        if (appointment == null)
+        {
+            return NotFound("Appointment not found for the specified user and mechanic");
+        }
+
+        // Remove the appointment
+        _context.Appointments.Remove(appointment);
+        _context.SaveChanges();
+
+        return Ok("Appointment deleted successfully");
+    }
+    catch (Exception ex)
+    {
+        return StatusCode(500, $"Internal server error: {ex.Message}");
+    }
+}
+
 
 }
