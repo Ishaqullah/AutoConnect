@@ -8,6 +8,8 @@ app.use(bodyParser.json());
 
 let discountRequests = 0; // Counter to track discount requests
 let prevDiscount = 0;
+let count = 0;
+let x = 0;
 app.post("/dialogflow-webhook", async (req, res) => {
   try {
     const carDetailsResponse = await axios.get(
@@ -25,10 +27,27 @@ app.post("/dialogflow-webhook", async (req, res) => {
 
     if (intentName == "Default Welcome Intent") {
       fulfillmentMessage = `Hello ${receivedUserDetails.userName}! Excited to negotiate for a new ride? Let's dive into the details and work out a great offer.`;
-    } else if (intentName === "Request-Car-Details") {
+    }else if(intentName === "negotitation-intent - yes"){
+      if(count!=0){
+        fulfillmentMessage = "Great! The deal is done the seller will be informed and will contact you soon. Thanks!";
+        count = 0;
+      }
+      else{
+        fulfillmentMessage = "What would be your next course of action?";
+      }
+      
+    } else if(intentName === "negotitation-intent - no"){
+      if(count != 0){
+        count = 0;
+        fulfillmentMessage = "I am sorry. We can't make a deal here for further negotiation you can contact the seller.";
+      }
+      else{
+        fulfillmentMessage = "You can ask for more discount and I can come up with a better offer for you.";
+      }
+    }else if (intentName === "Request-Car-Details") {
       fulfillmentMessage = responseMessage;
     } else if (intentName === "negotitation-intent") {
-      function generateRandom(min = 2, max = 5) {
+      function generateRandom(min = 1, max = 2) {
         let difference = max - min;
         let rand = Math.random();
         rand = Math.floor( rand * difference);
@@ -45,13 +64,29 @@ app.post("/dialogflow-webhook", async (req, res) => {
 
         let discountedPrice =
           currentPrice - currentPrice * (Math.random() * (0.1 - 0.05) + 0.05);
-        discountedPrice = Math.max(minPrice, discountedPrice);
+        if(x < 2 && discountedPrice > minPrice){
+          // discountedPrice = Math.max(minPrice, discountedPrice);
+          count++;
+          x++;
+          discountRequests = 0;
+          prevDiscount = discountRequests;
+          fulfillmentMessage = `Considering your interest, the special discounted price for this car is $${discountedPrice.toFixed(
+            2
+          )}. Are you interested in this offer?`;
+        }  
+        else{
+          discountedPrice = minPrice + 50000;
+          count++;
+          x = 0;
+          discountRequests = 0;
+          prevDiscount = discountRequests;
+          fulfillmentMessage = `We understand your interest. But considering the seller's instructions, the final price that we can offer you right now is $${discountedPrice.toFixed(
+            2
+          )}. So are you interested in this offer?`;
+        } 
 
-        fulfillmentMessage = `We understand your interest! The special discounted price for this car is $${discountedPrice.toFixed(
-          2
-        )}. Are you interested in this offer?`;
-        discountRequests = 0;
-        prevDiscount = discountRequests;
+        
+        
       } else {
         // console.log("hello");
         // Resistance messages to persuade users to purchase at the same price
@@ -74,7 +109,9 @@ app.post("/dialogflow-webhook", async (req, res) => {
         fulfillmentMessage = randomResistanceMessage;
       }
       discountRequests++;
-    } else {
+    }
+    
+    else {
       fulfillmentMessage = "Default fulfillment message";
     }
 

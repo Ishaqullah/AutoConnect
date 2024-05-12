@@ -1741,19 +1741,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\HP\\.nuget\\packages\\": {}
+    "C:\\Users\\smuhi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj",
+      "projectUniqueName": "C:\\Users\\smuhi\\OneDrive\\Desktop\\FYP\\FYP-2\\AutoConnect\\server\\server.csproj",
       "projectName": "server",
-      "projectPath": "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj",
-      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\NUCES\\FYP\\AutoConnect\\server\\obj\\",
+      "projectPath": "C:\\Users\\smuhi\\OneDrive\\Desktop\\FYP\\FYP-2\\AutoConnect\\server\\server.csproj",
+      "packagesPath": "C:\\Users\\smuhi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\smuhi\\OneDrive\\Desktop\\FYP\\FYP-2\\AutoConnect\\server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\smuhi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
