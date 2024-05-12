@@ -333,6 +333,26 @@ public IActionResult GetMechanicRatingReviews(int id)
         return StatusCode(500, $"Internal server error: {ex.Message}");
     }
 }
+    [HttpPut("updateMechanic/{id}")]
+    public IActionResult updateMechanic(int id, [FromBody] dynamic formData)
+    {
+        var existingMechanic = _context.Mechanics.Find(id);
+        Console.WriteLine("existingMechanic");
+        if (existingMechanic == null)
+        {
+            return NotFound(); 
+        }
+        
+        existingMechanic.MechanicName = formData.GetProperty("mechanicName").GetString();
+        existingMechanic.MechanicEmail = formData.GetProperty("mechanicEmail").GetString();
+        existingMechanic.MechanicPassword = BCrypt.Net.BCrypt.HashPassword(formData.GetProperty("mechanicPassword").GetString());
+        existingMechanic.MechanicPhone = formData.GetProperty("mechanicPhone").GetString();
+        existingMechanic.MechanicAddress = formData.GetProperty("mechanicAddress").GetString();
+
+        _context.SaveChanges();
+
+        return Ok(existingMechanic);
+    }
 
 [HttpGet("appointments/{mechanicId}")]
 public IActionResult GetAppointmentsByMechanicId(int mechanicId)
