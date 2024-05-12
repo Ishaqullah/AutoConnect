@@ -95,12 +95,13 @@ const ContactForm = ({ onValueChange }) => {
   };
   const handleFeedbackModalOpen = () => {
     setShowFeedbackModal(true);
+    console.log(showFeedbackModal);
   };
 
   const handleFeedbackModalClose = () => {
     setShowFeedbackModal(false);
   };
-
+  console.log()
   return (
     <Container sx={{ paddingTop: "80px" }}>
       <Grid container spacing={3}>
@@ -109,7 +110,7 @@ const ContactForm = ({ onValueChange }) => {
           <Button
             variant="outlined"
             color="primary"
-            onClick={() => {id!=undefined ?(handleFeedbackModalOpen) : (toast.warning("Login first to give feedback "))}}
+            onClick={() => {id!==undefined ? (handleFeedbackModalOpen()) : (toast.warning("Login first to give feedback "))}}
           >
             Give Feedback
           </Button>

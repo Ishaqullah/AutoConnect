@@ -360,6 +360,7 @@ const AdDetailPage = ({ onValueChange }) => {
       <Grid item xs={12} md={12}>
         <SimilarAds similarAds={similarAds} />
       </Grid>
+     
     </Grid>
   );
 };

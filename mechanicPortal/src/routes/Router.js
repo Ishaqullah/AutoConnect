@@ -9,7 +9,7 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 
 /* ****Pages***** */
 const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
-const MechanicList = Loadable(lazy(() => import('../views/mechanicManagement/MechanicList')))
+const UpdateProfileForm = Loadable(lazy(() => import('../views/mechanicManagement/UpdateProfileForm')))
 const Appointment = Loadable(lazy(() => import('../views/appointment/Appointment')))
 const UserList = Loadable(lazy(() => import('../views/userManagement/UserList')))
 const Feedback = Loadable(lazy(() => import('../views/userManagement/Reviews')))
@@ -27,7 +27,7 @@ const Router = [
     children: [
       { path: '/', element: isLoggedIn() ? <Navigate to={`/mechanic/dashboard/${id}`} /> : <Navigate to="/auth/login" /> },
       { path: '/mechanic/dashboard/:id', exact: true, element: <Dashboard /> },
-      { path: '/mechanic/profile/:id', exact: true, element: <MechanicList /> },
+      { path: '/mechanic/profile/:id', exact: true, element: <UpdateProfileForm /> },
       { path: '/mechanic/appointments/:id', exact: true, element: <Appointment /> },
       { path: '/mechanic/listOfUsers/:id', exact: true, element: <UserList /> },
       { path: '/mechanic/reviews/:id', exact: true, element: <Feedback /> },

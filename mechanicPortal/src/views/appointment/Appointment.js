@@ -162,18 +162,29 @@ const Appointment = () => {
                       {appointment.userPhone}
                     </Typography>
                   </TableCell>
-                  
-                    <TableCell align="center">
-                    {appointment.appointmentStatus == 'pending' || appointment.appointmentStatus == 'rejected' && (
-                      <Button onClick={() => handleAccept(appointment.appointmentId)}>
-                        <CheckCircleIcon color="success" />
-                      </Button> )}
-                      {appointment.appointmentStatus == 'pending' || appointment.appointmentStatus == 'accepted' && (
+
+                  <TableCell align="center">
+                    {appointment.appointmentStatus === 'pending' && (
+                      <>
+                        <Button onClick={() => handleAccept(appointment.appointmentId)}>
+                          <CheckCircleIcon color="success" />
+                        </Button>
+                        <Button onClick={() => handleReject(appointment.appointmentId)}>
+                          <CancelIcon />
+                        </Button>
+                      </>
+                    )}
+                    {appointment.appointmentStatus === 'accepted' && (
                       <Button onClick={() => handleReject(appointment.appointmentId)}>
                         <CancelIcon />
-                      </Button>)}
-                    </TableCell>
-                 
+                      </Button>
+                    )}
+                    {appointment.appointmentStatus === 'rejected' && (
+                      <Button onClick={() => handleReject(appointment.appointmentId)}>
+                        <CancelIcon />
+                      </Button>
+                    )}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
