@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FYP\\FYP\\AutoConnect\\server\\server.csproj": {}
+    "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj": {}
   },
   "projects": {
-    "D:\\FYP\\FYP\\AutoConnect\\server\\server.csproj": {
+    "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FYP\\FYP\\AutoConnect\\server\\server.csproj",
+        "projectUniqueName": "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj",
         "projectName": "server",
-        "projectPath": "D:\\FYP\\FYP\\AutoConnect\\server\\server.csproj",
-        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "D:\\FYP\\FYP\\AutoConnect\\server\\obj\\",
+        "projectPath": "D:\\NUCES\\FYP\\AutoConnect\\server\\server.csproj",
+        "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
+        "outputPath": "D:\\NUCES\\FYP\\AutoConnect\\server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -90,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }
