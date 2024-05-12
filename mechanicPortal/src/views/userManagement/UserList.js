@@ -38,19 +38,19 @@ const UserList = () => {
     setPage(0);
   };
 
-  const handleDelete = (userId) => {
-    if(window.confirm('Do you really want to delete user with id '+ userId +'?'))
-    {
-   axios
-      .delete(`http://localhost:5278/users/delete/${userId}`)
-      .then((response) => {
-        console.log(response);
-        fetchData();
-      })
-    .catch((error) => console.error('Error deleting record:', error));
-    console.log(userId);
-    }
-  };
+  // const handleDelete = (userId) => {
+  //   if(window.confirm('Do you really want to delete user with id '+ userId +'?'))
+  //   {
+  //  axios
+  //     .delete(`http://localhost:5278/users/delete/${userId}`)
+  //     .then((response) => {
+  //       console.log(response);
+  //       fetchData();
+  //     })
+  //   .catch((error) => console.error('Error deleting record:', error));
+  //   console.log(userId);
+  //   }
+  // };
   const slicedData = user.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
@@ -91,11 +91,11 @@ const UserList = () => {
                     User Phone
                   </Typography>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <Typography variant="subtitle2" fontWeight={600}>
                     Actions
                   </Typography>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -129,11 +129,11 @@ const UserList = () => {
                       {users.userPhone}
                     </Typography>
                   </TableCell>
-                  <TableCell>
+                  {/* <TableCell>
                     <Button onClick={() =>handleDelete(users.userID)}>
                       <DeleteOutlineIcon />
                     </Button>
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>

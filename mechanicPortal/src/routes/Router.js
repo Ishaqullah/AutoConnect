@@ -8,10 +8,10 @@ const BlankLayout = Loadable(lazy(() => import('../layouts/blank/BlankLayout')))
 
 /* ****Pages***** */
 const Dashboard = Loadable(lazy(() => import('../views/dashboard/Dashboard')))
-const MechanicList = Loadable(lazy(() => import('../views/mechanicManagement/MechanicList')))
+const MechanicList = Loadable(lazy(() => import('../views/mechanicManagement/UpdateProfileForm')))
 const Chat = Loadable(lazy(() => import('../views/chat/Chat')))
 const UserList = Loadable(lazy(() => import('../views/userManagement/UserList')))
-const Feedback = Loadable(lazy(() => import('../views/userManagement/Feedback')))
+const Feedback = Loadable(lazy(() => import('../views/userManagement/Reviews')))
 const Error = Loadable(lazy(() => import('../views/authentication/Error')));
 const Register = Loadable(lazy(() => import('../views/authentication/Register')));
 const Login = Loadable(lazy(() => import('../views/authentication/Login')));

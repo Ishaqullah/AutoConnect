@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Paper } from '@mui/material';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import {
   Typography,
   Box,
@@ -12,37 +14,48 @@ import {
 } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
-import { Link } from 'react-router-dom';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import axios from 'axios';
-const MechanicList = () => {
-    const [mechanic, setMechanic] = useState([]);
-    useEffect(() => {
-      fetchData();
-    }, []); 
-    const fetchData = () => {
-      axios
-        .get('http://localhost:5278/mechanics')
-        .then((response) => setMechanic(response.data))
-        .catch((error) => console.error('Error fetching mechanics:', error));
-    };
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-  
-    const handleChangePage = (event, newPage) => {
-      setPage(newPage);
-    };
-  
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
-      setPage(0);
-    };
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useParams } from 'react-router';
+import { Stack, Rating } from '@mui/material';
+const darkTheme = createTheme({ palette: { mode: 'dark' } });
+const lightTheme = createTheme({ palette: { mode: 'light' } });
 
-    const slicedData = mechanic.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+const Reviews = () => {
+  const { id } = useParams();
+  // console.log({id});
+  const [rating, setRating] = useState([]);
+
+  useEffect(() => {
+    fetchRating()
+  }, [])
+  const fetchRating = () => {
+    axios
+      .get(`http://localhost:5278/mechanics/ratings-reviews/${id}`)
+      .then((response) => setRating(response.data))
+      .catch((error) => console.error('Error fetching rating:', error))
+  }
+  // console.log(rating);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  const slicedData = rating.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+
   return (
-    <PageContainer title="List Of Mechanics" description="this is list of Mechanics">
-      <DashboardCard title="List Of Mechanics" marginTop="80px">
-      <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
+    <PageContainer title="Reviews" description="this is Review">
+
+      <DashboardCard title="Reviews" marginTop="80px">
+        <Box sx={{ overflow: 'auto', width: { xs: '280px', sm: 'auto' } }}>
           <Table
             aria-label="simple table"
             sx={{
@@ -52,71 +65,65 @@ const MechanicList = () => {
           >
             <TableHead>
               <TableRow>
+                {/* <TableCell>
+                  <Typography variant="subtitle2" fontWeight={600}>
+                    User Id
+                  </Typography>
+                </TableCell> */}
                 <TableCell>
                   <Typography variant="subtitle2" fontWeight={600}>
-                    Mechanic Id
+                    User Name
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="subtitle2" fontWeight={600}>
-                    Mechanic Name
+                    User Email
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="subtitle2" fontWeight={600}>
-                  Mechanic Email
+                    Review
                   </Typography>
                 </TableCell>
                 <TableCell>
                   <Typography variant="subtitle2" fontWeight={600}>
-                    Address
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="subtitle2" fontWeight={600}>
-                    Phone
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="subtitle2" fontWeight={600}>
-                    Average Rating
+                    Rating
                   </Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {slicedData.map((mechanics) => (
-                <TableRow key={mechanics.mechanicId}>
-                  <TableCell>
+              {slicedData.map((ratings) => (
+                <TableRow key={ratings.user.userId}>
+                  {/* <TableCell>
                     <Typography
                       sx={{
                         fontSize: '15px',
                         fontWeight: '500',
                       }}
                     >
-                      {mechanics.mechanicId}
+                      {ratings.user.userId}
                     </Typography>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Typography variant="subtitle2" fontWeight={600}>
-                      {mechanics.mechanicName}
+                      {ratings.user.userName}
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography>{mechanics.mechanicEmail}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                      {mechanics.mechanicAddress}
-                    </Typography>
+                    <Typography>{ratings.user.userEmail}</Typography>
                   </TableCell>
                   <TableCell>
                     <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
-                      {mechanics.mechanicPhone}
+                      <Typography>{ratings.review}</Typography>
                     </Typography>
                   </TableCell>
-                  <TableCell  color="textSecondary" variant="subtitle2" fontWeight={400}>
-                  {mechanics.averageRating}
+                  <TableCell>
+                    <Typography color="textSecondary" variant="subtitle2" fontWeight={400}>
+                      <Typography><Stack direction="column" spacing={1} my={1}>
+                        <Rating defaultValue={ratings.rating} readOnly />
+                      </Stack></Typography>
+                    </Typography>
                   </TableCell>
                 </TableRow>
               ))}
@@ -125,7 +132,7 @@ const MechanicList = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={mechanic.length}
+            count={rating.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
@@ -137,4 +144,4 @@ const MechanicList = () => {
   );
 };
 
-export default MechanicList;
+export default Reviews;
