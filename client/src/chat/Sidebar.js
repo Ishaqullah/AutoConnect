@@ -3,11 +3,11 @@ import Navbar from "./Navbar"
 import Search from "./Search"
 import Chats from "./Chats"
 
-const Sidebar = () => {
+const Sidebar = ({sellerName}) => {
   return (
     <div className="sidebar">
       <Navbar/>
-      <Search/>
+      <Search sellerName={sellerName}/>
       <Chats/>
     </div>
   );

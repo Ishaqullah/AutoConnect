@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   collection,
   query,
@@ -12,8 +12,9 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { AuthContext } from "../context/AuthContext";
-const Search = () => {
-  const [username, setUsername] = useState("");
+import { Typography } from "@mui/material";
+const Search = ({sellerName}) => {
+  const [username, setUsername] = useState(sellerName);
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
 
@@ -35,9 +36,12 @@ const Search = () => {
     }
   };
 
-  const handleKey = (e) => {
-    e.code === "Enter" && handleSearch();
-  };
+  useEffect(()=>{
+    handleSearch();
+  },[sellerName])
+  // const handleKey = (e) => {
+  //   e.code === "Enter" && handleSearch();
+  // };
 
     const handleSelect = async () => {
       //check whether the group(chats in firestore) exists, if not create
@@ -80,7 +84,7 @@ const Search = () => {
         <input
           type="text"
           placeholder="Find a user"
-          onKeyDown={handleKey}
+          // onKeyDown={handleKey}
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
@@ -88,9 +92,10 @@ const Search = () => {
       {err && <span>User not found!</span>}
       {user && (
         <div className="userChat" onClick={handleSelect}>
-          <img src="/Images/1.png" alt="" />
+          <img src="/Images/user-1.png" alt="" />
           <div className="userChatInfo">
             <span>{user.displayName}</span>
+            <p>Click here to start chat with seller</p>
           </div>
         </div>
       )}

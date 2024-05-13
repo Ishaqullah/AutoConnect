@@ -120,7 +120,7 @@ function App() {
                 <Route exact path="/Contact/User/:id" element={<ContactForm onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Comparisions/User/:id" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Comparisions" element={<AllComparisions onValueChange={handleChildValueChange}/>}/>
-                <Route exact path="/ChatBox/User/:id" element={<ChatBox onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/ChatBox/User/:id/:sellerId" element={<ChatBox onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Room/:roomId/User/:id" element={<VideoRoom onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Mechanics" element={<MechanicListing onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/Mechanics/User/:id" element={<MechanicListing onValueChange={handleChildValueChange}/>}/>

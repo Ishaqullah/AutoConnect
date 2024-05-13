@@ -33,7 +33,7 @@ const SimilarAds = ({similarAds}) => {
     fetchVehicles();
   }, [similarAds]);
   
-  console.log(vehicles);
+  console.log(vehicles,similarAds);
   return (
     <Box sx={{ marginTop: "100px"}}>
       <Typography variant="h5" sx={{ color: "primary.main" ,marginBottom:"20px"}} >

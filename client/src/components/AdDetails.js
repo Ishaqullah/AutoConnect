@@ -151,7 +151,7 @@ const AdDetailPage = ({ onValueChange }) => {
   const imageUrls = adDetails.vehicleImages
     ? adDetails.vehicleImages.split(", ")
     : [];
-  console.log(adDetails);
+  console.log("Simlarity",similarAds);
   if (isLoading) {
     return <Loader loading={isLoading} />;
   }
@@ -321,7 +321,7 @@ const AdDetailPage = ({ onValueChange }) => {
               startIcon={<ChatIcon />}
               fullWidth
               component={Link}
-              to={id !== undefined ? `/ChatBox/User/${id}` : ``}
+              to={id !== undefined ? `/ChatBox/User/${id}/${adDetails.seller.userID}` : ``}
               sx={{ marginTop: "10px" }}
             >
               Send Message

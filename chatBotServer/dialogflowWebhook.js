@@ -8,6 +8,9 @@ app.use(bodyParser.json());
 
 let discountRequests = 0; // Counter to track discount requests
 let prevDiscount = 0;
+
+let discountTalk = false; // Flag to track discount-related conversation
+
 app.post("/dialogflow-webhook", async (req, res) => {
   try {
     const carDetailsResponse = await axios.get(
@@ -31,10 +34,10 @@ app.post("/dialogflow-webhook", async (req, res) => {
       function generateRandom(min = 2, max = 5) {
         let difference = max - min;
         let rand = Math.random();
-        rand = Math.floor( rand * difference);
+        rand = Math.floor(rand * difference);
         rand = rand + min;
         return rand;
-    }
+      }
       const randomRequests = generateRandom();
       if (discountRequests > randomRequests) {
         const minPrice = receivedCarDetails.minPrice;
@@ -52,8 +55,8 @@ app.post("/dialogflow-webhook", async (req, res) => {
         )}. Are you interested in this offer?`;
         discountRequests = 0;
         prevDiscount = discountRequests;
+        discountTalk = true; // Set flag to true when discount talk occurs
       } else {
-        // console.log("hello");
         // Resistance messages to persuade users to purchase at the same price
         const resistanceMessages = [
           "This car is worth every penny for its incredible features and quality.",
@@ -74,6 +77,25 @@ app.post("/dialogflow-webhook", async (req, res) => {
         fulfillmentMessage = randomResistanceMessage;
       }
       discountRequests++;
+    } else if (
+      intentName === "negotitation-intent-yes" &&
+      discountTalk // Only trigger "yes" response if discount talk has occurred
+    ) {
+      if (discountRequests > 0) {
+        // Close the deal only if negotiation conversation is ongoing
+        fulfillmentMessage = "Deal closed!";
+      } else {
+        // Handle "yes" response outside of negotiation context
+        fulfillmentMessage = "Let's talk more about the car!";
+      }
+      discountTalk = false; // Reset flag after processing "yes" response
+    } else if (
+      intentName === "negotitation-intent-no" &&
+      discountTalk // Only trigger "no" response if discount talk has occurred
+    ) {
+      // Handle "no" response
+      fulfillmentMessage = "Okay, let's continue negotiating!";
+      discountTalk = false; // Reset flag after processing "no" response
     } else {
       fulfillmentMessage = "Default fulfillment message";
     }
@@ -87,6 +109,7 @@ app.post("/dialogflow-webhook", async (req, res) => {
     res.status(500).send("Error fetching car details");
   }
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
