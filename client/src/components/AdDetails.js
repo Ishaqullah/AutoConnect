@@ -32,8 +32,10 @@ import SimilarAds from "./SimilarAds";
 import { supabase } from "../lib/supabase";
 import Loader from "./loader";
 import { toast } from "react-toastify";
+import ChatBot from "./ChatBot";
 const AdDetailPage = ({ onValueChange }) => {
   const { advertiseId, id } = useParams();
+  const [showCarAd, setShowCarAd] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +44,15 @@ const AdDetailPage = ({ onValueChange }) => {
   const [advertise, setAdvertise] = useState(null);
   const [similarAds, setSimilarAds] = useState(null);
   const [adDetails, setAdDetails] = useState("");
+  const [userData, setUserData] = useState({
+    userName: "",
+    userEmail: "",
+    userPhone: "",
+    userAddress: "",
+  });
+  const {vehicleImages, ...adDetailsWithoutImages}=adDetails;
   const [isLoading, setIsLoading] = useState(true);
+  const [isBotLoading, setIsBotLoading] = useState(false);
   const settings = {
     showArrows: false,
     showStatus: false,
@@ -93,6 +103,15 @@ const AdDetailPage = ({ onValueChange }) => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
+        if(id!=undefined){
+        axios.get(`http://localhost:5278/users/getUser/${id}`).then((resp) =>
+        setUserData({
+          userName: resp.data.userName || "",
+          userEmail: resp.data.userEmail || "",
+          userPhone: resp.data.userPhone || "",
+          userAddress: resp.data.userAddress || "",
+        })
+      );}
         const response = await axios.get(
           `http://localhost:5278/advertises/adDetails/${advertiseId}`
         );
@@ -136,28 +155,42 @@ const AdDetailPage = ({ onValueChange }) => {
     };
 
     fetchData();
-  }, [advertiseId]);
+  }, [advertiseId,id]);
 
-  // useEffect(() => {
-  //   if (!advertise?.embedding) {
-  //     return;
-  //   }
-  //   const fetchSimilarAds = async () => {
+  const handleNegotiateClick = async () => {
+    try {
+      // Set loading to true to show the loader
+      setIsBotLoading(true);
 
-  //   };
-  //   fetchSimilarAds();
-  // }, []);
+      // Simulate a delay using setTimeout
+      setTimeout(async () => {
+        const response = await axios.post("http://localhost:8000/negotiate", {
+          carDetails: adDetailsWithoutImages,
+          userDetails: userData,
+        });
+        setShowCarAd(true);
+
+        setIsBotLoading(false);
+        
+      }, 2000); // Simulate a 3-second delay
+    } catch (error) {
+      console.error("Error occurred while negotiating for the car:", error);
+
+      // Reset loading state in case of an error
+    }
+  };
 
   const imageUrls = adDetails.vehicleImages
     ? adDetails.vehicleImages.split(", ")
     : [];
-  console.log("Simlarity",similarAds);
+  console.log("use",userData);
   if (isLoading) {
     return <Loader loading={isLoading} />;
   }
 
   return (
     <Grid container spacing={3}>
+      <Loader loading={isBotLoading} />
       <Grid item xs={9} md={9}>
         <Card
           sx={{ marginTop: "20px", marginBottom: "20px", textAlign: "center" }}
@@ -326,6 +359,17 @@ const AdDetailPage = ({ onValueChange }) => {
             >
               Send Message
             </Button>}
+
+            {id && id!=adDetails.seller.userID && <Button
+              variant="outlined"
+              color="primary"
+              fullWidth
+              
+              onClick={handleNegotiateClick}
+              sx={{ marginTop: "10px" }}
+            >
+              Negotiate for this car
+            </Button>}
           </CardContent>
         </Card>
 
@@ -360,7 +404,12 @@ const AdDetailPage = ({ onValueChange }) => {
       <Grid item xs={12} md={12}>
         <SimilarAds similarAds={similarAds} />
       </Grid>
-     
+      {showCarAd ? (
+        <ChatBot user={userData} 
+        handleClose={() => setShowCarAd(false)} />
+      ) : (
+        <></>
+      )}
     </Grid>
   );
 };

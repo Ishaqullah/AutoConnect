@@ -45,8 +45,8 @@ function App() {
   // if (id===''){
   //   setId(userId);
   // }
-  const  currentUser  = useContext(AuthContext);
-  console.log("The details of current user logged in",currentUser)
+  // const  {currentUser}  = useContext(AuthContext);
+  // console.log("The details of current user logged in",currentUser.UserImpl)
   useEffect(() => {
     // Check if user is logged in (you can replace this with your authentication logic)
     const isLoggedIn = window.localStorage.getItem("isLoggedIn");
