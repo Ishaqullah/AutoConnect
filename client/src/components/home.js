@@ -21,7 +21,7 @@ const home = ({onValueChange}) => {
       <AboutUsDivision />
       <ListedVehicles/>
       <Comparision/>
-      <BrowseCars/>
+   
     </div>
   );
 };

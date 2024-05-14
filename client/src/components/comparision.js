@@ -113,6 +113,8 @@ const comparision = () => {
             variant="contained"
             color="primary"
             style={{ marginTop: "50px" }}
+            component={Link} 
+            to={id ? `/Comparisions/User/${id}` : "/Comparisions"}
           >
             View All Comparisons
           </Button>
