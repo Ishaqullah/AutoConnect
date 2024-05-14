@@ -13,6 +13,7 @@ import { useState,useEffect } from "react";
 import { MyLocation } from "@mui/icons-material";
 import MyAppBar from "./MyAppBar";
 import axios from "axios";
+import CarAdsGrid from "./CarAdsGrid";
 const MySavedAds = ({onValueChange}) => {
   const [advertises, setAdvertises] = useState([]);
   const {id}=useParams();
@@ -38,18 +39,7 @@ const MySavedAds = ({onValueChange}) => {
         
         <Grid container spacing={2} sx={{marginBottom:"500px"}}>
           
-        <Grid item xs={2}>
-            <Card sx={{ textAlign: "center" }}>
-              <CardContent>
-                <Typography component="div">
-                  <Typography component="div">Active Ads</Typography>
-                  <Divider sx={{ margin: "10px 0" }} />
-                </Typography>
-                <Typography component="div">
-                  <Typography component="div">Removed Ads</Typography>
-                </Typography>
-              </CardContent>
-            </Card>
+        <Grid item xs={1}>
           </Grid>
           <Grid item xs={10}>
             <Card>

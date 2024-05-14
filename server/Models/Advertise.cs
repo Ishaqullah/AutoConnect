@@ -17,10 +17,14 @@ public class Advertise{
     [Column("seller_id")]
     public int? SellerID {get; set; }     
 
+    [Column("negotiated_price")]
+    public decimal NegotiatedPrice { get; set; } = 0;
+
+    [Column("buyer_id")]
+    public int? BuyerID { get; set; }
     public Transaction Transaction { get; set; }
     public Vehicle Vehicle { get; set; }
     public Seller Seller { get; set; }
-
     public List<SavedAds> SavedAds { get; set; }
 
 }

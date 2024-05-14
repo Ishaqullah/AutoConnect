@@ -15,7 +15,6 @@ public class Buyer
 
     public List<Transaction> Transactions { get; set; }
     public List<Appointment> Appointments { get; set; }
-    
     public User User { get; set; }
 
     public List<SavedAds> SavedAds { get; set; }

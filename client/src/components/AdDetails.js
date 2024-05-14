@@ -106,6 +106,7 @@ const AdDetailPage = ({ onValueChange }) => {
         if(id!=undefined){
         axios.get(`http://localhost:5278/users/getUser/${id}`).then((resp) =>
         setUserData({
+          userID:resp.data.userID || "",
           userName: resp.data.userName || "",
           userEmail: resp.data.userEmail || "",
           userPhone: resp.data.userPhone || "",

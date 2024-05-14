@@ -15,6 +15,7 @@ import MyAds from "./components/MyAds";
 import AdDetailPage from "./components/AdDetails";
 import AboutUsPage from "./components/AboutUsPage";
 import ContactForm from "./components/ContactForm";
+import DealsByChatBot from "./components/DealsByChatBot";
 import ChatBox from "./components/ChatBox";
 import { useState,useEffect,useContext } from "react";
 import { useParams } from "react-router-dom";
@@ -111,6 +112,7 @@ function App() {
                 <Route exact path="/UpdateProfileForm/User/:id" element={<UpdateProfileForm onValueChange={handleChildValueChange}/>}/>
                 <Route exact path= "/MySavedAds/User/:id" element={<MySavedAds onValueChange={handleChildValueChange}/>}/> 
                 <Route exact path="/MyAds/User/:id" element={<MyAds onValueChange={handleChildValueChange}/>}/>
+                <Route exact path="/Deals/User/:id" element={<DealsByChatBot onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/MyApp/User/:id" element={<MyAppBar onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/AdDetails/:advertiseId" element={<AdDetailPage onValueChange={handleChildValueChange}/>}/>
                 <Route exact path="/AdDetails/:advertiseId/User/:id" element={<AdDetailPage onValueChange={handleTwoChildValueChanges} />}/>

@@ -8,13 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import {CircularProgress} from "@mui/material";
 
 const SavedAds = ({ car }) => {
   
-  
+  const {id}=useParams();
   const [vehicleDetails,setVehicleDetails]= useState(null)
   useEffect(() => {
     axios
@@ -35,6 +35,14 @@ const SavedAds = ({ car }) => {
   }
   return (
     <Grid item xs={12} sm={6} md={4}>
+      <Link
+          to={
+            id !== undefined
+              ? `/AdDetails/${car.advertiseID}/User/${id}`
+              : `/AdDetails/${advertiseId}`
+          }
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
       <Card sx={{height: "500px"}}>
       <img
           src={vehicleDetails.vehicleImages.split(', ')[0]}
@@ -62,6 +70,7 @@ const SavedAds = ({ car }) => {
           </Typography>
         </CardContent>
       </Card>
+      </Link>
     </Grid>
   );
 };

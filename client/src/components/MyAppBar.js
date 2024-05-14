@@ -129,9 +129,13 @@ const MyAppBar = ({onValueChange}) => {
                   borderRight: "1px solid #ccc",
                   padding: "5px",
                   paddingRight: "10px",
+                  textDecoration:"none",
+                  color:"inherit"
                 }}
+                component={Link}
+                to={`/Deals/User/${id}`}
               >
-                My Alerts
+                Deals by chatbot
               </Typography>
               <MessageIcon />
               <Typography

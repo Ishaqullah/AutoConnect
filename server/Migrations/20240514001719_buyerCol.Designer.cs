@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240514001719_buyerCol")]
+    partial class buyerCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +50,7 @@ namespace server.Migrations
 
                     b.HasKey("AdminID");
 
-                    b.ToTable("admin_main", (string)null);
+                    b.ToTable("admin_main");
                 });
 
             modelBuilder.Entity("Advertise", b =>
@@ -89,7 +92,7 @@ namespace server.Migrations
                     b.HasIndex("VehicleID")
                         .IsUnique();
 
-                    b.ToTable("advertise", (string)null);
+                    b.ToTable("advertise");
                 });
 
             modelBuilder.Entity("Appointment", b =>
@@ -127,7 +130,7 @@ namespace server.Migrations
 
                     b.HasIndex("MechanicID");
 
-                    b.ToTable("appointment", (string)null);
+                    b.ToTable("appointment");
                 });
 
             modelBuilder.Entity("Buyer", b =>
@@ -149,7 +152,7 @@ namespace server.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("buyer", (string)null);
+                    b.ToTable("buyer");
                 });
 
             modelBuilder.Entity("Feedback", b =>
@@ -179,7 +182,7 @@ namespace server.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("feedback", (string)null);
+                    b.ToTable("feedback");
                 });
 
             modelBuilder.Entity("Mechanic", b =>
@@ -220,7 +223,7 @@ namespace server.Migrations
 
                     b.HasKey("MechanicID");
 
-                    b.ToTable("mechanic", (string)null);
+                    b.ToTable("mechanic");
                 });
 
             modelBuilder.Entity("MechanicRating", b =>
@@ -257,7 +260,7 @@ namespace server.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("mechanic_rating", (string)null);
+                    b.ToTable("mechanic_rating");
                 });
 
             modelBuilder.Entity("SavedAds", b =>
@@ -284,7 +287,7 @@ namespace server.Migrations
 
                     b.HasIndex("BuyerId");
 
-                    b.ToTable("saved_ads", (string)null);
+                    b.ToTable("saved_ads");
                 });
 
             modelBuilder.Entity("Seller", b =>
@@ -306,7 +309,7 @@ namespace server.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("seller", (string)null);
+                    b.ToTable("seller");
                 });
 
             modelBuilder.Entity("Transaction", b =>
@@ -354,7 +357,7 @@ namespace server.Migrations
                     b.HasIndex("VehicleID")
                         .IsUnique();
 
-                    b.ToTable("transaction", (string)null);
+                    b.ToTable("transaction");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -390,7 +393,7 @@ namespace server.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("user_main", (string)null);
+                    b.ToTable("user_main");
                 });
 
             modelBuilder.Entity("Vehicle", b =>
@@ -494,7 +497,7 @@ namespace server.Migrations
 
                     b.HasKey("VehicleID");
 
-                    b.ToTable("vehicle", (string)null);
+                    b.ToTable("vehicle");
                 });
 
             modelBuilder.Entity("Advertise", b =>

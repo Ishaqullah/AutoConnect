@@ -116,6 +116,9 @@ public class AdvertisesController : ControllerBase
             a.AdvertiseName,
             a.VehicleID,
             a.SellerID,
+            a.NegotiatedPrice,
+            a.BuyerID,
+            Buyer = _context.Users.FirstOrDefault(u => u.UserID == a.BuyerID)
         }).ToList();
 
         return Ok(allAdvertises);
@@ -439,6 +442,42 @@ public class AdvertisesController : ControllerBase
             _context.SaveChanges();
 
             return Ok("Advertise submitted successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+    [HttpPut("updateNegotiatedPrice/{advertiseId}/{sellerId}")]
+    public IActionResult UpdateNegotiatedPrice(int advertiseId, int sellerId, [FromBody] dynamic formData)
+    {
+        try
+        {
+            // Parse the formData to extract the new negotiated price and buyer ID
+            decimal newNegotiatedPrice = decimal.Parse(formData.GetProperty("newNegotiatedPrice").GetString());
+            int newBuyerId = int.Parse(formData.GetProperty("buyerId").GetString());
+
+            // Find the advertisement
+            var advertise = _context.Advertises.FirstOrDefault(a => a.AdvertiseID == advertiseId && a.SellerID == sellerId);
+            if (advertise == null)
+            {
+                return NotFound($"Advertise with ID {advertiseId} for seller {sellerId} not found.");
+            }
+
+            // Check if the new price is greater than the existing price
+            if (newNegotiatedPrice > advertise.NegotiatedPrice)
+            {
+                // Update the negotiated price and buyer ID
+                advertise.NegotiatedPrice = newNegotiatedPrice;
+                advertise.BuyerID = newBuyerId;
+
+                _context.SaveChanges();
+                return Ok("Negotiated price and buyer ID updated successfully.");
+            }
+            else
+            {
+                return BadRequest("New negotiated price should be greater than the existing price.");
+            }
         }
         catch (Exception ex)
         {

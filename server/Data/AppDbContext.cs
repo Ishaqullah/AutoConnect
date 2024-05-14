@@ -60,6 +60,7 @@ public class AppDbContext : DbContext
             .WithMany(s => s.Advertises)
             .HasForeignKey(a => a.SellerID);
 
+
         modelBuilder.Entity<MechanicRating>()
             .HasOne(mr => mr.Mechanic)
             .WithMany(m => m.MechanicRatings)
