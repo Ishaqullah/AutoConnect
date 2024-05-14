@@ -4,10 +4,7 @@ import PageContainer from 'src/components/container/PageContainer';
 
 // components
 import BuyersVsSellers from './components/BuyersVsSellers';
-import YearlyBreakup from './components/YearlyBreakup';
-import RecentTransactions from './components/RecentTransactions';
 import ListedAds from './components/ListedAds';
-import Blog from './components/Blog';
 import TotalUsers from './components/TotalUsers';
 
 
