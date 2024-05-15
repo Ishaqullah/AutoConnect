@@ -10,6 +10,7 @@ let discountRequests = 0; // Counter to track discount requests
 let prevDiscount = 0;
 let count = 0;
 let x = 0;
+let is_deal =false;
 let finalPrice;
 app.post("/dialogflow-webhook", async (req, res) => {
   try {
@@ -29,22 +30,23 @@ app.post("/dialogflow-webhook", async (req, res) => {
     if (intentName == "Default Welcome Intent") {
       fulfillmentMessage = `Hello ${receivedUserDetails.userName}! Excited to negotiate for a new ride? Let's dive into the details and work out a great offer.`;
     } else if (intentName === "negotitation-intent - yes") {
-      if (count != 0) {
+      if(!is_deal){if (count != 0) {
+        is_deal=true;
         fulfillmentMessage =
           "Great! The deal is done the seller will be informed and will contact you soon. Thanks!";
         count = 0;
-        try{
-         axios.put(
-          `http://localhost:5278/advertises/updateNegotiatedPrice/${receivedCarDetails.advertiseID}/${receivedCarDetails.seller.sellerID}`,
-          {
-            newNegotiatedPrice: String(finalPrice),
-            buyerId: String(receivedUserDetails.userID),
-          }
-        )
-        }catch(err){
+        try {
+          axios.put(
+            `http://localhost:5278/advertises/updateNegotiatedPrice/${receivedCarDetails.advertiseID}/${receivedCarDetails.seller.sellerID}`,
+            {
+              newNegotiatedPrice: String(finalPrice),
+              buyerId: String(receivedUserDetails.userID),
+            }
+          );
+        } catch (err) {
           console.log(err);
         }
-      } else {
+      }} else {
         fulfillmentMessage = "What  would be your next course of action?";
       }
     } else if (intentName === "negotitation-intent - no") {
@@ -77,8 +79,8 @@ app.post("/dialogflow-webhook", async (req, res) => {
         let discountedPrice =
           currentPrice - currentPrice * (Math.random() * (0.1 - 0.05) + 0.05);
         discountedPrice = Math.max(minPrice, discountedPrice);
-        finalPrice=discountedPrice;
-        if(x < 2 && discountedPrice > minPrice){
+        finalPrice = discountedPrice;
+       if(!is_deal){ if (x < 2 && discountedPrice > minPrice ) {
           // discountedPrice = Math.max(minPrice, discountedPrice);
           count++;
           x++;
@@ -87,10 +89,9 @@ app.post("/dialogflow-webhook", async (req, res) => {
           fulfillmentMessage = `Considering your interest, the special discounted price for this car is $${discountedPrice.toFixed(
             2
           )}. Are you interested in this offer?`;
-        }  
-        else{
-          discountedPrice = minPrice + 50000;
-          finalPrice=discountedPrice;
+        } else {
+          discountedPrice = minPrice;
+          finalPrice = discountedPrice;
           count++;
           x = 0;
           discountRequests = 0;
@@ -98,10 +99,10 @@ app.post("/dialogflow-webhook", async (req, res) => {
           fulfillmentMessage = `We understand your interest. But considering the seller's instructions, the final price that we can offer you right now is $${discountedPrice.toFixed(
             2
           )}. So are you interested in this offer?`;
-        } 
+        }}else{
+          fulfillmentMessage="We have already done the deal. Seller will soon contact you.";
+        }
       } else {
-        // console.log("hello");
-        // Resistance messages to persuade users to purchase at the same price
         const resistanceMessages = [
           "This car is worth every penny for its incredible features and quality.",
           "The value this car provides at its current price is unparalleled.",
@@ -121,6 +122,16 @@ app.post("/dialogflow-webhook", async (req, res) => {
         fulfillmentMessage = randomResistanceMessage;
       }
       discountRequests++;
+    } else if (intentName === "offer-intent") {
+      if (
+        (req.body.queryResult.parameters.number > finalPrice && count > 0) ||
+        req.body.queryResult.parameters.number > receivedCarDetails.maxPrice
+      ) {
+        fulfillmentMessage =
+          "Ok we can close the deal in this price. Seller will contact you soon ";
+      } else {
+        fulfillmentMessage = `${req.body.queryResult.parameters.number} is too low for this car`;
+      }
     } else {
       fulfillmentMessage = "Default fulfillment message";
     }
