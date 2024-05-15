@@ -133,7 +133,7 @@ app.post("/dialogflow-webhook", async (req, res) => {
         fulfillmentMessage = `${req.body.queryResult.parameters.number} is too low for this car`;
       }
     } else {
-      fulfillmentMessage = "Default fulfillment message";
+      fulfillmentMessage = "I didn't understand. You can ask me about the ads posted. I can also negotiate with you on behalf of seller.";
     }
 
     const response = {
