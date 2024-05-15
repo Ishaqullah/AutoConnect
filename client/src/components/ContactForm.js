@@ -48,18 +48,18 @@ const ContactForm = ({ onValueChange }) => {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    // emailjs
-    //   .sendForm('service_o590how', 'template_dgyr6yw', form.current, {
-    //     publicKey: 'ZnCUom1i8FBylSvIF',
-    //   })
-    //   .then(
-    //     () => {
-    //       console.log('SUCCESS!');
-    //     },
-    //     (error) => {
-    //       console.log('FAILED...', error.text);
-    //     },
-    //   );
+    emailjs
+      .sendForm('service_o590how', 'template_dgyr6yw', form.current, {
+        publicKey: 'ZnCUom1i8FBylSvIF',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
 
     setMessage("Email submitted");
     setTimeout(() => {

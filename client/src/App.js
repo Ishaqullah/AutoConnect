@@ -56,6 +56,8 @@ function App() {
     // If the user is logged in and the current path is not the home page, redirect to the user's page
     if (isLoggedIn && window.location.pathname === '/') {
       navigate(`/User/${userId}`);
+    }else if(!isLoggedIn){
+      navigate(`/`);
     }
   }, []);
   const handleChildValueChange = (value) => {

@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import { Box, Button } from "@mui/material";
+import { AuthContext } from '../context/AuthContext'
 const VideoRoom = ({ onValueChange, element }) => {
+  const {currentUser} = useContext(AuthContext)
   const { roomId, id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
@@ -17,7 +19,7 @@ const VideoRoom = ({ onValueChange, element }) => {
       serverSecret,
       roomId,
       id,
-      "Ishaq"
+      currentUser.displayName
     );
     const zc = ZegoUIKitPrebuilt.create(kitToken);
     zc.joinRoom({

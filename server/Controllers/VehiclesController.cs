@@ -23,7 +23,7 @@ public class VehiclesController : ControllerBase
     [HttpPut("updateVehicle/{id}")]
     public IActionResult UpdateVehicle(int id, [FromBody] dynamic formData)
     {
-        var existingVehicle = _context.Vehicles.Find(id);
+        var existingVehicle = _context.Vehicles.Include(v => v.Advertise).FirstOrDefault(v => v.VehicleID == id);
 
         if (existingVehicle == null)
         {
@@ -103,6 +103,7 @@ public class VehiclesController : ControllerBase
 
 
 
+         existingVehicle.Advertise.AdvertiseName= formData.GetProperty("make")?.GetString() + " " + formData.GetProperty("model")?.GetString() + " " + formData.GetProperty("variant")?.GetString();
 
         _context.SaveChanges();
 
