@@ -180,8 +180,8 @@ const Appointment = () => {
                       </Button>
                     )}
                     {appointment.appointmentStatus === 'rejected' && (
-                      <Button onClick={() => handleReject(appointment.appointmentId)}>
-                        <CancelIcon />
+                      <Button onClick={() => handleAccept(appointment.appointmentId)}>
+                        <CheckCircleIcon color="success" />
                       </Button>
                     )}
                   </TableCell>

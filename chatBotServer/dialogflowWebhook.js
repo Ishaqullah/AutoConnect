@@ -10,7 +10,6 @@ let discountRequests = 0; // Counter to track discount requests
 let prevDiscount = 0;
 let count = 0;
 let x = 0;
-let is_deal =false;
 let finalPrice;
 app.post("/dialogflow-webhook", async (req, res) => {
   try {
@@ -30,8 +29,7 @@ app.post("/dialogflow-webhook", async (req, res) => {
     if (intentName == "Default Welcome Intent") {
       fulfillmentMessage = `Hello ${receivedUserDetails.userName}! Excited to negotiate for a new ride? Let's dive into the details and work out a great offer.`;
     } else if (intentName === "negotitation-intent - yes") {
-      if(!is_deal){if (count != 0) {
-        is_deal=true;
+      if (count != 0) {
         fulfillmentMessage =
           "Great! The deal is done the seller will be informed and will contact you soon. Thanks!";
         count = 0;
@@ -46,7 +44,7 @@ app.post("/dialogflow-webhook", async (req, res) => {
         } catch (err) {
           console.log(err);
         }
-      }} else {
+      } else {
         fulfillmentMessage = "What  would be your next course of action?";
       }
     } else if (intentName === "negotitation-intent - no") {
@@ -80,7 +78,7 @@ app.post("/dialogflow-webhook", async (req, res) => {
           currentPrice - currentPrice * (Math.random() * (0.1 - 0.05) + 0.05);
         discountedPrice = Math.max(minPrice, discountedPrice);
         finalPrice = discountedPrice;
-       if(!is_deal){ if (x < 2 && discountedPrice > minPrice ) {
+        if (x < 2 && discountedPrice > minPrice) {
           // discountedPrice = Math.max(minPrice, discountedPrice);
           count++;
           x++;
@@ -99,10 +97,8 @@ app.post("/dialogflow-webhook", async (req, res) => {
           fulfillmentMessage = `We understand your interest. But considering the seller's instructions, the final price that we can offer you right now is $${discountedPrice.toFixed(
             2
           )}. So are you interested in this offer?`;
-        }}else{
-          fulfillmentMessage="We have already done the deal. Seller will soon contact you.";
         }
-      } else {
+      }  else {
         const resistanceMessages = [
           "This car is worth every penny for its incredible features and quality.",
           "The value this car provides at its current price is unparalleled.",
@@ -127,13 +123,13 @@ app.post("/dialogflow-webhook", async (req, res) => {
         (req.body.queryResult.parameters.number > finalPrice && count > 0) ||
         req.body.queryResult.parameters.number > receivedCarDetails.maxPrice
       ) {
-        fulfillmentMessage =
-          "Ok we can close the deal in this price. Seller will contact you soon ";
-      } else {
+        fulfillmentMessage = "Ok we can close the deal in this price. Seller will contact you soon ";
+      }
+      else{
         fulfillmentMessage = `${req.body.queryResult.parameters.number} is too low for this car`;
       }
-    } else {
-      fulfillmentMessage = "I didn't understand. You can ask me about the ads posted. I can also negotiate with you on behalf of seller.";
+    }else {
+      fulfillmentMessage = "Default fulfillment message";
     }
 
     const response = {
